@@ -55,47 +55,48 @@ export async function POST(request: NextRequest) {
             key_secret: keySecret,
         });
 
-        const subscription = await razorpay.subscriptions.create({
-            plan_id: planId,
-            customer_notify: 1,
-            total_count: Number(process.env.RAZORPAY_BILLING_CYCLES ?? 1200),
-        });
+        try {
+            const subscription = await razorpay.subscriptions.create({
+                plan_id: planId,
+                customer_notify: 1,
+                total_count: Number(process.env.RAZORPAY_BILLING_CYCLES ?? 1200),
+            });
 
-        await adminDb.collection("subscriptions").doc(subscription.id).set(
-            {
-                uid,
-                razorpaySubscriptionId: subscription.id,
-                status: "created",
-                plan: planName,
-                amountInr: Number.isFinite(planAmountInr) ? planAmountInr : 0,
-                currentPeriodStart: null,
-                currentPeriodEnd: null,
-                createdAt: FieldValue.serverTimestamp(),
-                updatedAt: FieldValue.serverTimestamp(),
-            },
-            { merge: true }
-        );
+            await adminDb.collection("subscriptions").doc(subscription.id).set(
+                {
+                    uid,
+                    razorpaySubscriptionId: subscription.id,
+                    status: "created",
+                    plan: planName,
+                    amountInr: Number.isFinite(planAmountInr) ? planAmountInr : 0,
+                    currentPeriodStart: null,
+                    currentPeriodEnd: null,
+                    createdAt: FieldValue.serverTimestamp(),
+                    updatedAt: FieldValue.serverTimestamp(),
+                },
+                { merge: true }
+            );
 
+            return NextResponse.json(
+                {
+                    subscriptionId: subscription.id,
+                    key: keyId,
+                },
+                { status: 200 }
+            );
+        } catch (err: any) {
+            console.error("[BILLING] Subscription creation failed");
+
+            return NextResponse.json(
+                { error: "Subscription creation failed" },
+                { status: 500 }
+            );
+        }
+    } catch (error) {
+        console.error("Create subscription failed:", error);
         return NextResponse.json(
-            {
-                subscriptionId: subscription.id,
-                key: keyId,
-            },
-            { status: 200 }
-        );
-    } catch (err: any) {
-        console.error("[BILLING] Subscription creation failed");
-
-        return NextResponse.json(
-            { error: "Subscription creation failed" },
+            { error: "INTERNAL_SERVER_ERROR", message: "Failed to create subscription." },
             { status: 500 }
         );
     }
-} catch (error) {
-    console.error("Create subscription failed:", error);
-    return NextResponse.json(
-        { error: "INTERNAL_SERVER_ERROR", message: "Failed to create subscription." },
-        { status: 500 }
-    );
-}
 }
