@@ -1,0 +1,35 @@
+{
+    "brand": "AMD",
+    "year": 2017,
+    "architecture": "Vega",
+    "models": [
+        {
+            "id": "rx-vega-64",
+            "name": "Radeon RX Vega 64",
+            "pcieGen": 3,
+            "memoryType": "HBM2",
+            "vramGB": 8,
+            "tdpWatts": 295,
+            "msrpUSD": 499,
+            "gamingScore": 500,
+            "productivityScore": 420,
+            "tier": "high",
+            "rayTracing": false,
+            "upscaling": "None"
+        },
+        {
+            "id": "rx-vega-56",
+            "name": "Radeon RX Vega 56",
+            "pcieGen": 3,
+            "memoryType": "HBM2",
+            "vramGB": 8,
+            "tdpWatts": 210,
+            "msrpUSD": 399,
+            "gamingScore": 460,
+            "productivityScore": 380,
+            "tier": "high",
+            "rayTracing": false,
+            "upscaling": "None"
+        }
+    ]
+}

@@ -1,0 +1,49 @@
+{
+    "brand": "AMD",
+    "year": 2020,
+    "architecture": "RDNA 2",
+    "models": [
+        {
+            "id": "rx-6900-xt",
+            "name": "Radeon RX 6900 XT",
+            "pcieGen": 4,
+            "memoryType": "GDDR6",
+            "vramGB": 16,
+            "tdpWatts": 300,
+            "msrpUSD": 999,
+            "gamingScore": 880,
+            "productivityScore": 830,
+            "tier": "enthusiast",
+            "rayTracing": true,
+            "upscaling": "FSR 1"
+        },
+        {
+            "id": "rx-6800-xt",
+            "name": "Radeon RX 6800 XT",
+            "pcieGen": 4,
+            "memoryType": "GDDR6",
+            "vramGB": 16,
+            "tdpWatts": 300,
+            "msrpUSD": 649,
+            "gamingScore": 860,
+            "productivityScore": 810,
+            "tier": "high",
+            "rayTracing": true,
+            "upscaling": "FSR 1"
+        },
+        {
+            "id": "rx-6800",
+            "name": "Radeon RX 6800",
+            "pcieGen": 4,
+            "memoryType": "GDDR6",
+            "vramGB": 16,
+            "tdpWatts": 250,
+            "msrpUSD": 579,
+            "gamingScore": 820,
+            "productivityScore": 770,
+            "tier": "high",
+            "rayTracing": true,
+            "upscaling": "FSR 1"
+        }
+    ]
+}

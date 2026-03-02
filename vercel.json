@@ -1,0 +1,16 @@
+{
+    "crons": [
+        {
+            "path": "/api/cron/update-gpu-prices",
+            "schedule": "0 0 1 * *"
+        },
+        {
+            "path": "/api/cron/update-cpu-prices",
+            "schedule": "10 0 1 * *"
+        },
+        {
+            "path": "/api/cron/update-ram-prices",
+            "schedule": "20 0 1 * *"
+        }
+    ]
+}

@@ -1,0 +1,63 @@
+{
+    "brand": "NVIDIA",
+    "year": 2020,
+    "architecture": "Ampere",
+    "models": [
+        {
+            "id": "rtx-3090",
+            "name": "GeForce RTX 3090",
+            "pcieGen": 4,
+            "memoryType": "GDDR6X",
+            "vramGB": 24,
+            "tdpWatts": 350,
+            "msrpUSD": 1499,
+            "gamingScore": 900,
+            "productivityScore": 880,
+            "tier": "enthusiast",
+            "rayTracing": true,
+            "upscaling": "DLSS 2"
+        },
+        {
+            "id": "rtx-3080",
+            "name": "GeForce RTX 3080",
+            "pcieGen": 4,
+            "memoryType": "GDDR6X",
+            "vramGB": 10,
+            "tdpWatts": 320,
+            "msrpUSD": 699,
+            "gamingScore": 870,
+            "productivityScore": 830,
+            "tier": "high",
+            "rayTracing": true,
+            "upscaling": "DLSS 2"
+        },
+        {
+            "id": "rtx-3070",
+            "name": "GeForce RTX 3070",
+            "pcieGen": 4,
+            "memoryType": "GDDR6",
+            "vramGB": 8,
+            "tdpWatts": 220,
+            "msrpUSD": 499,
+            "gamingScore": 820,
+            "productivityScore": 760,
+            "tier": "high",
+            "rayTracing": true,
+            "upscaling": "DLSS 2"
+        },
+        {
+            "id": "rtx-3060-ti",
+            "name": "GeForce RTX 3060 Ti",
+            "pcieGen": 4,
+            "memoryType": "GDDR6",
+            "vramGB": 8,
+            "tdpWatts": 200,
+            "msrpUSD": 399,
+            "gamingScore": 780,
+            "productivityScore": 700,
+            "tier": "mid-high",
+            "rayTracing": true,
+            "upscaling": "DLSS 2"
+        }
+    ]
+}

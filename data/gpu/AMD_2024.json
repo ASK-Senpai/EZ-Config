@@ -1,0 +1,21 @@
+{
+    "brand": "AMD",
+    "year": 2024,
+    "architecture": "RDNA 3",
+    "models": [
+        {
+            "id": "rx-7600-xt",
+            "name": "Radeon RX 7600 XT",
+            "pcieGen": 4,
+            "memoryType": "GDDR6",
+            "vramGB": 16,
+            "tdpWatts": 190,
+            "msrpUSD": 329,
+            "gamingScore": 840,
+            "productivityScore": 790,
+            "tier": "mid",
+            "rayTracing": true,
+            "upscaling": "FSR 3"
+        }
+    ]
+}

@@ -1,0 +1,49 @@
+{
+    "brand": "AMD",
+    "year": 2021,
+    "architecture": "RDNA 2",
+    "models": [
+        {
+            "id": "rx-6700-xt",
+            "name": "Radeon RX 6700 XT",
+            "pcieGen": 4,
+            "memoryType": "GDDR6",
+            "vramGB": 12,
+            "tdpWatts": 230,
+            "msrpUSD": 479,
+            "gamingScore": 780,
+            "productivityScore": 720,
+            "tier": "mid-high",
+            "rayTracing": true,
+            "upscaling": "FSR 2"
+        },
+        {
+            "id": "rx-6600-xt",
+            "name": "Radeon RX 6600 XT",
+            "pcieGen": 4,
+            "memoryType": "GDDR6",
+            "vramGB": 8,
+            "tdpWatts": 160,
+            "msrpUSD": 379,
+            "gamingScore": 760,
+            "productivityScore": 690,
+            "tier": "mid",
+            "rayTracing": true,
+            "upscaling": "FSR 2"
+        },
+        {
+            "id": "rx-6600",
+            "name": "Radeon RX 6600",
+            "pcieGen": 4,
+            "memoryType": "GDDR6",
+            "vramGB": 8,
+            "tdpWatts": 132,
+            "msrpUSD": 329,
+            "gamingScore": 730,
+            "productivityScore": 660,
+            "tier": "mid",
+            "rayTracing": true,
+            "upscaling": "FSR 2"
+        }
+    ]
+}

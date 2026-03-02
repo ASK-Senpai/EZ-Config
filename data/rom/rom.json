@@ -1,0 +1,401 @@
+[
+    {
+        "id": "wd-black-sn770-1tb-nvme",
+        "category": "storage",
+        "brand": "Western Digital",
+        "name": "WD Black SN770 1TB NVMe SSD",
+        "type": "NVMe",
+        "capacityGB": 1000,
+        "formFactor": "M.2",
+        "pcieGen": 4,
+        "pricing": {
+            "currency": "INR",
+            "priceRange": {
+                "min": 5699,
+                "max": 6299
+            },
+            "availability": "in stock"
+        },
+        "legacy": false
+    },
+    {
+        "id": "samsung-980-1tb-nvme",
+        "category": "storage",
+        "brand": "Samsung",
+        "name": "Samsung 980 1TB NVMe SSD",
+        "type": "NVMe",
+        "capacityGB": 1000,
+        "formFactor": "M.2",
+        "pcieGen": 3,
+        "pricing": {
+            "currency": "INR",
+            "priceRange": {
+                "min": 6599,
+                "max": 7299
+            },
+            "availability": "in stock"
+        },
+        "legacy": false
+    },
+    {
+        "id": "crucial-p3-plus-1tb-nvme",
+        "category": "storage",
+        "brand": "Crucial",
+        "name": "Crucial P3 Plus 1TB NVMe SSD",
+        "type": "NVMe",
+        "capacityGB": 1000,
+        "formFactor": "M.2",
+        "pcieGen": 4,
+        "pricing": {
+            "currency": "INR",
+            "priceRange": {
+                "min": 5899,
+                "max": 6499
+            },
+            "availability": "in stock"
+        },
+        "legacy": false
+    },
+    {
+        "id": "kingston-nv2-1tb-nvme",
+        "category": "storage",
+        "brand": "Kingston",
+        "name": "Kingston NV2 1TB NVMe SSD",
+        "type": "NVMe",
+        "capacityGB": 1000,
+        "formFactor": "M.2",
+        "pcieGen": 4,
+        "pricing": {
+            "currency": "INR",
+            "priceRange": {
+                "min": 5199,
+                "max": 5799
+            },
+            "availability": "in stock"
+        },
+        "legacy": false
+    },
+    {
+        "id": "wd-blue-sn580-1tb-nvme",
+        "category": "storage",
+        "brand": "Western Digital",
+        "name": "WD Blue SN580 1TB NVMe SSD",
+        "type": "NVMe",
+        "capacityGB": 1000,
+        "formFactor": "M.2",
+        "pcieGen": 4,
+        "pricing": {
+            "currency": "INR",
+            "priceRange": {
+                "min": 5499,
+                "max": 6099
+            },
+            "availability": "in stock"
+        },
+        "legacy": false
+    },
+    {
+        "id": "samsung-870-evo-1tb-sata",
+        "category": "storage",
+        "brand": "Samsung",
+        "name": "Samsung 870 EVO 1TB SATA SSD",
+        "type": "SATA",
+        "capacityGB": 1000,
+        "formFactor": "2.5-inch",
+        "pcieGen": null,
+        "pricing": {
+            "currency": "INR",
+            "priceRange": {
+                "min": 6399,
+                "max": 6999
+            },
+            "availability": "in stock"
+        },
+        "legacy": false
+    },
+    {
+        "id": "adata-legend-710-500gb-nvme",
+        "category": "storage",
+        "brand": "ADATA",
+        "name": "ADATA Legend 710 500GB NVMe SSD",
+        "type": "NVMe",
+        "capacityGB": 500,
+        "formFactor": "M.2",
+        "pcieGen": 3,
+        "pricing": {
+            "currency": "INR",
+            "priceRange": {
+                "min": 2999,
+                "max": 3499
+            },
+            "availability": "in stock"
+        },
+        "legacy": false
+    },
+    {
+        "id": "crucial-bx500-1tb-sata",
+        "category": "storage",
+        "brand": "Crucial",
+        "name": "Crucial BX500 1TB SATA SSD",
+        "type": "SATA",
+        "capacityGB": 1000,
+        "formFactor": "2.5-inch",
+        "pcieGen": null,
+        "pricing": {
+            "currency": "INR",
+            "priceRange": {
+                "min": 4599,
+                "max": 5199
+            },
+            "availability": "in stock"
+        },
+        "legacy": false
+    },
+    {
+        "id": "seagate-firecuda-530-1tb-nvme",
+        "category": "storage",
+        "brand": "Seagate",
+        "name": "Seagate FireCuda 530 1TB NVMe SSD",
+        "type": "NVMe",
+        "capacityGB": 1000,
+        "formFactor": "M.2",
+        "pcieGen": 4,
+        "pricing": {
+            "currency": "INR",
+            "priceRange": {
+                "min": 8999,
+                "max": 9999
+            },
+            "availability": "in stock"
+        },
+        "legacy": false
+    },
+    {
+        "id": "corsair-mp600-core-xt-1tb-nvme",
+        "category": "storage",
+        "brand": "Corsair",
+        "name": "Corsair MP600 Core XT 1TB NVMe SSD",
+        "type": "NVMe",
+        "capacityGB": 1000,
+        "formFactor": "M.2",
+        "pcieGen": 4,
+        "pricing": {
+            "currency": "INR",
+            "priceRange": {
+                "min": 6799,
+                "max": 7499
+            },
+            "availability": "in stock"
+        },
+        "legacy": false
+    },
+    {
+        "id": "xpg-gammix-s70-blade-1tb-nvme",
+        "category": "storage",
+        "brand": "XPG",
+        "name": "XPG Gammix S70 Blade 1TB NVMe SSD",
+        "type": "NVMe",
+        "capacityGB": 1000,
+        "formFactor": "M.2",
+        "pcieGen": 4,
+        "pricing": {
+            "currency": "INR",
+            "priceRange": {
+                "min": 7199,
+                "max": 7999
+            },
+            "availability": "in stock"
+        },
+        "legacy": false
+    },
+    {
+        "id": "wd-blue-sa510-500gb-sata",
+        "category": "storage",
+        "brand": "Western Digital",
+        "name": "WD Blue SA510 500GB SATA SSD",
+        "type": "SATA",
+        "capacityGB": 500,
+        "formFactor": "2.5-inch",
+        "pcieGen": null,
+        "pricing": {
+            "currency": "INR",
+            "priceRange": {
+                "min": 2999,
+                "max": 3499
+            },
+            "availability": "in stock"
+        },
+        "legacy": false
+    },
+    {
+        "id": "kingston-kc3000-2tb-nvme",
+        "category": "storage",
+        "brand": "Kingston",
+        "name": "Kingston KC3000 2TB NVMe SSD",
+        "type": "NVMe",
+        "capacityGB": 2000,
+        "formFactor": "M.2",
+        "pcieGen": 4,
+        "pricing": {
+            "currency": "INR",
+            "priceRange": {
+                "min": 13499,
+                "max": 14999
+            },
+            "availability": "in stock"
+        },
+        "legacy": false
+    },
+    {
+        "id": "samsung-990-evo-1tb-nvme",
+        "category": "storage",
+        "brand": "Samsung",
+        "name": "Samsung 990 EVO 1TB NVMe SSD",
+        "type": "NVMe",
+        "capacityGB": 1000,
+        "formFactor": "M.2",
+        "pcieGen": 4,
+        "pricing": {
+            "currency": "INR",
+            "priceRange": {
+                "min": 8299,
+                "max": 8999
+            },
+            "availability": "in stock"
+        },
+        "legacy": false
+    },
+    {
+        "id": "crucial-p3-2tb-nvme",
+        "category": "storage",
+        "brand": "Crucial",
+        "name": "Crucial P3 2TB NVMe SSD",
+        "type": "NVMe",
+        "capacityGB": 2000,
+        "formFactor": "M.2",
+        "pcieGen": 3,
+        "pricing": {
+            "currency": "INR",
+            "priceRange": {
+                "min": 9699,
+                "max": 10499
+            },
+            "availability": "in stock"
+        },
+        "legacy": false
+    },
+    {
+        "id": "wd-black-sn850x-1tb-nvme",
+        "category": "storage",
+        "brand": "Western Digital",
+        "name": "WD Black SN850X 1TB NVMe SSD",
+        "type": "NVMe",
+        "capacityGB": 1000,
+        "formFactor": "M.2",
+        "pcieGen": 4,
+        "pricing": {
+            "currency": "INR",
+            "priceRange": {
+                "min": 8999,
+                "max": 9799
+            },
+            "availability": "in stock"
+        },
+        "legacy": false
+    },
+    {
+        "id": "xpg-gammix-s50-lite-1tb-nvme",
+        "category": "storage",
+        "brand": "XPG",
+        "name": "XPG Gammix S50 Lite 1TB NVMe SSD",
+        "type": "NVMe",
+        "capacityGB": 1000,
+        "formFactor": "M.2",
+        "pcieGen": 4,
+        "pricing": {
+            "currency": "INR",
+            "priceRange": {
+                "min": 6199,
+                "max": 6899
+            },
+            "availability": "in stock"
+        },
+        "legacy": false
+    },
+    {
+        "id": "kingston-a400-960gb-sata",
+        "category": "storage",
+        "brand": "Kingston",
+        "name": "Kingston A400 960GB SATA SSD",
+        "type": "SATA",
+        "capacityGB": 960,
+        "formFactor": "2.5-inch",
+        "pcieGen": null,
+        "pricing": {
+            "currency": "INR",
+            "priceRange": {
+                "min": 4099,
+                "max": 4699
+            },
+            "availability": "in stock"
+        },
+        "legacy": false
+    },
+    {
+        "id": "seagate-firecuda-540-1tb-nvme",
+        "category": "storage",
+        "brand": "Seagate",
+        "name": "Seagate FireCuda 540 1TB NVMe SSD",
+        "type": "NVMe",
+        "capacityGB": 1000,
+        "formFactor": "M.2",
+        "pcieGen": 5,
+        "pricing": {
+            "currency": "INR",
+            "priceRange": {
+                "min": 12499,
+                "max": 13999
+            },
+            "availability": "in stock"
+        },
+        "legacy": false
+    },
+    {
+        "id": "adata-legend-960-2tb-nvme",
+        "category": "storage",
+        "brand": "ADATA",
+        "name": "ADATA Legend 960 2TB NVMe SSD",
+        "type": "NVMe",
+        "capacityGB": 2000,
+        "formFactor": "M.2",
+        "pcieGen": 4,
+        "pricing": {
+            "currency": "INR",
+            "priceRange": {
+                "min": 12499,
+                "max": 13999
+            },
+            "availability": "in stock"
+        },
+        "legacy": false
+    },
+    {
+        "id": "crucial-mx500-500gb-sata",
+        "category": "storage",
+        "brand": "Crucial",
+        "name": "Crucial MX500 500GB SATA SSD",
+        "type": "SATA",
+        "capacityGB": 500,
+        "formFactor": "2.5-inch",
+        "pcieGen": null,
+        "pricing": {
+            "currency": "INR",
+            "priceRange": {
+                "min": 3299,
+                "max": 3799
+            },
+            "availability": "in stock"
+        },
+        "legacy": false
+    }
+]

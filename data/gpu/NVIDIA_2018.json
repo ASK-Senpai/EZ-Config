@@ -1,0 +1,77 @@
+{
+    "brand": "NVIDIA",
+    "year": 2018,
+    "architecture": "Turing",
+    "models": [
+        {
+            "id": "rtx-2080-ti",
+            "name": "GeForce RTX 2080 Ti",
+            "pcieGen": 3,
+            "memoryType": "GDDR6",
+            "vramGB": 11,
+            "tdpWatts": 250,
+            "msrpUSD": 999,
+            "gamingScore": 700,
+            "productivityScore": 600,
+            "tier": "enthusiast",
+            "rayTracing": true,
+            "upscaling": "DLSS 1"
+        },
+        {
+            "id": "rtx-2080",
+            "name": "GeForce RTX 2080",
+            "pcieGen": 3,
+            "memoryType": "GDDR6",
+            "vramGB": 8,
+            "tdpWatts": 215,
+            "msrpUSD": 699,
+            "gamingScore": 650,
+            "productivityScore": 560,
+            "tier": "high",
+            "rayTracing": true,
+            "upscaling": "DLSS 1"
+        },
+        {
+            "id": "rtx-2070",
+            "name": "GeForce RTX 2070",
+            "pcieGen": 3,
+            "memoryType": "GDDR6",
+            "vramGB": 8,
+            "tdpWatts": 175,
+            "msrpUSD": 499,
+            "gamingScore": 620,
+            "productivityScore": 530,
+            "tier": "high",
+            "rayTracing": true,
+            "upscaling": "DLSS 1"
+        },
+        {
+            "id": "rtx-2060",
+            "name": "GeForce RTX 2060",
+            "pcieGen": 3,
+            "memoryType": "GDDR6",
+            "vramGB": 6,
+            "tdpWatts": 160,
+            "msrpUSD": 349,
+            "gamingScore": 600,
+            "productivityScore": 500,
+            "tier": "mid",
+            "rayTracing": true,
+            "upscaling": "DLSS 1"
+        },
+        {
+            "id": "gtx-1660-ti",
+            "name": "GeForce GTX 1660 Ti",
+            "pcieGen": 3,
+            "memoryType": "GDDR6",
+            "vramGB": 6,
+            "tdpWatts": 120,
+            "msrpUSD": 279,
+            "gamingScore": 580,
+            "productivityScore": 470,
+            "tier": "mid",
+            "rayTracing": false,
+            "upscaling": "None"
+        }
+    ]
+}

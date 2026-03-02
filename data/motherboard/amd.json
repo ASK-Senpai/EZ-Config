@@ -1,0 +1,314 @@
+[
+    {
+        "id": "gigabyte-a520m-k-v2-entry-am4",
+        "category": "motherboard",
+        "brand": "Gigabyte",
+        "name": "Gigabyte A520M K V2",
+        "socket": "AM4",
+        "chipset": {
+            "name": "A520",
+            "tier": "entry"
+        },
+        "platformGeneration": 3,
+        "formFactor": "Micro-ATX",
+        "memoryType": "DDR4",
+        "ramSlots": 2,
+        "maxRamGB": 64,
+        "wifi": false,
+        "pricing": {
+            "currency": "INR",
+            "priceRange": {
+                "min": 5425,
+                "max": 5849
+            },
+            "availability": "in stock"
+        },
+        "legacy": true
+    },
+    {
+        "id": "msi-b550m-a-pro-entry-am4",
+        "category": "motherboard",
+        "brand": "MSI",
+        "name": "MSI B550M-A PRO",
+        "socket": "AM4",
+        "chipset": {
+            "name": "B550",
+            "tier": "entry"
+        },
+        "platformGeneration": 5,
+        "formFactor": "Micro-ATX",
+        "memoryType": "DDR4",
+        "ramSlots": 4,
+        "maxRamGB": 128,
+        "wifi": false,
+        "pricing": {
+            "currency": "INR",
+            "priceRange": {
+                "min": 6975,
+                "max": 6975
+            },
+            "availability": "in stock"
+        },
+        "legacy": false
+    },
+    {
+        "id": "gigabyte-b550m-k-mid-am4",
+        "category": "motherboard",
+        "brand": "Gigabyte",
+        "name": "Gigabyte B550M K",
+        "socket": "AM4",
+        "chipset": {
+            "name": "B550",
+            "tier": "mid"
+        },
+        "platformGeneration": 5,
+        "formFactor": "Micro-ATX",
+        "memoryType": "DDR4",
+        "ramSlots": 4,
+        "maxRamGB": 128,
+        "wifi": false,
+        "pricing": {
+            "currency": "INR",
+            "priceRange": {
+                "min": 7455,
+                "max": 7455
+            },
+            "availability": "in stock"
+        },
+        "legacy": false
+    },
+    {
+        "id": "msi-mpg-b550-gaming-plus-mid-am4",
+        "category": "motherboard",
+        "brand": "MSI",
+        "name": "MSI MPG B550 Gaming Plus",
+        "socket": "AM4",
+        "chipset": {
+            "name": "B550",
+            "tier": "mid"
+        },
+        "platformGeneration": 5,
+        "formFactor": "ATX",
+        "memoryType": "DDR4",
+        "ramSlots": 4,
+        "maxRamGB": 128,
+        "wifi": false,
+        "pricing": {
+            "currency": "INR",
+            "priceRange": {
+                "min": 13130,
+                "max": 13130
+            },
+            "availability": "in stock"
+        },
+        "legacy": false
+    },
+    {
+        "id": "gigabyte-b550m-gaming-x-wifi6-high-am4",
+        "category": "motherboard",
+        "brand": "Gigabyte",
+        "name": "Gigabyte B550M Gaming X WIFI6",
+        "socket": "AM4",
+        "chipset": {
+            "name": "B550",
+            "tier": "high"
+        },
+        "platformGeneration": 5,
+        "formFactor": "Micro-ATX",
+        "memoryType": "DDR4",
+        "ramSlots": 4,
+        "maxRamGB": 128,
+        "wifi": true,
+        "pricing": {
+            "currency": "INR",
+            "priceRange": {
+                "min": 11589,
+                "max": 11589
+            },
+            "availability": "in stock"
+        },
+        "legacy": false
+    },
+    {
+        "id": "asus-prime-b550m-k-high-am4",
+        "category": "motherboard",
+        "brand": "ASUS",
+        "name": "ASUS Prime B550M-K",
+        "socket": "AM4",
+        "chipset": {
+            "name": "B550",
+            "tier": "high"
+        },
+        "platformGeneration": 5,
+        "formFactor": "Micro-ATX",
+        "memoryType": "DDR4",
+        "ramSlots": 4,
+        "maxRamGB": 128,
+        "wifi": false,
+        "pricing": {
+            "currency": "INR",
+            "priceRange": {
+                "min": 8360,
+                "max": 8360
+            },
+            "availability": "in stock"
+        },
+        "legacy": false
+    },
+    {
+        "id": "asus-b650m-ayw-wifi-entry-am5",
+        "category": "motherboard",
+        "brand": "ASUS",
+        "name": "ASUS B650M-AYW WiFi",
+        "socket": "AM5",
+        "chipset": {
+            "name": "B650",
+            "tier": "entry"
+        },
+        "platformGeneration": 7,
+        "formFactor": "Micro-ATX",
+        "memoryType": "DDR5",
+        "ramSlots": 4,
+        "maxRamGB": 128,
+        "wifi": true,
+        "pricing": {
+            "currency": "INR",
+            "priceRange": {
+                "min": 10450,
+                "max": 10450
+            },
+            "availability": "in stock"
+        },
+        "legacy": false
+    },
+    {
+        "id": "msi-b650-gaming-plus-wifi-entry-am5",
+        "category": "motherboard",
+        "brand": "MSI",
+        "name": "MSI B650 Gaming Plus WiFi",
+        "socket": "AM5",
+        "chipset": {
+            "name": "B650",
+            "tier": "entry"
+        },
+        "platformGeneration": 7,
+        "formFactor": "ATX",
+        "memoryType": "DDR5",
+        "ramSlots": 4,
+        "maxRamGB": 128,
+        "wifi": true,
+        "pricing": {
+            "currency": "INR",
+            "priceRange": {
+                "min": 12965,
+                "max": 12965
+            },
+            "availability": "in stock"
+        },
+        "legacy": false
+    },
+    {
+        "id": "gigabyte-b650m-aorus-elite-ax-ice-mid-am5",
+        "category": "motherboard",
+        "brand": "Gigabyte",
+        "name": "Gigabyte B650M Aorus Elite AX ICE",
+        "socket": "AM5",
+        "chipset": {
+            "name": "B650",
+            "tier": "mid"
+        },
+        "platformGeneration": 7,
+        "formFactor": "Micro-ATX",
+        "memoryType": "DDR5",
+        "ramSlots": 4,
+        "maxRamGB": 128,
+        "wifi": true,
+        "pricing": {
+            "currency": "INR",
+            "priceRange": {
+                "min": 21579,
+                "max": 21579
+            },
+            "availability": "in stock"
+        },
+        "legacy": false
+    },
+    {
+        "id": "gigabyte-b650m-aorus-pro-ax-mid-am5",
+        "category": "motherboard",
+        "brand": "Gigabyte",
+        "name": "Gigabyte B650M Aorus Pro AX",
+        "socket": "AM5",
+        "chipset": {
+            "name": "B650",
+            "tier": "mid"
+        },
+        "platformGeneration": 7,
+        "formFactor": "Micro-ATX",
+        "memoryType": "DDR5",
+        "ramSlots": 4,
+        "maxRamGB": 128,
+        "wifi": true,
+        "pricing": {
+            "currency": "INR",
+            "priceRange": {
+                "min": 19810,
+                "max": 19810
+            },
+            "availability": "in stock"
+        },
+        "legacy": false
+    },
+    {
+        "id": "gigabyte-b650-aorus-elite-ax-high-am5",
+        "category": "motherboard",
+        "brand": "Gigabyte",
+        "name": "Gigabyte B650 Aorus Elite AX",
+        "socket": "AM5",
+        "chipset": {
+            "name": "B650",
+            "tier": "high"
+        },
+        "platformGeneration": 7,
+        "formFactor": "ATX",
+        "memoryType": "DDR5",
+        "ramSlots": 4,
+        "maxRamGB": 128,
+        "wifi": true,
+        "pricing": {
+            "currency": "INR",
+            "priceRange": {
+                "min": 19776,
+                "max": 19776
+            },
+            "availability": "in stock"
+        },
+        "legacy": false
+    },
+    {
+        "id": "asus-tuf-b650m-plus-high-am5",
+        "category": "motherboard",
+        "brand": "ASUS",
+        "name": "ASUS TUF Gaming B650M-Plus",
+        "socket": "AM5",
+        "chipset": {
+            "name": "B650",
+            "tier": "high"
+        },
+        "platformGeneration": 7,
+        "formFactor": "Micro-ATX",
+        "memoryType": "DDR5",
+        "ramSlots": 4,
+        "maxRamGB": 128,
+        "wifi": true,
+        "pricing": {
+            "currency": "INR",
+            "priceRange": {
+                "min": 23399,
+                "max": 23399
+            },
+            "availability": "in stock"
+        },
+        "legacy": false
+    }
+]

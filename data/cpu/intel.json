@@ -1,0 +1,1586 @@
+[
+  {
+    "id": "i3-9100",
+    "category": "cpu",
+    "brand": "Intel",
+    "name": "Intel Core i3-9100",
+    "generation": "9th Gen (Coffee Lake Refresh)",
+    "launchYear": 2019,
+    "socket": "LGA1151",
+    "cores": 4,
+    "threads": 4,
+    "baseClockGHz": 3.6,
+    "boostClockGHz": 4.2,
+    "tdpWatts": 65,
+    "msrpUSD": 122,
+    "normalized": {
+      "gamingScore": 380,
+      "productivityScore": 240,
+      "scoreVersion": 1
+    },
+    "availableSkus": [
+      {
+        "sku": "i3-9100",
+        "suffix": "standard",
+        "hasIntegratedGraphics": true,
+        "integratedGraphicsId": "intel-uhd-630",
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 2450,
+            "max": 3050
+          },
+          "availability": "limited stock",
+          "source": "amazon.in",
+          "lastUpdated": "2026-02-25T00:00:00+05:30"
+        }
+      },
+      {
+        "sku": "i3-9100f",
+        "suffix": "F",
+        "hasIntegratedGraphics": false,
+        "integratedGraphicsId": null,
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 6300,
+            "max": 6300
+          },
+          "availability": "in stock",
+          "source": "amazon.in",
+          "lastUpdated": "2026-02-25T00:00:00+05:30"
+        }
+      }
+    ],
+    "legacy": true,
+    "updatedAt": "2026-02-28T23:59:00+05:30"
+  },
+  {
+    "id": "i5-9400",
+    "category": "cpu",
+    "brand": "Intel",
+    "name": "Intel Core i5-9400",
+    "generation": "9th Gen (Coffee Lake Refresh)",
+    "launchYear": 2019,
+    "socket": "LGA1151",
+    "cores": 6,
+    "threads": 6,
+    "baseClockGHz": 2.9,
+    "boostClockGHz": 4.1,
+    "tdpWatts": 65,
+    "msrpUSD": 182,
+    "normalized": {
+      "gamingScore": 450,
+      "productivityScore": 340,
+      "scoreVersion": 1
+    },
+    "availableSkus": [
+      {
+        "sku": "i5-9400",
+        "suffix": "standard",
+        "hasIntegratedGraphics": true,
+        "integratedGraphicsId": "intel-uhd-630",
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 14100,
+            "max": 14100
+          },
+          "availability": "out of stock",
+          "source": "mdcomputers",
+          "lastUpdated": "2026-02-28T23:59:00+05:30"
+        }
+      },
+      {
+        "sku": "i5-9400f",
+        "suffix": "F",
+        "hasIntegratedGraphics": false,
+        "integratedGraphicsId": null,
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 12999,
+            "max": 12999
+          },
+          "availability": "in stock",
+          "source": "amazon.in",
+          "lastUpdated": "2026-02-25T00:00:00+05:30"
+        }
+      }
+    ],
+    "legacy": true,
+    "updatedAt": "2026-02-28T23:59:00+05:30"
+  },
+  {
+    "id": "i7-9700k",
+    "category": "cpu",
+    "brand": "Intel",
+    "name": "Intel Core i7-9700K",
+    "generation": "9th Gen (Coffee Lake Refresh)",
+    "launchYear": 2019,
+    "socket": "LGA1151",
+    "cores": 8,
+    "threads": 8,
+    "baseClockGHz": 3.6,
+    "boostClockGHz": 4.9,
+    "tdpWatts": 95,
+    "msrpUSD": 374,
+    "normalized": {
+      "gamingScore": 560,
+      "productivityScore": 440,
+      "scoreVersion": 1
+    },
+    "availableSkus": [
+      {
+        "sku": "i7-9700k",
+        "suffix": "K",
+        "hasIntegratedGraphics": true,
+        "integratedGraphicsId": "intel-uhd-630",
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 27700,
+            "max": 27700
+          },
+          "availability": "out of stock",
+          "source": "mdcomputers",
+          "lastUpdated": "2026-02-28T23:59:00+05:30"
+        }
+      },
+      {
+        "sku": "i7-9700kf",
+        "suffix": "KF",
+        "hasIntegratedGraphics": false,
+        "integratedGraphicsId": null,
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 26499,
+            "max": 26499
+          },
+          "availability": "in stock",
+          "source": "amazon.in",
+          "lastUpdated": "2026-02-25T00:00:00+05:30"
+        }
+      }
+    ],
+    "legacy": true,
+    "updatedAt": "2026-02-28T23:59:00+05:30"
+  },
+  {
+    "id": "i9-9900k",
+    "category": "cpu",
+    "brand": "Intel",
+    "name": "Intel Core i9-9900K",
+    "generation": "9th Gen (Coffee Lake Refresh)",
+    "launchYear": 2019,
+    "socket": "LGA1151",
+    "cores": 8,
+    "threads": 16,
+    "baseClockGHz": 3.6,
+    "boostClockGHz": 5,
+    "tdpWatts": 95,
+    "msrpUSD": 488,
+    "normalized": {
+      "gamingScore": 600,
+      "productivityScore": 550,
+      "scoreVersion": 1
+    },
+    "availableSkus": [
+      {
+        "sku": "i9-9900k",
+        "suffix": "K",
+        "hasIntegratedGraphics": true,
+        "integratedGraphicsId": "intel-uhd-630",
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 32500,
+            "max": 36700
+          },
+          "availability": "limited stock",
+          "source": "mdcomputers",
+          "lastUpdated": "2026-02-28T23:59:00+05:30"
+        }
+      },
+      {
+        "sku": "i9-9900kf",
+        "suffix": "KF",
+        "hasIntegratedGraphics": false,
+        "integratedGraphicsId": null,
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 30999,
+            "max": 30999
+          },
+          "availability": "in stock",
+          "source": "amazon.in",
+          "lastUpdated": "2026-02-25T00:00:00+05:30"
+        }
+      }
+    ],
+    "legacy": true,
+    "updatedAt": "2026-02-28T23:59:00+05:30"
+  },
+  {
+    "id": "i3-10100",
+    "category": "cpu",
+    "brand": "Intel",
+    "name": "Intel Core i3-10100",
+    "generation": "10th Gen (Comet Lake)",
+    "launchYear": 2020,
+    "socket": "LGA1200",
+    "cores": 4,
+    "threads": 8,
+    "baseClockGHz": 3.6,
+    "boostClockGHz": 4.3,
+    "tdpWatts": 65,
+    "msrpUSD": 122,
+    "normalized": {
+      "gamingScore": 420,
+      "productivityScore": 310,
+      "scoreVersion": 1
+    },
+    "availableSkus": [
+      {
+        "sku": "i3-10100",
+        "suffix": "standard",
+        "hasIntegratedGraphics": true,
+        "integratedGraphicsId": "intel-uhd-630",
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 6999,
+            "max": 6999
+          },
+          "availability": "in stock",
+          "source": "mdcomputers",
+          "lastUpdated": "2026-02-28T23:59:00+05:30"
+        }
+      },
+      {
+        "sku": "i3-10100f",
+        "suffix": "F",
+        "hasIntegratedGraphics": false,
+        "integratedGraphicsId": null,
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 6299,
+            "max": 6499
+          },
+          "availability": "in stock",
+          "source": "amazon.in",
+          "lastUpdated": "2026-02-25T00:00:00+05:30"
+        }
+      }
+    ],
+    "legacy": false,
+    "updatedAt": "2026-02-28T23:59:00+05:30"
+  },
+  {
+    "id": "i5-10400",
+    "category": "cpu",
+    "brand": "Intel",
+    "name": "Intel Core i5-10400",
+    "generation": "10th Gen (Comet Lake)",
+    "launchYear": 2020,
+    "socket": "LGA1200",
+    "cores": 6,
+    "threads": 12,
+    "baseClockGHz": 2.9,
+    "boostClockGHz": 4.3,
+    "tdpWatts": 65,
+    "msrpUSD": 182,
+    "normalized": {
+      "gamingScore": 480,
+      "productivityScore": 400,
+      "scoreVersion": 1
+    },
+    "availableSkus": [
+      {
+        "sku": "i5-10400",
+        "suffix": "standard",
+        "hasIntegratedGraphics": true,
+        "integratedGraphicsId": "intel-uhd-630",
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 12499,
+            "max": 13450
+          },
+          "availability": "in stock",
+          "source": "mdcomputers",
+          "lastUpdated": "2026-02-28T23:59:00+05:30"
+        }
+      },
+      {
+        "sku": "i5-10400f",
+        "suffix": "F",
+        "hasIntegratedGraphics": false,
+        "integratedGraphicsId": null,
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 11999,
+            "max": 12500
+          },
+          "availability": "in stock",
+          "source": "amazon.in",
+          "lastUpdated": "2026-02-25T00:00:00+05:30"
+        }
+      }
+    ],
+    "legacy": false,
+    "updatedAt": "2026-02-28T23:59:00+05:30"
+  },
+  {
+    "id": "i7-10700k",
+    "category": "cpu",
+    "brand": "Intel",
+    "name": "Intel Core i7-10700K",
+    "generation": "10th Gen (Comet Lake)",
+    "launchYear": 2020,
+    "socket": "LGA1200",
+    "cores": 8,
+    "threads": 16,
+    "baseClockGHz": 3.8,
+    "boostClockGHz": 5.1,
+    "tdpWatts": 125,
+    "msrpUSD": 374,
+    "normalized": {
+      "gamingScore": 640,
+      "productivityScore": 580,
+      "scoreVersion": 1
+    },
+    "availableSkus": [
+      {
+        "sku": "i7-10700k",
+        "suffix": "K",
+        "hasIntegratedGraphics": true,
+        "integratedGraphicsId": "intel-uhd-630",
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 27900,
+            "max": 28900
+          },
+          "availability": "in stock",
+          "source": "mdcomputers",
+          "lastUpdated": "2026-02-28T23:59:00+05:30"
+        }
+      },
+      {
+        "sku": "i7-10700kf",
+        "suffix": "KF",
+        "hasIntegratedGraphics": false,
+        "integratedGraphicsId": null,
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 26999,
+            "max": 26999
+          },
+          "availability": "in stock",
+          "source": "amazon.in",
+          "lastUpdated": "2026-02-25T00:00:00+05:30"
+        }
+      }
+    ],
+    "legacy": false,
+    "updatedAt": "2026-02-28T23:59:00+05:30"
+  },
+  {
+    "id": "i9-10900k",
+    "category": "cpu",
+    "brand": "Intel",
+    "name": "Intel Core i9-10900K",
+    "generation": "10th Gen (Comet Lake)",
+    "launchYear": 2020,
+    "socket": "LGA1200",
+    "cores": 10,
+    "threads": 20,
+    "baseClockGHz": 3.7,
+    "boostClockGHz": 5.3,
+    "tdpWatts": 125,
+    "msrpUSD": 488,
+    "normalized": {
+      "gamingScore": 690,
+      "productivityScore": 660,
+      "scoreVersion": 1
+    },
+    "availableSkus": [
+      {
+        "sku": "i9-10900k",
+        "suffix": "K",
+        "hasIntegratedGraphics": true,
+        "integratedGraphicsId": "intel-uhd-630",
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 35900,
+            "max": 36900
+          },
+          "availability": "in stock",
+          "source": "mdcomputers",
+          "lastUpdated": "2026-02-28T23:59:00+05:30"
+        }
+      },
+      {
+        "sku": "i9-10900kf",
+        "suffix": "KF",
+        "hasIntegratedGraphics": false,
+        "integratedGraphicsId": null,
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 34999,
+            "max": 34999
+          },
+          "availability": "in stock",
+          "source": "amazon.in",
+          "lastUpdated": "2026-02-25T00:00:00+05:30"
+        }
+      }
+    ],
+    "legacy": false,
+    "updatedAt": "2026-02-28T23:59:00+05:30"
+  },
+  {
+    "id": "i5-11400",
+    "category": "cpu",
+    "brand": "Intel",
+    "name": "Intel Core i5-11400",
+    "generation": "11th Gen (Rocket Lake)",
+    "launchYear": 2021,
+    "socket": "LGA1200",
+    "cores": 6,
+    "threads": 12,
+    "baseClockGHz": 2.6,
+    "boostClockGHz": 4.4,
+    "tdpWatts": 65,
+    "msrpUSD": 182,
+    "normalized": {
+      "gamingScore": 520,
+      "productivityScore": 410,
+      "scoreVersion": 1
+    },
+    "availableSkus": [
+      {
+        "sku": "i5-11400",
+        "suffix": "standard",
+        "hasIntegratedGraphics": true,
+        "integratedGraphicsId": "intel-uhd-730",
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 14200,
+            "max": 14500
+          },
+          "availability": "limited stock",
+          "source": "mdcomputers",
+          "lastUpdated": "2026-02-28T23:59:00+05:30"
+        }
+      },
+      {
+        "sku": "i5-11400f",
+        "suffix": "F",
+        "hasIntegratedGraphics": false,
+        "integratedGraphicsId": null,
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 13000,
+            "max": 13000
+          },
+          "availability": "in stock",
+          "source": "amazon.in",
+          "lastUpdated": "2026-02-25T00:00:00+05:30"
+        }
+      }
+    ],
+    "legacy": false,
+    "updatedAt": "2026-02-28T23:59:00+05:30"
+  },
+  {
+    "id": "i5-11600k",
+    "category": "cpu",
+    "brand": "Intel",
+    "name": "Intel Core i5-11600K",
+    "generation": "11th Gen (Rocket Lake)",
+    "launchYear": 2021,
+    "socket": "LGA1200",
+    "cores": 6,
+    "threads": 12,
+    "baseClockGHz": 3.9,
+    "boostClockGHz": 4.9,
+    "tdpWatts": 125,
+    "msrpUSD": 262,
+    "normalized": {
+      "gamingScore": 580,
+      "productivityScore": 470,
+      "scoreVersion": 1
+    },
+    "availableSkus": [
+      {
+        "sku": "i5-11600k",
+        "suffix": "K",
+        "hasIntegratedGraphics": true,
+        "integratedGraphicsId": "intel-uhd-750",
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 18500,
+            "max": 18900
+          },
+          "availability": "limited stock",
+          "source": "mdcomputers",
+          "lastUpdated": "2026-02-28T23:59:00+05:30"
+        }
+      },
+      {
+        "sku": "i5-11600kf",
+        "suffix": "KF",
+        "hasIntegratedGraphics": false,
+        "integratedGraphicsId": null,
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 17500,
+            "max": 17500
+          },
+          "availability": "in stock",
+          "source": "amazon.in",
+          "lastUpdated": "2026-02-25T00:00:00+05:30"
+        }
+      }
+    ],
+    "legacy": false,
+    "updatedAt": "2026-02-28T23:59:00+05:30"
+  },
+  {
+    "id": "i7-11700k",
+    "category": "cpu",
+    "brand": "Intel",
+    "name": "Intel Core i7-11700K",
+    "generation": "11th Gen (Rocket Lake)",
+    "launchYear": 2021,
+    "socket": "LGA1200",
+    "cores": 8,
+    "threads": 16,
+    "baseClockGHz": 3.6,
+    "boostClockGHz": 5,
+    "tdpWatts": 125,
+    "msrpUSD": 399,
+    "normalized": {
+      "gamingScore": 620,
+      "productivityScore": 560,
+      "scoreVersion": 1
+    },
+    "availableSkus": [
+      {
+        "sku": "i7-11700k",
+        "suffix": "K",
+        "hasIntegratedGraphics": true,
+        "integratedGraphicsId": "intel-uhd-750",
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 25500,
+            "max": 25900
+          },
+          "availability": "limited stock",
+          "source": "mdcomputers",
+          "lastUpdated": "2026-02-28T23:59:00+05:30"
+        }
+      },
+      {
+        "sku": "i7-11700kf",
+        "suffix": "KF",
+        "hasIntegratedGraphics": false,
+        "integratedGraphicsId": null,
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 24399,
+            "max": 24399
+          },
+          "availability": "in stock",
+          "source": "amazon.in",
+          "lastUpdated": "2026-02-25T00:00:00+05:30"
+        }
+      }
+    ],
+    "legacy": false,
+    "updatedAt": "2026-02-28T23:59:00+05:30"
+  },
+  {
+    "id": "i9-11900k",
+    "category": "cpu",
+    "brand": "Intel",
+    "name": "Intel Core i9-11900K",
+    "generation": "11th Gen (Rocket Lake)",
+    "launchYear": 2021,
+    "socket": "LGA1200",
+    "cores": 8,
+    "threads": 16,
+    "baseClockGHz": 3.5,
+    "boostClockGHz": 5.3,
+    "tdpWatts": 125,
+    "msrpUSD": 539,
+    "normalized": {
+      "gamingScore": 650,
+      "productivityScore": 600,
+      "scoreVersion": 1
+    },
+    "availableSkus": [
+      {
+        "sku": "i9-11900k",
+        "suffix": "K",
+        "hasIntegratedGraphics": true,
+        "integratedGraphicsId": "intel-uhd-750",
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 30200,
+            "max": 30900
+          },
+          "availability": "limited stock",
+          "source": "mdcomputers",
+          "lastUpdated": "2026-02-28T23:59:00+05:30"
+        }
+      },
+      {
+        "sku": "i9-11900kf",
+        "suffix": "KF",
+        "hasIntegratedGraphics": false,
+        "integratedGraphicsId": null,
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 28999,
+            "max": 28999
+          },
+          "availability": "in stock",
+          "source": "amazon.in",
+          "lastUpdated": "2026-02-25T00:00:00+05:30"
+        }
+      }
+    ],
+    "legacy": false,
+    "updatedAt": "2026-02-28T23:59:00+05:30"
+  },
+  {
+    "id": "i5-12400",
+    "category": "cpu",
+    "brand": "Intel",
+    "name": "Intel Core i5-12400",
+    "generation": "12th Gen (Alder Lake)",
+    "launchYear": 2022,
+    "socket": "LGA1700",
+    "cores": 6,
+    "threads": 12,
+    "baseClockGHz": 2.5,
+    "boostClockGHz": 4.4,
+    "tdpWatts": 65,
+    "msrpUSD": 192,
+    "normalized": {
+      "gamingScore": 570,
+      "productivityScore": 480,
+      "scoreVersion": 1
+    },
+    "availableSkus": [
+      {
+        "sku": "i5-12400",
+        "suffix": "standard",
+        "hasIntegratedGraphics": true,
+        "integratedGraphicsId": "intel-uhd-730",
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 17800,
+            "max": 18500
+          },
+          "availability": "in stock",
+          "source": "mdcomputers",
+          "lastUpdated": "2026-02-28T23:59:00+05:30"
+        }
+      },
+      {
+        "sku": "i5-12400f",
+        "suffix": "F",
+        "hasIntegratedGraphics": false,
+        "integratedGraphicsId": null,
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 16499,
+            "max": 16499
+          },
+          "availability": "in stock",
+          "source": "amazon.in",
+          "lastUpdated": "2026-02-25T00:00:00+05:30"
+        }
+      }
+    ],
+    "legacy": false,
+    "updatedAt": "2026-02-28T23:59:00+05:30"
+  },
+  {
+    "id": "i5-12600k",
+    "category": "cpu",
+    "brand": "Intel",
+    "name": "Intel Core i5-12600K",
+    "generation": "12th Gen (Alder Lake)",
+    "launchYear": 2021,
+    "socket": "LGA1700",
+    "cores": 10,
+    "threads": 16,
+    "baseClockGHz": 3.7,
+    "boostClockGHz": 4.9,
+    "tdpWatts": 125,
+    "msrpUSD": 289,
+    "normalized": {
+      "gamingScore": 710,
+      "productivityScore": 650,
+      "scoreVersion": 1
+    },
+    "availableSkus": [
+      {
+        "sku": "i5-12600k",
+        "suffix": "K",
+        "hasIntegratedGraphics": true,
+        "integratedGraphicsId": "intel-uhd-770",
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 21200,
+            "max": 21900
+          },
+          "availability": "in stock",
+          "source": "mdcomputers",
+          "lastUpdated": "2026-02-28T23:59:00+05:30"
+        }
+      },
+      {
+        "sku": "i5-12600kf",
+        "suffix": "KF",
+        "hasIntegratedGraphics": false,
+        "integratedGraphicsId": null,
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 19999,
+            "max": 19999
+          },
+          "availability": "in stock",
+          "source": "amazon.in",
+          "lastUpdated": "2026-02-25T00:00:00+05:30"
+        }
+      }
+    ],
+    "legacy": false,
+    "updatedAt": "2026-02-28T23:59:00+05:30"
+  },
+  {
+    "id": "i7-12700k",
+    "category": "cpu",
+    "brand": "Intel",
+    "name": "Intel Core i7-12700K",
+    "generation": "12th Gen (Alder Lake)",
+    "launchYear": 2021,
+    "socket": "LGA1700",
+    "cores": 12,
+    "threads": 20,
+    "baseClockGHz": 3.6,
+    "boostClockGHz": 5,
+    "tdpWatts": 125,
+    "msrpUSD": 409,
+    "normalized": {
+      "gamingScore": 800,
+      "productivityScore": 780,
+      "scoreVersion": 1
+    },
+    "availableSkus": [
+      {
+        "sku": "i7-12700k",
+        "suffix": "K",
+        "hasIntegratedGraphics": true,
+        "integratedGraphicsId": "intel-uhd-770",
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 28400,
+            "max": 28900
+          },
+          "availability": "in stock",
+          "source": "mdcomputers",
+          "lastUpdated": "2026-02-28T23:59:00+05:30"
+        }
+      },
+      {
+        "sku": "i7-12700kf",
+        "suffix": "KF",
+        "hasIntegratedGraphics": false,
+        "integratedGraphicsId": null,
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 26999,
+            "max": 26999
+          },
+          "availability": "in stock",
+          "source": "amazon.in",
+          "lastUpdated": "2026-02-25T00:00:00+05:30"
+        }
+      }
+    ],
+    "legacy": false,
+    "updatedAt": "2026-02-28T23:59:00+05:30"
+  },
+  {
+    "id": "i9-12900k",
+    "category": "cpu",
+    "brand": "Intel",
+    "name": "Intel Core i9-12900K",
+    "generation": "12th Gen (Alder Lake)",
+    "launchYear": 2021,
+    "socket": "LGA1700",
+    "cores": 16,
+    "threads": 24,
+    "baseClockGHz": 3.2,
+    "boostClockGHz": 5.2,
+    "tdpWatts": 125,
+    "msrpUSD": 589,
+    "normalized": {
+      "gamingScore": 880,
+      "productivityScore": 850,
+      "scoreVersion": 1
+    },
+    "availableSkus": [
+      {
+        "sku": "i9-12900k",
+        "suffix": "K",
+        "hasIntegratedGraphics": true,
+        "integratedGraphicsId": "intel-uhd-770",
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 33500,
+            "max": 34300
+          },
+          "availability": "in stock",
+          "source": "mdcomputers",
+          "lastUpdated": "2026-02-28T23:59:00+05:30"
+        }
+      },
+      {
+        "sku": "i9-12900kf",
+        "suffix": "KF",
+        "hasIntegratedGraphics": false,
+        "integratedGraphicsId": null,
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 31999,
+            "max": 31999
+          },
+          "availability": "in stock",
+          "source": "amazon.in",
+          "lastUpdated": "2026-02-25T00:00:00+05:30"
+        }
+      }
+    ],
+    "legacy": false,
+    "updatedAt": "2026-02-28T23:59:00+05:30"
+  },
+  {
+    "id": "i5-13400",
+    "category": "cpu",
+    "brand": "Intel",
+    "name": "Intel Core i5-13400",
+    "generation": "13th Gen (Raptor Lake)",
+    "launchYear": 2023,
+    "socket": "LGA1700",
+    "cores": 10,
+    "threads": 16,
+    "baseClockGHz": 2.5,
+    "boostClockGHz": 4.6,
+    "tdpWatts": 65,
+    "msrpUSD": 221,
+    "normalized": {
+      "gamingScore": 660,
+      "productivityScore": 580,
+      "scoreVersion": 1
+    },
+    "availableSkus": [
+      {
+        "sku": "i5-13400",
+        "suffix": "standard",
+        "hasIntegratedGraphics": true,
+        "integratedGraphicsId": "intel-uhd-730",
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 21000,
+            "max": 21499
+          },
+          "availability": "in stock",
+          "source": "mdcomputers",
+          "lastUpdated": "2026-02-28T23:59:00+05:30"
+        }
+      },
+      {
+        "sku": "i5-13400f",
+        "suffix": "F",
+        "hasIntegratedGraphics": false,
+        "integratedGraphicsId": null,
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 19999,
+            "max": 19999
+          },
+          "availability": "in stock",
+          "source": "amazon.in",
+          "lastUpdated": "2026-02-25T00:00:00+05:30"
+        }
+      }
+    ],
+    "legacy": false,
+    "updatedAt": "2026-02-28T23:59:00+05:30"
+  },
+  {
+    "id": "i5-13600k",
+    "category": "cpu",
+    "brand": "Intel",
+    "name": "Intel Core i5-13600K",
+    "generation": "13th Gen (Raptor Lake)",
+    "launchYear": 2022,
+    "socket": "LGA1700",
+    "cores": 14,
+    "threads": 20,
+    "baseClockGHz": 3.5,
+    "boostClockGHz": 5.1,
+    "tdpWatts": 125,
+    "msrpUSD": 319,
+    "normalized": {
+      "gamingScore": 780,
+      "productivityScore": 720,
+      "scoreVersion": 1
+    },
+    "availableSkus": [
+      {
+        "sku": "i5-13600k",
+        "suffix": "K",
+        "hasIntegratedGraphics": true,
+        "integratedGraphicsId": "intel-uhd-770",
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 24500,
+            "max": 24999
+          },
+          "availability": "in stock",
+          "source": "mdcomputers",
+          "lastUpdated": "2026-02-28T23:59:00+05:30"
+        }
+      },
+      {
+        "sku": "i5-13600kf",
+        "suffix": "KF",
+        "hasIntegratedGraphics": false,
+        "integratedGraphicsId": null,
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 23499,
+            "max": 23499
+          },
+          "availability": "in stock",
+          "source": "amazon.in",
+          "lastUpdated": "2026-02-25T00:00:00+05:30"
+        }
+      }
+    ],
+    "legacy": false,
+    "updatedAt": "2026-02-28T23:59:00+05:30"
+  },
+  {
+    "id": "i7-13700k",
+    "category": "cpu",
+    "brand": "Intel",
+    "name": "Intel Core i7-13700K",
+    "generation": "13th Gen (Raptor Lake)",
+    "launchYear": 2022,
+    "socket": "LGA1700",
+    "cores": 16,
+    "threads": 24,
+    "baseClockGHz": 3.4,
+    "boostClockGHz": 5.4,
+    "tdpWatts": 125,
+    "msrpUSD": 409,
+    "normalized": {
+      "gamingScore": 880,
+      "productivityScore": 830,
+      "scoreVersion": 1
+    },
+    "availableSkus": [
+      {
+        "sku": "i7-13700k",
+        "suffix": "K",
+        "hasIntegratedGraphics": true,
+        "integratedGraphicsId": "intel-uhd-770",
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 32500,
+            "max": 32999
+          },
+          "availability": "in stock",
+          "source": "mdcomputers",
+          "lastUpdated": "2026-02-28T23:59:00+05:30"
+        }
+      },
+      {
+        "sku": "i7-13700kf",
+        "suffix": "KF",
+        "hasIntegratedGraphics": false,
+        "integratedGraphicsId": null,
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 30999,
+            "max": 30999
+          },
+          "availability": "in stock",
+          "source": "amazon.in",
+          "lastUpdated": "2026-02-25T00:00:00+05:30"
+        }
+      }
+    ],
+    "legacy": false,
+    "updatedAt": "2026-02-28T23:59:00+05:30"
+  },
+  {
+    "id": "i9-13900k",
+    "category": "cpu",
+    "brand": "Intel",
+    "name": "Intel Core i9-13900K",
+    "generation": "13th Gen (Raptor Lake)",
+    "launchYear": 2022,
+    "socket": "LGA1700",
+    "cores": 24,
+    "threads": 32,
+    "baseClockGHz": 3,
+    "boostClockGHz": 5.8,
+    "tdpWatts": 125,
+    "msrpUSD": 589,
+    "normalized": {
+      "gamingScore": 950,
+      "productivityScore": 920,
+      "scoreVersion": 1
+    },
+    "availableSkus": [
+      {
+        "sku": "i9-13900k",
+        "suffix": "K",
+        "hasIntegratedGraphics": true,
+        "integratedGraphicsId": "intel-uhd-770",
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 42999,
+            "max": 43999
+          },
+          "availability": "in stock",
+          "source": "mdcomputers",
+          "lastUpdated": "2026-02-28T23:59:00+05:30"
+        }
+      },
+      {
+        "sku": "i9-13900kf",
+        "suffix": "KF",
+        "hasIntegratedGraphics": false,
+        "integratedGraphicsId": null,
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 40999,
+            "max": 40999
+          },
+          "availability": "in stock",
+          "source": "amazon.in",
+          "lastUpdated": "2026-02-25T00:00:00+05:30"
+        }
+      }
+    ],
+    "legacy": false,
+    "updatedAt": "2026-02-28T23:59:00+05:30"
+  },
+  {
+    "id": "i5-14400",
+    "category": "cpu",
+    "brand": "Intel",
+    "name": "Intel Core i5-14400",
+    "generation": "14th Gen (Raptor Lake Refresh)",
+    "launchYear": 2024,
+    "socket": "LGA1700",
+    "cores": 10,
+    "threads": 16,
+    "baseClockGHz": 2.5,
+    "boostClockGHz": 4.7,
+    "tdpWatts": 65,
+    "msrpUSD": 221,
+    "normalized": {
+      "gamingScore": 700,
+      "productivityScore": 600,
+      "scoreVersion": 1
+    },
+    "availableSkus": [
+      {
+        "sku": "i5-14400",
+        "suffix": "standard",
+        "hasIntegratedGraphics": true,
+        "integratedGraphicsId": "intel-uhd-730",
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 21999,
+            "max": 22499
+          },
+          "availability": "in stock",
+          "source": "mdcomputers",
+          "lastUpdated": "2026-02-28T23:59:00+05:30"
+        }
+      },
+      {
+        "sku": "i5-14400f",
+        "suffix": "F",
+        "hasIntegratedGraphics": false,
+        "integratedGraphicsId": null,
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 20499,
+            "max": 20999
+          },
+          "availability": "in stock",
+          "source": "amazon.in",
+          "lastUpdated": "2026-02-25T00:00:00+05:30"
+        }
+      }
+    ],
+    "legacy": false,
+    "updatedAt": "2026-03-01T07:45:00+05:30"
+  },
+  {
+    "id": "i5-14600k",
+    "category": "cpu",
+    "brand": "Intel",
+    "name": "Intel Core i5-14600K",
+    "generation": "14th Gen (Raptor Lake Refresh)",
+    "launchYear": 2023,
+    "socket": "LGA1700",
+    "cores": 14,
+    "threads": 20,
+    "baseClockGHz": 3.5,
+    "boostClockGHz": 5.3,
+    "tdpWatts": 125,
+    "msrpUSD": 319,
+    "normalized": {
+      "gamingScore": 840,
+      "productivityScore": 780,
+      "scoreVersion": 1
+    },
+    "availableSkus": [
+      {
+        "sku": "i5-14600k",
+        "suffix": "K",
+        "hasIntegratedGraphics": true,
+        "integratedGraphicsId": "intel-uhd-770",
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 26500,
+            "max": 26999
+          },
+          "availability": "in stock",
+          "source": "mdcomputers",
+          "lastUpdated": "2026-02-28T23:59:00+05:30"
+        }
+      },
+      {
+        "sku": "i5-14600kf",
+        "suffix": "KF",
+        "hasIntegratedGraphics": false,
+        "integratedGraphicsId": null,
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 24999,
+            "max": 25499
+          },
+          "availability": "in stock",
+          "source": "amazon.in",
+          "lastUpdated": "2026-02-25T00:00:00+05:30"
+        }
+      }
+    ],
+    "legacy": false,
+    "updatedAt": "2026-03-01T07:45:00+05:30"
+  },
+  {
+    "id": "i7-14700k",
+    "category": "cpu",
+    "brand": "Intel",
+    "name": "Intel Core i7-14700K",
+    "generation": "14th Gen (Raptor Lake Refresh)",
+    "launchYear": 2023,
+    "socket": "LGA1700",
+    "cores": 20,
+    "threads": 28,
+    "baseClockGHz": 3.4,
+    "boostClockGHz": 5.6,
+    "tdpWatts": 125,
+    "msrpUSD": 409,
+    "normalized": {
+      "gamingScore": 920,
+      "productivityScore": 900,
+      "scoreVersion": 1
+    },
+    "availableSkus": [
+      {
+        "sku": "i7-14700k",
+        "suffix": "K",
+        "hasIntegratedGraphics": true,
+        "integratedGraphicsId": "intel-uhd-770",
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 36999,
+            "max": 37999
+          },
+          "availability": "in stock",
+          "source": "mdcomputers",
+          "lastUpdated": "2026-02-28T23:59:00+05:30"
+        }
+      },
+      {
+        "sku": "i7-14700kf",
+        "suffix": "KF",
+        "hasIntegratedGraphics": false,
+        "integratedGraphicsId": null,
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 34999,
+            "max": 35999
+          },
+          "availability": "in stock",
+          "source": "amazon.in",
+          "lastUpdated": "2026-02-25T00:00:00+05:30"
+        }
+      }
+    ],
+    "legacy": false,
+    "updatedAt": "2026-03-01T07:45:00+05:30"
+  },
+  {
+    "id": "i9-14900k",
+    "category": "cpu",
+    "brand": "Intel",
+    "name": "Intel Core i9-14900K",
+    "generation": "14th Gen (Raptor Lake Refresh)",
+    "launchYear": 2023,
+    "socket": "LGA1700",
+    "cores": 24,
+    "threads": 32,
+    "baseClockGHz": 3.2,
+    "boostClockGHz": 6,
+    "tdpWatts": 125,
+    "msrpUSD": 589,
+    "normalized": {
+      "gamingScore": 1000,
+      "productivityScore": 980,
+      "scoreVersion": 1
+    },
+    "availableSkus": [
+      {
+        "sku": "i9-14900k",
+        "suffix": "K",
+        "hasIntegratedGraphics": true,
+        "integratedGraphicsId": "intel-uhd-770",
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 48999,
+            "max": 49999
+          },
+          "availability": "in stock",
+          "source": "mdcomputers",
+          "lastUpdated": "2026-02-28T23:59:00+05:30"
+        }
+      },
+      {
+        "sku": "i9-14900kf",
+        "suffix": "KF",
+        "hasIntegratedGraphics": false,
+        "integratedGraphicsId": null,
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 46999,
+            "max": 47999
+          },
+          "availability": "in stock",
+          "source": "amazon.in",
+          "lastUpdated": "2026-02-25T00:00:00+05:30"
+        }
+      }
+    ],
+    "legacy": false,
+    "updatedAt": "2026-03-01T07:45:00+05:30"
+  },
+  {
+    "id": "core-ultra-5-245k",
+    "category": "cpu",
+    "brand": "Intel",
+    "name": "Intel Core Ultra 5 245K",
+    "generation": "Core Ultra (Arrow Lake-S)",
+    "launchYear": 2025,
+    "socket": "LGA1851",
+    "cores": 14,
+    "threads": 20,
+    "baseClockGHz": 3.6,
+    "boostClockGHz": 5.2,
+    "tdpWatts": 125,
+    "msrpUSD": 299,
+    "normalized": {
+      "gamingScore": 870,
+      "productivityScore": 820,
+      "scoreVersion": 1
+    },
+    "availableSkus": [
+      {
+        "sku": "core-ultra-5-245k",
+        "suffix": "K",
+        "hasIntegratedGraphics": true,
+        "integratedGraphicsId": "intel-xe-lpg",
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 27999,
+            "max": 28999
+          },
+          "availability": "in stock",
+          "source": "mdcomputers",
+          "lastUpdated": "2026-02-28T23:59:00+05:30"
+        }
+      }
+    ],
+    "legacy": false,
+    "updatedAt": "2026-03-01T07:45:00+05:30"
+  },
+  {
+    "id": "core-ultra-7-265k",
+    "category": "cpu",
+    "brand": "Intel",
+    "name": "Intel Core Ultra 7 265K",
+    "generation": "Core Ultra (Arrow Lake-S)",
+    "launchYear": 2025,
+    "socket": "LGA1851",
+    "cores": 20,
+    "threads": 28,
+    "baseClockGHz": 3.5,
+    "boostClockGHz": 5.6,
+    "tdpWatts": 125,
+    "msrpUSD": 409,
+    "normalized": {
+      "gamingScore": 940,
+      "productivityScore": 930,
+      "scoreVersion": 1
+    },
+    "availableSkus": [
+      {
+        "sku": "core-ultra-7-265k",
+        "suffix": "K",
+        "hasIntegratedGraphics": true,
+        "integratedGraphicsId": "intel-xe-lpg",
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 37999,
+            "max": 38999
+          },
+          "availability": "in stock",
+          "source": "mdcomputers",
+          "lastUpdated": "2026-02-28T23:59:00+05:30"
+        }
+      }
+    ],
+    "legacy": false,
+    "updatedAt": "2026-03-01T08:05:00+05:30"
+  },
+  {
+    "id": "core-ultra-9-285k",
+    "category": "cpu",
+    "brand": "Intel",
+    "name": "Intel Core Ultra 9 285K",
+    "generation": "Core Ultra (Arrow Lake-S)",
+    "launchYear": 2025,
+    "socket": "LGA1851",
+    "cores": 24,
+    "threads": 32,
+    "baseClockGHz": 3.4,
+    "boostClockGHz": 5.8,
+    "tdpWatts": 125,
+    "msrpUSD": 589,
+    "normalized": {
+      "gamingScore": 980,
+      "productivityScore": 970,
+      "scoreVersion": 1
+    },
+    "availableSkus": [
+      {
+        "sku": "core-ultra-9-285k",
+        "suffix": "K",
+        "hasIntegratedGraphics": true,
+        "integratedGraphicsId": "intel-xe-lpg",
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 51999,
+            "max": 52999
+          },
+          "availability": "in stock",
+          "source": "mdcomputers",
+          "lastUpdated": "2026-02-28T23:59:00+05:30"
+        }
+      }
+    ],
+    "legacy": false,
+    "updatedAt": "2026-03-01T08:05:00+05:30"
+  },
+  {
+    "id": "core-ultra-5-255",
+    "category": "cpu",
+    "brand": "Intel",
+    "name": "Intel Core Ultra 5 255",
+    "generation": "Core Ultra (Arrow Lake-S Refresh)",
+    "launchYear": 2026,
+    "socket": "LGA1851",
+    "cores": 14,
+    "threads": 20,
+    "baseClockGHz": 3.4,
+    "boostClockGHz": 5.3,
+    "tdpWatts": 65,
+    "msrpUSD": 269,
+    "normalized": {
+      "gamingScore": 890,
+      "productivityScore": 840,
+      "scoreVersion": 1
+    },
+    "availableSkus": [
+      {
+        "sku": "core-ultra-5-255",
+        "suffix": "standard",
+        "hasIntegratedGraphics": true,
+        "integratedGraphicsId": "intel-xe-lpg",
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 24999,
+            "max": 25999
+          },
+          "availability": "in stock",
+          "source": "mdcomputers",
+          "lastUpdated": "2026-02-28T23:59:00+05:30"
+        }
+      }
+    ],
+    "legacy": false,
+    "updatedAt": "2026-03-01T08:05:00+05:30"
+  },
+  {
+    "id": "core-ultra-7-275k",
+    "category": "cpu",
+    "brand": "Intel",
+    "name": "Intel Core Ultra 7 275K",
+    "generation": "Core Ultra (Arrow Lake-S Refresh)",
+    "launchYear": 2026,
+    "socket": "LGA1851",
+    "cores": 20,
+    "threads": 28,
+    "baseClockGHz": 3.6,
+    "boostClockGHz": 5.7,
+    "tdpWatts": 125,
+    "msrpUSD": 429,
+    "normalized": {
+      "gamingScore": 970,
+      "productivityScore": 960,
+      "scoreVersion": 1
+    },
+    "availableSkus": [
+      {
+        "sku": "core-ultra-7-275k",
+        "suffix": "K",
+        "hasIntegratedGraphics": true,
+        "integratedGraphicsId": "intel-xe-lpg",
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 39999,
+            "max": 40999
+          },
+          "availability": "in stock",
+          "source": "mdcomputers",
+          "lastUpdated": "2026-02-28T23:59:00+05:30"
+        }
+      }
+    ],
+    "legacy": false,
+    "updatedAt": "2026-03-01T08:05:00+05:30"
+  },
+  {
+    "id": "core-ultra-9-295k",
+    "category": "cpu",
+    "brand": "Intel",
+    "name": "Intel Core Ultra 9 295K",
+    "generation": "Core Ultra (Arrow Lake-S Refresh)",
+    "launchYear": 2026,
+    "socket": "LGA1851",
+    "cores": 24,
+    "threads": 32,
+    "baseClockGHz": 3.5,
+    "boostClockGHz": 6,
+    "tdpWatts": 125,
+    "msrpUSD": 619,
+    "normalized": {
+      "gamingScore": 1000,
+      "productivityScore": 1000,
+      "scoreVersion": 1
+    },
+    "availableSkus": [
+      {
+        "sku": "core-ultra-9-295k",
+        "suffix": "K",
+        "hasIntegratedGraphics": true,
+        "integratedGraphicsId": "intel-xe-lpg",
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 56999,
+            "max": 57999
+          },
+          "availability": "in stock",
+          "source": "mdcomputers",
+          "lastUpdated": "2026-02-28T23:59:00+05:30"
+        }
+      }
+    ],
+    "legacy": false,
+    "updatedAt": "2026-03-01T08:05:00+05:30"
+  }
+]

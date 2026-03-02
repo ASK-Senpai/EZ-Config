@@ -1,0 +1,21 @@
+{
+    "brand": "AMD",
+    "year": 2018,
+    "architecture": "Polaris Refresh",
+    "models": [
+        {
+            "id": "rx-590",
+            "name": "Radeon RX 590",
+            "pcieGen": 3,
+            "memoryType": "GDDR5",
+            "vramGB": 8,
+            "tdpWatts": 225,
+            "msrpUSD": 279,
+            "gamingScore": 400,
+            "productivityScore": 320,
+            "tier": "mid",
+            "rayTracing": false,
+            "upscaling": "None"
+        }
+    ]
+}

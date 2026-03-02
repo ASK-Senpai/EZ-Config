@@ -39,3 +39,32 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# ─── Node/Next Build Artifacts ───
+dist/
+build/
+out/
+coverage/
+node_modules/
+.next/
+.vercel/
+*.log
+
+# ─── Local Backups & Temp Debug Files ───
+compile_errors.log
+errors.log
+typescript_errors.log
+testAdmin.ts
+
+# ─── Firebase/Firestore Local Artifacts ───
+.firebase/
+firebase-debug.log
+firestore-export/
+emulator-data/
+
+# ─── AI Debug Artifacts ───
+ai-cache/
+report-cache/
+local-model-output/
+test-ai-output/
+groq-debug.json

@@ -1,0 +1,583 @@
+{
+    "r9-fury-x": {
+        "normalized": {
+            "gamingScore": 375,
+            "productivityScore": 338
+        },
+        "scoreVersion": 1
+    },
+    "r9-fury": {
+        "normalized": {
+            "gamingScore": 360,
+            "productivityScore": 324
+        },
+        "scoreVersion": 1
+    },
+    "r9-nano": {
+        "normalized": {
+            "gamingScore": 343,
+            "productivityScore": 309
+        },
+        "scoreVersion": 1
+    },
+    "r9-390x": {
+        "normalized": {
+            "gamingScore": 325,
+            "productivityScore": 293
+        },
+        "scoreVersion": 1
+    },
+    "r9-390": {
+        "normalized": {
+            "gamingScore": 312,
+            "productivityScore": 281
+        },
+        "scoreVersion": 1
+    },
+    "r9-380x": {
+        "normalized": {
+            "gamingScore": 282,
+            "productivityScore": 254
+        },
+        "scoreVersion": 1
+    },
+    "r9-380": {
+        "normalized": {
+            "gamingScore": 265,
+            "productivityScore": 239
+        },
+        "scoreVersion": 1
+    },
+    "rx-480": {
+        "normalized": {
+            "gamingScore": 351,
+            "productivityScore": 316
+        },
+        "scoreVersion": 1
+    },
+    "rx-470": {
+        "normalized": {
+            "gamingScore": 313,
+            "productivityScore": 282
+        },
+        "scoreVersion": 1
+    },
+    "rx-460": {
+        "normalized": {
+            "gamingScore": 231,
+            "productivityScore": 208
+        },
+        "scoreVersion": 1
+    },
+    "rx-vega-64": {
+        "normalized": {
+            "gamingScore": 393,
+            "productivityScore": 365
+        },
+        "scoreVersion": 1
+    },
+    "rx-vega-56": {
+        "normalized": {
+            "gamingScore": 362,
+            "productivityScore": 336
+        },
+        "scoreVersion": 1
+    },
+    "rx-590": {
+        "normalized": {
+            "gamingScore": 364,
+            "productivityScore": 338
+        },
+        "scoreVersion": 1
+    },
+    "rx-5700-xt": {
+        "normalized": {
+            "gamingScore": 541,
+            "productivityScore": 514
+        },
+        "scoreVersion": 1
+    },
+    "rx-5700": {
+        "normalized": {
+            "gamingScore": 487,
+            "productivityScore": 463
+        },
+        "scoreVersion": 1
+    },
+    "rx-5600-xt": {
+        "normalized": {
+            "gamingScore": 457,
+            "productivityScore": 434
+        },
+        "scoreVersion": 1
+    },
+    "rx-5500-xt": {
+        "normalized": {
+            "gamingScore": 331,
+            "productivityScore": 314
+        },
+        "scoreVersion": 1
+    },
+    "rx-6900-xt": {
+        "normalized": {
+            "gamingScore": 844,
+            "productivityScore": 802
+        },
+        "scoreVersion": 1
+    },
+    "rx-6800-xt": {
+        "normalized": {
+            "gamingScore": 784,
+            "productivityScore": 745
+        },
+        "scoreVersion": 1
+    },
+    "rx-6800": {
+        "normalized": {
+            "gamingScore": 728,
+            "productivityScore": 692
+        },
+        "scoreVersion": 1
+    },
+    "rx-6700-xt": {
+        "normalized": {
+            "gamingScore": 636,
+            "productivityScore": 604
+        },
+        "scoreVersion": 1
+    },
+    "rx-6600-xt": {
+        "normalized": {
+            "gamingScore": 566,
+            "productivityScore": 538
+        },
+        "scoreVersion": 1
+    },
+    "rx-6600": {
+        "normalized": {
+            "gamingScore": 518,
+            "productivityScore": 492
+        },
+        "scoreVersion": 1
+    },
+    "rx-6950-xt": {
+        "normalized": {
+            "gamingScore": 896,
+            "productivityScore": 851
+        },
+        "scoreVersion": 1
+    },
+    "rx-6750-xt": {
+        "normalized": {
+            "gamingScore": 660,
+            "productivityScore": 627
+        },
+        "scoreVersion": 1
+    },
+    "rx-6650-xt": {
+        "normalized": {
+            "gamingScore": 592,
+            "productivityScore": 562
+        },
+        "scoreVersion": 1
+    },
+    "rx-6500-xt": {
+        "normalized": {
+            "gamingScore": 347,
+            "productivityScore": 330
+        },
+        "scoreVersion": 1
+    },
+    "rx-6400": {
+        "normalized": {
+            "gamingScore": 312,
+            "productivityScore": 296
+        },
+        "scoreVersion": 1
+    },
+    "rx-7900-xtx": {
+        "normalized": {
+            "gamingScore": 938,
+            "productivityScore": 919
+        },
+        "scoreVersion": 1
+    },
+    "rx-7900-xt": {
+        "normalized": {
+            "gamingScore": 896,
+            "productivityScore": 878
+        },
+        "scoreVersion": 1
+    },
+    "rx-7800-xt": {
+        "normalized": {
+            "gamingScore": 737,
+            "productivityScore": 722
+        },
+        "scoreVersion": 1
+    },
+    "rx-7700-xt": {
+        "normalized": {
+            "gamingScore": 700,
+            "productivityScore": 686
+        },
+        "scoreVersion": 1
+    },
+    "rx-7600": {
+        "normalized": {
+            "gamingScore": 532,
+            "productivityScore": 521
+        },
+        "scoreVersion": 1
+    },
+    "rx-7600-xt": {
+        "normalized": {
+            "gamingScore": 606,
+            "productivityScore": 594
+        },
+        "scoreVersion": 1
+    },
+    "gtx-980-ti": {
+        "normalized": {
+            "gamingScore": 320,
+            "productivityScore": 300
+        },
+        "scoreVersion": 1
+    },
+    "gtx-980": {
+        "normalized": {
+            "gamingScore": 270,
+            "productivityScore": 252
+        },
+        "scoreVersion": 1
+    },
+    "gtx-970": {
+        "normalized": {
+            "gamingScore": 220,
+            "productivityScore": 205
+        },
+        "scoreVersion": 1
+    },
+    "gtx-960": {
+        "normalized": {
+            "gamingScore": 150,
+            "productivityScore": 140
+        },
+        "scoreVersion": 1
+    },
+    "gtx-950": {
+        "normalized": {
+            "gamingScore": 120,
+            "productivityScore": 112
+        },
+        "scoreVersion": 1
+    },
+    "gtx-1080-ti": {
+        "normalized": {
+            "gamingScore": 380,
+            "productivityScore": 361
+        },
+        "scoreVersion": 1
+    },
+    "gtx-1080": {
+        "normalized": {
+            "gamingScore": 340,
+            "productivityScore": 323
+        },
+        "scoreVersion": 1
+    },
+    "gtx-1070-ti": {
+        "normalized": {
+            "gamingScore": 320,
+            "productivityScore": 304
+        },
+        "scoreVersion": 1
+    },
+    "gtx-1070": {
+        "normalized": {
+            "gamingScore": 290,
+            "productivityScore": 276
+        },
+        "scoreVersion": 1
+    },
+    "gtx-1060-6gb": {
+        "normalized": {
+            "gamingScore": 230,
+            "productivityScore": 218
+        },
+        "scoreVersion": 1
+    },
+    "gtx-1060-3gb": {
+        "normalized": {
+            "gamingScore": 200,
+            "productivityScore": 190
+        },
+        "scoreVersion": 1
+    },
+    "gtx-1050-ti": {
+        "normalized": {
+            "gamingScore": 140,
+            "productivityScore": 133
+        },
+        "scoreVersion": 1
+    },
+    "gtx-1050": {
+        "normalized": {
+            "gamingScore": 110,
+            "productivityScore": 104
+        },
+        "scoreVersion": 1
+    },
+    "gtx-1660-ti": {
+        "normalized": {
+            "gamingScore": 270,
+            "productivityScore": 256
+        },
+        "scoreVersion": 1
+    },
+    "gtx-1660-super": {
+        "normalized": {
+            "gamingScore": 250,
+            "productivityScore": 238
+        },
+        "scoreVersion": 1
+    },
+    "gtx-1660": {
+        "normalized": {
+            "gamingScore": 230,
+            "productivityScore": 218
+        },
+        "scoreVersion": 1
+    },
+    "gtx-1650-super": {
+        "normalized": {
+            "gamingScore": 200,
+            "productivityScore": 190
+        },
+        "scoreVersion": 1
+    },
+    "gtx-1650": {
+        "normalized": {
+            "gamingScore": 160,
+            "productivityScore": 152
+        },
+        "scoreVersion": 1
+    },
+    "rtx-2080-ti": {
+        "normalized": {
+            "gamingScore": 500,
+            "productivityScore": 485
+        },
+        "scoreVersion": 1
+    },
+    "rtx-2080-super": {
+        "normalized": {
+            "gamingScore": 470,
+            "productivityScore": 456
+        },
+        "scoreVersion": 1
+    },
+    "rtx-2080": {
+        "normalized": {
+            "gamingScore": 450,
+            "productivityScore": 437
+        },
+        "scoreVersion": 1
+    },
+    "rtx-2070-super": {
+        "normalized": {
+            "gamingScore": 400,
+            "productivityScore": 388
+        },
+        "scoreVersion": 1
+    },
+    "rtx-2070": {
+        "normalized": {
+            "gamingScore": 370,
+            "productivityScore": 359
+        },
+        "scoreVersion": 1
+    },
+    "rtx-2060-super": {
+        "normalized": {
+            "gamingScore": 330,
+            "productivityScore": 320
+        },
+        "scoreVersion": 1
+    },
+    "rtx-2060": {
+        "normalized": {
+            "gamingScore": 300,
+            "productivityScore": 291
+        },
+        "scoreVersion": 1
+    },
+    "rtx-3050": {
+        "normalized": {
+            "gamingScore": 220,
+            "productivityScore": 213
+        },
+        "scoreVersion": 1
+    },
+    "rtx-3070": {
+        "normalized": {
+            "gamingScore": 685,
+            "productivityScore": 664
+        },
+        "scoreVersion": 1
+    },
+    "rtx-3060-ti": {
+        "normalized": {
+            "gamingScore": 649,
+            "productivityScore": 629
+        },
+        "scoreVersion": 1
+    },
+    "rtx-3060": {
+        "normalized": {
+            "gamingScore": 518,
+            "productivityScore": 502
+        },
+        "scoreVersion": 1
+    },
+    "rtx-3080-ti": {
+        "normalized": {
+            "gamingScore": 835,
+            "productivityScore": 810
+        },
+        "scoreVersion": 1
+    },
+    "rtx-3070-ti": {
+        "normalized": {
+            "gamingScore": 724,
+            "productivityScore": 702
+        },
+        "scoreVersion": 1
+    },
+    "rtx-3090": {
+        "normalized": {
+            "gamingScore": 872,
+            "productivityScore": 846
+        },
+        "scoreVersion": 1
+    },
+    "rtx-3090-ti": {
+        "normalized": {
+            "gamingScore": 916,
+            "productivityScore": 898
+        },
+        "scoreVersion": 1
+    },
+    "rtx-4090": {
+        "normalized": {
+            "gamingScore": 1000,
+            "productivityScore": 980
+        },
+        "scoreVersion": 1
+    },
+    "rtx-4080": {
+        "normalized": {
+            "gamingScore": 896,
+            "productivityScore": 878
+        },
+        "scoreVersion": 1
+    },
+    "rtx-4070-ti": {
+        "normalized": {
+            "gamingScore": 778,
+            "productivityScore": 762
+        },
+        "scoreVersion": 1
+    },
+    "rtx-4070": {
+        "normalized": {
+            "gamingScore": 667,
+            "productivityScore": 653
+        },
+        "scoreVersion": 1
+    },
+    "rtx-4060-ti-8gb": {
+        "normalized": {
+            "gamingScore": 596,
+            "productivityScore": 584
+        },
+        "scoreVersion": 1
+    },
+    "rtx-4060-ti-16gb": {
+        "normalized": {
+            "gamingScore": 606,
+            "productivityScore": 594
+        },
+        "scoreVersion": 1
+    },
+    "rtx-4060": {
+        "normalized": {
+            "gamingScore": 532,
+            "productivityScore": 521
+        },
+        "scoreVersion": 1
+    },
+    "rtx-4080-super": {
+        "normalized": {
+            "gamingScore": 938,
+            "productivityScore": 919
+        },
+        "scoreVersion": 1
+    },
+    "rtx-4070-ti-super": {
+        "normalized": {
+            "gamingScore": 825,
+            "productivityScore": 808
+        },
+        "scoreVersion": 1
+    },
+    "rtx-4070-super": {
+        "normalized": {
+            "gamingScore": 737,
+            "productivityScore": 722
+        },
+        "scoreVersion": 1
+    },
+    "rtx-5090": {
+        "normalized": {
+            "gamingScore": 1159,
+            "productivityScore": 1136
+        },
+        "scoreVersion": 1
+    },
+    "rtx-5080": {
+        "normalized": {
+            "gamingScore": 972,
+            "productivityScore": 952
+        },
+        "scoreVersion": 1
+    },
+    "rtx-5070-ti": {
+        "normalized": {
+            "gamingScore": 844,
+            "productivityScore": 827
+        },
+        "scoreVersion": 1
+    },
+    "rtx-5070": {
+        "normalized": {
+            "gamingScore": 747,
+            "productivityScore": 732
+        },
+        "scoreVersion": 1
+    },
+    "rtx-5060-ti": {
+        "normalized": {
+            "gamingScore": 634,
+            "productivityScore": 621
+        },
+        "scoreVersion": 1
+    },
+    "rtx-5060": {
+        "normalized": {
+            "gamingScore": 579,
+            "productivityScore": 567
+        },
+        "scoreVersion": 1
+    }
+}

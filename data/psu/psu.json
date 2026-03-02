@@ -1,0 +1,230 @@
+[
+    {
+        "id": "cooler-master-mwe-450-v2-450w-bronze",
+        "category": "psu",
+        "brand": "Cooler Master",
+        "name": "Cooler Master MWE 450 V2 450W 80+ Bronze PSU",
+        "wattage": 450,
+        "efficiency": "80+ Bronze",
+        "modular": "Non",
+        "formFactor": "ATX",
+        "pricing": {
+            "currency": "INR",
+            "priceRange": {
+                "min": 2899,
+                "max": 3199
+            },
+            "availability": "in stock"
+        },
+        "legacy": false
+    },
+    {
+        "id": "corsair-cv450-450w-bronze",
+        "category": "psu",
+        "brand": "Corsair",
+        "name": "Corsair CV450 450W 80+ Bronze PSU",
+        "wattage": 450,
+        "efficiency": "80+ Bronze",
+        "modular": "Non",
+        "formFactor": "ATX",
+        "pricing": {
+            "currency": "INR",
+            "priceRange": {
+                "min": 3099,
+                "max": 3499
+            },
+            "availability": "in stock"
+        },
+        "legacy": false
+    },
+    {
+        "id": "corsair-cx550-550w-bronze",
+        "category": "psu",
+        "brand": "Corsair",
+        "name": "Corsair CX550 550W 80+ Bronze PSU",
+        "wattage": 550,
+        "efficiency": "80+ Bronze",
+        "modular": "Non",
+        "formFactor": "ATX",
+        "pricing": {
+            "currency": "INR",
+            "priceRange": {
+                "min": 4099,
+                "max": 4599
+            },
+            "availability": "in stock"
+        },
+        "legacy": false
+    },
+    {
+        "id": "msi-mag-a550bn-550w-bronze",
+        "category": "psu",
+        "brand": "MSI",
+        "name": "MSI MAG A550BN 550W 80+ Bronze PSU",
+        "wattage": 550,
+        "efficiency": "80+ Bronze",
+        "modular": "Non",
+        "formFactor": "ATX",
+        "pricing": {
+            "currency": "INR",
+            "priceRange": {
+                "min": 3999,
+                "max": 4499
+            },
+            "availability": "in stock"
+        },
+        "legacy": false
+    },
+    {
+        "id": "deepcool-pm650d-650w-gold",
+        "category": "psu",
+        "brand": "DeepCool",
+        "name": "DeepCool PM650D 650W 80+ Gold PSU",
+        "wattage": 650,
+        "efficiency": "80+ Gold",
+        "modular": "Non",
+        "formFactor": "ATX",
+        "pricing": {
+            "currency": "INR",
+            "priceRange": {
+                "min": 6299,
+                "max": 6999
+            },
+            "availability": "in stock"
+        },
+        "legacy": false
+    },
+    {
+        "id": "corsair-rm650e-650w-gold",
+        "category": "psu",
+        "brand": "Corsair",
+        "name": "Corsair RM650e 650W 80+ Gold Fully Modular PSU",
+        "wattage": 650,
+        "efficiency": "80+ Gold",
+        "modular": "Full",
+        "formFactor": "ATX",
+        "pricing": {
+            "currency": "INR",
+            "priceRange": {
+                "min": 8399,
+                "max": 9199
+            },
+            "availability": "in stock"
+        },
+        "legacy": false
+    },
+    {
+        "id": "msi-mag-a750gl-750w-gold",
+        "category": "psu",
+        "brand": "MSI",
+        "name": "MSI MAG A750GL 750W 80+ Gold Fully Modular PSU",
+        "wattage": 750,
+        "efficiency": "80+ Gold",
+        "modular": "Full",
+        "formFactor": "ATX",
+        "pricing": {
+            "currency": "INR",
+            "priceRange": {
+                "min": 8899,
+                "max": 9799
+            },
+            "availability": "in stock"
+        },
+        "legacy": false
+    },
+    {
+        "id": "corsair-rm750e-750w-gold",
+        "category": "psu",
+        "brand": "Corsair",
+        "name": "Corsair RM750e 750W 80+ Gold Fully Modular PSU",
+        "wattage": 750,
+        "efficiency": "80+ Gold",
+        "modular": "Full",
+        "formFactor": "ATX",
+        "pricing": {
+            "currency": "INR",
+            "priceRange": {
+                "min": 9499,
+                "max": 10499
+            },
+            "availability": "in stock"
+        },
+        "legacy": false
+    },
+    {
+        "id": "gigabyte-ud850gm-850w-gold",
+        "category": "psu",
+        "brand": "Gigabyte",
+        "name": "Gigabyte UD850GM 850W 80+ Gold Fully Modular PSU",
+        "wattage": 850,
+        "efficiency": "80+ Gold",
+        "modular": "Full",
+        "formFactor": "ATX",
+        "pricing": {
+            "currency": "INR",
+            "priceRange": {
+                "min": 9999,
+                "max": 10999
+            },
+            "availability": "in stock"
+        },
+        "legacy": false
+    },
+    {
+        "id": "corsair-rm850e-850w-gold",
+        "category": "psu",
+        "brand": "Corsair",
+        "name": "Corsair RM850e 850W 80+ Gold Fully Modular PSU",
+        "wattage": 850,
+        "efficiency": "80+ Gold",
+        "modular": "Full",
+        "formFactor": "ATX",
+        "pricing": {
+            "currency": "INR",
+            "priceRange": {
+                "min": 11499,
+                "max": 12499
+            },
+            "availability": "in stock"
+        },
+        "legacy": false
+    },
+    {
+        "id": "msi-mag-a1000gl-1000w-gold",
+        "category": "psu",
+        "brand": "MSI",
+        "name": "MSI MAG A1000GL 1000W 80+ Gold Fully Modular PSU",
+        "wattage": 1000,
+        "efficiency": "80+ Gold",
+        "modular": "Full",
+        "formFactor": "ATX",
+        "pricing": {
+            "currency": "INR",
+            "priceRange": {
+                "min": 14999,
+                "max": 16499
+            },
+            "availability": "in stock"
+        },
+        "legacy": false
+    },
+    {
+        "id": "corsair-rm1000e-1000w-gold",
+        "category": "psu",
+        "brand": "Corsair",
+        "name": "Corsair RM1000e 1000W 80+ Gold Fully Modular PSU",
+        "wattage": 1000,
+        "efficiency": "80+ Gold",
+        "modular": "Full",
+        "formFactor": "ATX",
+        "pricing": {
+            "currency": "INR",
+            "priceRange": {
+                "min": 15999,
+                "max": 17499
+            },
+            "availability": "in stock"
+        },
+        "legacy": false
+    }
+]

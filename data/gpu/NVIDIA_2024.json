@@ -1,0 +1,49 @@
+{
+    "brand": "NVIDIA",
+    "year": 2024,
+    "architecture": "Ada Lovelace",
+    "models": [
+        {
+            "id": "rtx-4080-super",
+            "name": "GeForce RTX 4080 Super",
+            "pcieGen": 4,
+            "memoryType": "GDDR6X",
+            "vramGB": 16,
+            "tdpWatts": 320,
+            "msrpUSD": 999,
+            "gamingScore": 960,
+            "productivityScore": 950,
+            "tier": "enthusiast",
+            "rayTracing": true,
+            "upscaling": "DLSS 3"
+        },
+        {
+            "id": "rtx-4070-ti-super",
+            "name": "GeForce RTX 4070 Ti Super",
+            "pcieGen": 4,
+            "memoryType": "GDDR6X",
+            "vramGB": 16,
+            "tdpWatts": 285,
+            "msrpUSD": 799,
+            "gamingScore": 940,
+            "productivityScore": 910,
+            "tier": "high",
+            "rayTracing": true,
+            "upscaling": "DLSS 3"
+        },
+        {
+            "id": "rtx-4070-super",
+            "name": "GeForce RTX 4070 Super",
+            "pcieGen": 4,
+            "memoryType": "GDDR6X",
+            "vramGB": 12,
+            "tdpWatts": 220,
+            "msrpUSD": 599,
+            "gamingScore": 910,
+            "productivityScore": 880,
+            "tier": "high",
+            "rayTracing": true,
+            "upscaling": "DLSS 3"
+        }
+    ]
+}

@@ -1,0 +1,262 @@
+[
+    {
+        "id": "gigabyte-h410m-s2h-v2-entry",
+        "category": "motherboard",
+        "brand": "Gigabyte",
+        "name": "Gigabyte H410M S2H V2",
+        "socket": "LGA1151",
+        "chipset": {
+            "name": "H410",
+            "tier": "entry"
+        },
+        "platformGeneration": 9,
+        "formFactor": "Micro-ATX",
+        "memoryType": "DDR4",
+        "ramSlots": 2,
+        "maxRamGB": 64,
+        "wifi": false,
+        "pricing": {
+            "currency": "INR",
+            "priceRange": {
+                "min": 7599,
+                "max": 8999
+            },
+            "availability": "limited stock"
+        },
+        "legacy": true
+    },
+    {
+        "id": "msi-pro-h410m-b-mid",
+        "category": "motherboard",
+        "brand": "MSI",
+        "name": "MSI PRO H410M-B",
+        "socket": "LGA1151",
+        "chipset": {
+            "name": "H410",
+            "tier": "mid"
+        },
+        "platformGeneration": 9,
+        "formFactor": "Micro-ATX",
+        "memoryType": "DDR4",
+        "ramSlots": 2,
+        "maxRamGB": 64,
+        "wifi": false,
+        "pricing": {
+            "currency": "INR",
+            "priceRange": {
+                "min": 5300,
+                "max": 6500
+            },
+            "availability": "limited stock"
+        },
+        "legacy": true
+    },
+    {
+        "id": "asus-rog-strix-z390-e-high",
+        "category": "motherboard",
+        "brand": "ASUS",
+        "name": "ASUS ROG Strix Z390-E Gaming",
+        "socket": "LGA1151",
+        "chipset": {
+            "name": "Z390",
+            "tier": "high"
+        },
+        "platformGeneration": 9,
+        "formFactor": "ATX",
+        "memoryType": "DDR4",
+        "ramSlots": 4,
+        "maxRamGB": 128,
+        "wifi": true,
+        "pricing": {
+            "currency": "INR",
+            "priceRange": {
+                "min": 15000,
+                "max": 25000
+            },
+            "availability": "limited stock"
+        },
+        "legacy": true
+    },
+    {
+        "id": "asus-prime-h510m-e-entry-lga1200",
+        "category": "motherboard",
+        "brand": "ASUS",
+        "name": "ASUS Prime H510M-E R2.0",
+        "socket": "LGA1200",
+        "chipset": {
+            "name": "H510",
+            "tier": "entry"
+        },
+        "platformGeneration": 10,
+        "formFactor": "Micro-ATX",
+        "memoryType": "DDR4",
+        "ramSlots": 2,
+        "maxRamGB": 64,
+        "wifi": false,
+        "pricing": {
+            "currency": "INR",
+            "priceRange": {
+                "min": 5648,
+                "max": 6790
+            },
+            "availability": "in stock"
+        },
+        "legacy": false
+    },
+    {
+        "id": "asus-tuf-gaming-b560m-plus-mid",
+        "category": "motherboard",
+        "brand": "ASUS",
+        "name": "ASUS TUF Gaming B560M-Plus",
+        "socket": "LGA1200",
+        "chipset": {
+            "name": "B560",
+            "tier": "mid"
+        },
+        "platformGeneration": 11,
+        "formFactor": "Micro-ATX",
+        "memoryType": "DDR4",
+        "ramSlots": 4,
+        "maxRamGB": 128,
+        "wifi": true,
+        "pricing": {
+            "currency": "INR",
+            "priceRange": {
+                "min": 12999,
+                "max": 17999
+            },
+            "availability": "in stock"
+        },
+        "legacy": false
+    },
+    {
+        "id": "zebronics-h610m2-entry",
+        "category": "motherboard",
+        "brand": "Zebronics",
+        "name": "Zebronics H610-M2",
+        "socket": "LGA1700",
+        "chipset": {
+            "name": "H610",
+            "tier": "entry"
+        },
+        "platformGeneration": 12,
+        "formFactor": "Micro-ATX",
+        "memoryType": "DDR4",
+        "ramSlots": 2,
+        "maxRamGB": 64,
+        "wifi": false,
+        "pricing": {
+            "currency": "INR",
+            "priceRange": {
+                "min": 5200,
+                "max": 6500
+            },
+            "availability": "in stock"
+        },
+        "legacy": false
+    },
+    {
+        "id": "msi-b760m-gaming-wifi-mid-lga1700",
+        "category": "motherboard",
+        "brand": "MSI",
+        "name": "MSI B760M Gaming WiFi",
+        "socket": "LGA1700",
+        "chipset": {
+            "name": "B760",
+            "tier": "mid"
+        },
+        "platformGeneration": 13,
+        "formFactor": "Micro-ATX",
+        "memoryType": "DDR5",
+        "ramSlots": 4,
+        "maxRamGB": 128,
+        "wifi": true,
+        "pricing": {
+            "currency": "INR",
+            "priceRange": {
+                "min": 12599,
+                "max": 12599
+            },
+            "availability": "in stock"
+        },
+        "legacy": false
+    },
+    {
+        "id": "msi-z790-gaming-plus-wifi-high",
+        "category": "motherboard",
+        "brand": "MSI",
+        "name": "MSI Z790 Gaming Plus WIFI",
+        "socket": "LGA1700",
+        "chipset": {
+            "name": "Z790",
+            "tier": "high"
+        },
+        "platformGeneration": 14,
+        "formFactor": "ATX",
+        "memoryType": "DDR5",
+        "ramSlots": 4,
+        "maxRamGB": 128,
+        "wifi": true,
+        "pricing": {
+            "currency": "INR",
+            "priceRange": {
+                "min": 25590,
+                "max": 25590
+            },
+            "availability": "in stock"
+        },
+        "legacy": false
+    },
+    {
+        "id": "asrock-z890-livemixer-mid-lga1851",
+        "category": "motherboard",
+        "brand": "ASRock",
+        "name": "ASRock Z890 LiveMixer WiFi",
+        "socket": "LGA1851",
+        "chipset": {
+            "name": "Z890",
+            "tier": "mid"
+        },
+        "platformGeneration": 15,
+        "formFactor": "ATX",
+        "memoryType": "DDR5",
+        "ramSlots": 4,
+        "maxRamGB": 192,
+        "wifi": true,
+        "pricing": {
+            "currency": "INR",
+            "priceRange": {
+                "min": 42499,
+                "max": 42499
+            },
+            "availability": "in stock"
+        },
+        "legacy": false
+    },
+    {
+        "id": "asus-rog-maximus-z890-hero-high-lga1851",
+        "category": "motherboard",
+        "brand": "ASUS",
+        "name": "ASUS ROG Maximus Z890 Hero",
+        "socket": "LGA1851",
+        "chipset": {
+            "name": "Z890",
+            "tier": "high"
+        },
+        "platformGeneration": 15,
+        "formFactor": "ATX",
+        "memoryType": "DDR5",
+        "ramSlots": 4,
+        "maxRamGB": 192,
+        "wifi": true,
+        "pricing": {
+            "currency": "INR",
+            "priceRange": {
+                "min": 53500,
+                "max": 53900
+            },
+            "availability": "in stock"
+        },
+        "legacy": false
+    }
+]

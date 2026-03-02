@@ -1,0 +1,344 @@
+[
+    {
+        "id": "corsair-vengeance-lpx-8gb-1x8-3200",
+        "category": "ram",
+        "brand": "Corsair",
+        "name": "Corsair Vengeance LPX 8GB (1x8GB) 3200MHz",
+        "type": "DDR4",
+        "capacityGB": 8,
+        "modules": 1,
+        "speedMHz": 3200,
+        "pricing": {
+            "currency": "INR",
+            "priceRange": {
+                "min": 5890,
+                "max": 7749
+            },
+            "availability": "in stock"
+        },
+        "legacy": false
+    },
+    {
+        "id": "gskill-ripjaws-v-8gb-1x8-3200",
+        "category": "ram",
+        "brand": "G.Skill",
+        "name": "G.Skill Ripjaws V 8GB (1x8GB) 3200MHz",
+        "type": "DDR4",
+        "capacityGB": 8,
+        "modules": 1,
+        "speedMHz": 3200,
+        "pricing": {
+            "currency": "INR",
+            "priceRange": {
+                "min": 3999,
+                "max": 7760
+            },
+            "availability": "in stock"
+        },
+        "legacy": false
+    },
+    {
+        "id": "kingston-fury-beast-8gb-1x8-3200",
+        "category": "ram",
+        "brand": "Kingston",
+        "name": "Kingston Fury Beast 8GB (1x8GB) 3200MHz",
+        "type": "DDR4",
+        "capacityGB": 8,
+        "modules": 1,
+        "speedMHz": 3200,
+        "pricing": {
+            "currency": "INR",
+            "priceRange": {
+                "min": 6290,
+                "max": 7799
+            },
+            "availability": "in stock"
+        },
+        "legacy": false
+    },
+    {
+        "id": "corsair-vengeance-8gb-1x8-5200",
+        "category": "ram",
+        "brand": "Corsair",
+        "name": "Corsair Vengeance 8GB (1x8GB) 5200MHz",
+        "type": "DDR5",
+        "capacityGB": 8,
+        "modules": 1,
+        "speedMHz": 5200,
+        "pricing": {
+            "currency": "INR",
+            "priceRange": {
+                "min": 23059,
+                "max": 30180
+            },
+            "availability": "in stock"
+        },
+        "legacy": false
+    },
+    {
+        "id": "crucial-8gb-1x8-5600",
+        "category": "ram",
+        "brand": "Crucial",
+        "name": "Crucial 8GB (1x8GB) 5600MHz",
+        "type": "DDR5",
+        "capacityGB": 8,
+        "modules": 1,
+        "speedMHz": 5600,
+        "pricing": {
+            "currency": "INR",
+            "priceRange": {
+                "min": 10090,
+                "max": 10400
+            },
+            "availability": "in stock"
+        },
+        "legacy": false
+    },
+    {
+        "id": "adata-xpg-8gb-1x8-6000",
+        "category": "ram",
+        "brand": "ADATA",
+        "name": "ADATA XPG 8GB (1x8GB) 6000MHz",
+        "type": "DDR5",
+        "capacityGB": 8,
+        "modules": 1,
+        "speedMHz": 6000,
+        "pricing": {
+            "currency": "INR",
+            "priceRange": {
+                "min": 9999,
+                "max": 11399
+            },
+            "availability": "in stock"
+        },
+        "legacy": false
+    },
+    {
+        "id": "corsair-vengeance-lpx-16gb-1x16-3200",
+        "category": "ram",
+        "brand": "Corsair",
+        "name": "Corsair Vengeance LPX 16GB (1x16GB) 3200MHz",
+        "type": "DDR4",
+        "capacityGB": 16,
+        "modules": 1,
+        "speedMHz": 3200,
+        "pricing": {
+            "currency": "INR",
+            "priceRange": {
+                "min": 12136,
+                "max": 14599
+            },
+            "availability": "in stock"
+        },
+        "legacy": false
+    },
+    {
+        "id": "gskill-ripjaws-v-16gb-1x16-3200",
+        "category": "ram",
+        "brand": "G.Skill",
+        "name": "G.Skill Ripjaws V 16GB (1x16GB) 3200MHz",
+        "type": "DDR4",
+        "capacityGB": 16,
+        "modules": 1,
+        "speedMHz": 3200,
+        "pricing": {
+            "currency": "INR",
+            "priceRange": {
+                "min": 11795,
+                "max": 23707
+            },
+            "availability": "in stock"
+        },
+        "legacy": false
+    },
+    {
+        "id": "crucial-16gb-1x16-3200",
+        "category": "ram",
+        "brand": "Crucial",
+        "name": "Crucial 16GB (1x16GB) 3200MHz",
+        "type": "DDR4",
+        "capacityGB": 16,
+        "modules": 1,
+        "speedMHz": 3200,
+        "pricing": {
+            "currency": "INR",
+            "priceRange": {
+                "min": 10900,
+                "max": 11000
+            },
+            "availability": "in stock"
+        },
+        "legacy": false
+    },
+    {
+        "id": "corsair-vengeance-16gb-1x16-5200",
+        "category": "ram",
+        "brand": "Corsair",
+        "name": "Corsair Vengeance 16GB (1x16GB) 5200MHz",
+        "type": "DDR5",
+        "capacityGB": 16,
+        "modules": 1,
+        "speedMHz": 5200,
+        "pricing": {
+            "currency": "INR",
+            "priceRange": {
+                "min": 15999,
+                "max": 16999
+            },
+            "availability": "in stock"
+        },
+        "legacy": false
+    },
+    {
+        "id": "gskill-ripjaws-s5-16gb-1x16-5200",
+        "category": "ram",
+        "brand": "G.Skill",
+        "name": "G.Skill Ripjaws S5 16GB (1x16GB) 5200MHz",
+        "type": "DDR5",
+        "capacityGB": 16,
+        "modules": 1,
+        "speedMHz": 5200,
+        "pricing": {
+            "currency": "INR",
+            "priceRange": {
+                "min": 15499,
+                "max": 16499
+            },
+            "availability": "in stock"
+        },
+        "legacy": false
+    },
+    {
+        "id": "teamgroup-tforce-delta-rgb-16gb-1x16-6000",
+        "category": "ram",
+        "brand": "TeamGroup",
+        "name": "TeamGroup T-Force Delta RGB 16GB (1x16GB) 6000MHz",
+        "type": "DDR5",
+        "capacityGB": 16,
+        "modules": 1,
+        "speedMHz": 6000,
+        "pricing": {
+            "currency": "INR",
+            "priceRange": {
+                "min": 17999,
+                "max": 18990
+            },
+            "availability": "in stock"
+        },
+        "legacy": false
+    },
+    {
+        "id": "corsair-vengeance-lpx-32gb-1x32-3200",
+        "category": "ram",
+        "brand": "Corsair",
+        "name": "Corsair Vengeance LPX 32GB (1x32GB) 3200MHz",
+        "type": "DDR4",
+        "capacityGB": 32,
+        "modules": 1,
+        "speedMHz": 3200,
+        "pricing": {
+            "currency": "INR",
+            "priceRange": {
+                "min": 27699,
+                "max": 27699
+            },
+            "availability": "in stock"
+        },
+        "legacy": false
+    },
+    {
+        "id": "kingston-fury-beast-32gb-1x32-3200",
+        "category": "ram",
+        "brand": "Kingston",
+        "name": "Kingston Fury Beast 32GB (1x32GB) 3200MHz",
+        "type": "DDR4",
+        "capacityGB": 32,
+        "modules": 1,
+        "speedMHz": 3200,
+        "pricing": {
+            "currency": "INR",
+            "priceRange": {
+                "min": 17600,
+                "max": 17600
+            },
+            "availability": "in stock"
+        },
+        "legacy": false
+    },
+    {
+        "id": "adata-xpg-gammix-d35-32gb-1x32-3200",
+        "category": "ram",
+        "brand": "ADATA",
+        "name": "ADATA XPG Gammix D35 32GB (1x32GB) 3200MHz",
+        "type": "DDR4",
+        "capacityGB": 32,
+        "modules": 1,
+        "speedMHz": 3200,
+        "pricing": {
+            "currency": "INR",
+            "priceRange": {
+                "min": 27780,
+                "max": 27780
+            },
+            "availability": "in stock"
+        },
+        "legacy": false
+    },
+    {
+        "id": "corsair-vengeance-32gb-1x32-5200",
+        "category": "ram",
+        "brand": "Corsair",
+        "name": "Corsair Vengeance 32GB (1x32GB) 5200MHz",
+        "type": "DDR5",
+        "capacityGB": 32,
+        "modules": 1,
+        "speedMHz": 5200,
+        "pricing": {
+            "currency": "INR",
+            "priceRange": {
+                "min": 28995,
+                "max": 30499
+            },
+            "availability": "in stock"
+        },
+        "legacy": false
+    },
+    {
+        "id": "kingston-fury-beast-32gb-1x32-6000",
+        "category": "ram",
+        "brand": "Kingston",
+        "name": "Kingston Fury Beast 32GB (1x32GB) 6000MHz",
+        "type": "DDR5",
+        "capacityGB": 32,
+        "modules": 1,
+        "speedMHz": 6000,
+        "pricing": {
+            "currency": "INR",
+            "priceRange": {
+                "min": 34550,
+                "max": 38500
+            },
+            "availability": "in stock"
+        },
+        "legacy": false
+    },
+    {
+        "id": "gskill-trident-z5-rgb-32gb-1x32-6000",
+        "category": "ram",
+        "brand": "G.Skill",
+        "name": "G.Skill Trident Z5 RGB 32GB (1x32GB) 6000MHz",
+        "type": "DDR5",
+        "capacityGB": 32,
+        "modules": 1,
+        "speedMHz": 6000,
+        "pricing": {
+            "currency": "INR",
+            "priceRange": {
+                "min": 39080,
+                "max": 39080
+            },
+            "availability": "in stock"
+        },
+        "legacy": false
+    }
+]

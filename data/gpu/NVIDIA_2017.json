@@ -1,0 +1,35 @@
+{
+    "brand": "NVIDIA",
+    "year": 2017,
+    "architecture": "Pascal",
+    "models": [
+        {
+            "id": "gtx-1080-ti",
+            "name": "GeForce GTX 1080 Ti",
+            "pcieGen": 3,
+            "memoryType": "GDDR5X",
+            "vramGB": 11,
+            "tdpWatts": 250,
+            "msrpUSD": 699,
+            "gamingScore": 560,
+            "productivityScore": 440,
+            "tier": "high",
+            "rayTracing": false,
+            "upscaling": "None"
+        },
+        {
+            "id": "gtx-1070-ti",
+            "name": "GeForce GTX 1070 Ti",
+            "pcieGen": 3,
+            "memoryType": "GDDR5",
+            "vramGB": 8,
+            "tdpWatts": 180,
+            "msrpUSD": 449,
+            "gamingScore": 480,
+            "productivityScore": 360,
+            "tier": "high",
+            "rayTracing": false,
+            "upscaling": "None"
+        }
+    ]
+}

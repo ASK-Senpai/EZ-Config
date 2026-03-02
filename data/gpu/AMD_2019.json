@@ -1,0 +1,63 @@
+{
+    "brand": "AMD",
+    "year": 2019,
+    "architecture": "RDNA 1",
+    "models": [
+        {
+            "id": "rx-5700-xt",
+            "name": "Radeon RX 5700 XT",
+            "pcieGen": 4,
+            "memoryType": "GDDR6",
+            "vramGB": 8,
+            "tdpWatts": 225,
+            "msrpUSD": 399,
+            "gamingScore": 680,
+            "productivityScore": 600,
+            "tier": "high",
+            "rayTracing": false,
+            "upscaling": "None"
+        },
+        {
+            "id": "rx-5700",
+            "name": "Radeon RX 5700",
+            "pcieGen": 4,
+            "memoryType": "GDDR6",
+            "vramGB": 8,
+            "tdpWatts": 180,
+            "msrpUSD": 349,
+            "gamingScore": 640,
+            "productivityScore": 560,
+            "tier": "mid-high",
+            "rayTracing": false,
+            "upscaling": "None"
+        },
+        {
+            "id": "rx-5600-xt",
+            "name": "Radeon RX 5600 XT",
+            "pcieGen": 4,
+            "memoryType": "GDDR6",
+            "vramGB": 6,
+            "tdpWatts": 150,
+            "msrpUSD": 279,
+            "gamingScore": 600,
+            "productivityScore": 520,
+            "tier": "mid",
+            "rayTracing": false,
+            "upscaling": "None"
+        },
+        {
+            "id": "rx-5500-xt",
+            "name": "Radeon RX 5500 XT",
+            "pcieGen": 4,
+            "memoryType": "GDDR6",
+            "vramGB": 8,
+            "tdpWatts": 130,
+            "msrpUSD": 199,
+            "gamingScore": 550,
+            "productivityScore": 470,
+            "tier": "budget",
+            "rayTracing": false,
+            "upscaling": "None"
+        }
+    ]
+}

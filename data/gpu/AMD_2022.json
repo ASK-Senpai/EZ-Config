@@ -1,0 +1,77 @@
+{
+    "brand": "AMD",
+    "year": 2022,
+    "architecture": "RDNA 2 Refresh",
+    "models": [
+        {
+            "id": "rx-6950-xt",
+            "name": "Radeon RX 6950 XT",
+            "pcieGen": 4,
+            "memoryType": "GDDR6",
+            "vramGB": 16,
+            "tdpWatts": 335,
+            "msrpUSD": 1099,
+            "gamingScore": 910,
+            "productivityScore": 870,
+            "tier": "enthusiast",
+            "rayTracing": true,
+            "upscaling": "FSR 2"
+        },
+        {
+            "id": "rx-6750-xt",
+            "name": "Radeon RX 6750 XT",
+            "pcieGen": 4,
+            "memoryType": "GDDR6",
+            "vramGB": 12,
+            "tdpWatts": 250,
+            "msrpUSD": 549,
+            "gamingScore": 800,
+            "productivityScore": 740,
+            "tier": "mid-high",
+            "rayTracing": true,
+            "upscaling": "FSR 2"
+        },
+        {
+            "id": "rx-6650-xt",
+            "name": "Radeon RX 6650 XT",
+            "pcieGen": 4,
+            "memoryType": "GDDR6",
+            "vramGB": 8,
+            "tdpWatts": 180,
+            "msrpUSD": 399,
+            "gamingScore": 770,
+            "productivityScore": 700,
+            "tier": "mid",
+            "rayTracing": true,
+            "upscaling": "FSR 2"
+        },
+        {
+            "id": "rx-6500-xt",
+            "name": "Radeon RX 6500 XT",
+            "pcieGen": 4,
+            "memoryType": "GDDR6",
+            "vramGB": 4,
+            "tdpWatts": 107,
+            "msrpUSD": 199,
+            "gamingScore": 600,
+            "productivityScore": 520,
+            "tier": "budget",
+            "rayTracing": true,
+            "upscaling": "FSR 2"
+        },
+        {
+            "id": "rx-6400",
+            "name": "Radeon RX 6400",
+            "pcieGen": 4,
+            "memoryType": "GDDR6",
+            "vramGB": 4,
+            "tdpWatts": 53,
+            "msrpUSD": 159,
+            "gamingScore": 550,
+            "productivityScore": 480,
+            "tier": "entry",
+            "rayTracing": true,
+            "upscaling": "FSR 2"
+        }
+    ]
+}

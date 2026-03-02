@@ -1,0 +1,35 @@
+{
+    "brand": "NVIDIA",
+    "year": 2022,
+    "architecture": "Ampere",
+    "models": [
+        {
+            "id": "rtx-3090-ti",
+            "name": "GeForce RTX 3090 Ti",
+            "pcieGen": 4,
+            "memoryType": "GDDR6X",
+            "vramGB": 24,
+            "tdpWatts": 450,
+            "msrpUSD": 1999,
+            "gamingScore": 940,
+            "productivityScore": 920,
+            "tier": "enthusiast",
+            "rayTracing": true,
+            "upscaling": "DLSS 2"
+        },
+        {
+            "id": "rtx-3050",
+            "name": "GeForce RTX 3050",
+            "pcieGen": 4,
+            "memoryType": "GDDR6",
+            "vramGB": 8,
+            "tdpWatts": 130,
+            "msrpUSD": 249,
+            "gamingScore": 650,
+            "productivityScore": 550,
+            "tier": "budget",
+            "rayTracing": true,
+            "upscaling": "DLSS 2"
+        }
+    ]
+}

@@ -1,0 +1,138 @@
+[
+    {
+        "id": "amd-vega-6",
+        "category": "vgpu",
+        "brand": "AMD",
+        "name": "AMD Radeon Vega 6 Graphics",
+        "architecture": "GCN 5 (Vega)",
+        "launchYear": 2020,
+        "normalized": {
+            "gamingScore": 180,
+            "productivityScore": 120,
+            "scoreVersion": 1
+        },
+        "performanceTier": "low-mid",
+        "anchorScale": 1000,
+        "legacy": true,
+        "updatedAt": "2026-03-01T20:00:00+05:30"
+    },
+    {
+        "id": "amd-vega-7",
+        "category": "vgpu",
+        "brand": "AMD",
+        "name": "AMD Radeon Vega 7 Graphics",
+        "architecture": "GCN 5 (Vega)",
+        "launchYear": 2020,
+        "normalized": {
+            "gamingScore": 210,
+            "productivityScore": 140,
+            "scoreVersion": 1
+        },
+        "performanceTier": "low-mid",
+        "anchorScale": 1000,
+        "legacy": false,
+        "updatedAt": "2026-03-01T20:00:00+05:30"
+    },
+    {
+        "id": "amd-vega-8",
+        "category": "vgpu",
+        "brand": "AMD",
+        "name": "AMD Radeon Vega 8 Graphics",
+        "architecture": "GCN 5 (Vega)",
+        "launchYear": 2020,
+        "normalized": {
+            "gamingScore": 240,
+            "productivityScore": 160,
+            "scoreVersion": 1
+        },
+        "performanceTier": "low-mid",
+        "anchorScale": 1000,
+        "legacy": false,
+        "updatedAt": "2026-03-01T20:00:00+05:30"
+    },
+    {
+        "id": "amd-rdna2-2cu",
+        "category": "vgpu",
+        "brand": "AMD",
+        "name": "AMD Radeon Graphics (RDNA2 2CU)",
+        "architecture": "RDNA 2",
+        "launchYear": 2022,
+        "normalized": {
+            "gamingScore": 220,
+            "productivityScore": 170,
+            "scoreVersion": 1
+        },
+        "performanceTier": "low-mid",
+        "anchorScale": 1000,
+        "legacy": false,
+        "updatedAt": "2026-03-01T20:00:00+05:30"
+    },
+    {
+        "id": "amd-rdna3-2cu",
+        "category": "vgpu",
+        "brand": "AMD",
+        "name": "AMD Radeon Graphics (RDNA3 2CU)",
+        "architecture": "RDNA 3",
+        "launchYear": 2025,
+        "normalized": {
+            "gamingScore": 260,
+            "productivityScore": 200,
+            "scoreVersion": 1
+        },
+        "performanceTier": "low-mid",
+        "anchorScale": 1000,
+        "legacy": false,
+        "updatedAt": "2026-03-01T20:00:00+05:30"
+    },
+    {
+        "id": "amd-rdna3-4cu",
+        "category": "vgpu",
+        "brand": "AMD",
+        "name": "AMD Radeon Graphics (RDNA3 4CU)",
+        "architecture": "RDNA 3",
+        "launchYear": 2024,
+        "normalized": {
+            "gamingScore": 420,
+            "productivityScore": 320,
+            "scoreVersion": 1
+        },
+        "performanceTier": "mid",
+        "anchorScale": 1000,
+        "legacy": false,
+        "updatedAt": "2026-03-01T20:00:00+05:30"
+    },
+    {
+        "id": "amd-rdna3-8cu",
+        "category": "vgpu",
+        "brand": "AMD",
+        "name": "AMD Radeon 760M (RDNA3 8CU)",
+        "architecture": "RDNA 3",
+        "launchYear": 2024,
+        "normalized": {
+            "gamingScore": 650,
+            "productivityScore": 500,
+            "scoreVersion": 1
+        },
+        "performanceTier": "high",
+        "anchorScale": 1000,
+        "legacy": false,
+        "updatedAt": "2026-03-01T20:00:00+05:30"
+    },
+    {
+        "id": "amd-rdna3-12cu",
+        "category": "vgpu",
+        "brand": "AMD",
+        "name": "AMD Radeon 780M (RDNA3 12CU)",
+        "architecture": "RDNA 3",
+        "launchYear": 2024,
+        "normalized": {
+            "gamingScore": 820,
+            "productivityScore": 620,
+            "scoreVersion": 1
+        },
+        "performanceTier": "high",
+        "anchorScale": 1000,
+        "legacy": false,
+        "updatedAt": "2026-03-01T20:00:00+05:30"
+    }
+]

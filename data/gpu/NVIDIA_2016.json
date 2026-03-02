@@ -1,0 +1,91 @@
+{
+    "brand": "NVIDIA",
+    "year": 2016,
+    "architecture": "Pascal",
+    "models": [
+        {
+            "id": "gtx-1080",
+            "name": "GeForce GTX 1080",
+            "pcieGen": 3,
+            "memoryType": "GDDR5X",
+            "vramGB": 8,
+            "tdpWatts": 180,
+            "msrpUSD": 599,
+            "gamingScore": 500,
+            "productivityScore": 380,
+            "tier": "high",
+            "rayTracing": false,
+            "upscaling": "None"
+        },
+        {
+            "id": "gtx-1070",
+            "name": "GeForce GTX 1070",
+            "pcieGen": 3,
+            "memoryType": "GDDR5",
+            "vramGB": 8,
+            "tdpWatts": 150,
+            "msrpUSD": 379,
+            "gamingScore": 460,
+            "productivityScore": 340,
+            "tier": "high",
+            "rayTracing": false,
+            "upscaling": "None"
+        },
+        {
+            "id": "gtx-1060-6gb",
+            "name": "GeForce GTX 1060 6GB",
+            "pcieGen": 3,
+            "memoryType": "GDDR5",
+            "vramGB": 6,
+            "tdpWatts": 120,
+            "msrpUSD": 249,
+            "gamingScore": 390,
+            "productivityScore": 290,
+            "tier": "mid",
+            "rayTracing": false,
+            "upscaling": "None"
+        },
+        {
+            "id": "gtx-1060-3gb",
+            "name": "GeForce GTX 1060 3GB",
+            "pcieGen": 3,
+            "memoryType": "GDDR5",
+            "vramGB": 3,
+            "tdpWatts": 120,
+            "msrpUSD": 199,
+            "gamingScore": 350,
+            "productivityScore": 260,
+            "tier": "mid",
+            "rayTracing": false,
+            "upscaling": "None"
+        },
+        {
+            "id": "gtx-1050-ti",
+            "name": "GeForce GTX 1050 Ti",
+            "pcieGen": 3,
+            "memoryType": "GDDR5",
+            "vramGB": 4,
+            "tdpWatts": 75,
+            "msrpUSD": 139,
+            "gamingScore": 300,
+            "productivityScore": 220,
+            "tier": "budget",
+            "rayTracing": false,
+            "upscaling": "None"
+        },
+        {
+            "id": "gtx-1050",
+            "name": "GeForce GTX 1050",
+            "pcieGen": 3,
+            "memoryType": "GDDR5",
+            "vramGB": 2,
+            "tdpWatts": 75,
+            "msrpUSD": 109,
+            "gamingScore": 260,
+            "productivityScore": 190,
+            "tier": "entry",
+            "rayTracing": false,
+            "upscaling": "None"
+        }
+    ]
+}

@@ -1,0 +1,77 @@
+{
+    "brand": "AMD",
+    "year": 2023,
+    "architecture": "RDNA 3",
+    "models": [
+        {
+            "id": "rx-7900-xtx",
+            "name": "Radeon RX 7900 XTX",
+            "pcieGen": 4,
+            "memoryType": "GDDR6",
+            "vramGB": 24,
+            "tdpWatts": 355,
+            "msrpUSD": 999,
+            "gamingScore": 970,
+            "productivityScore": 950,
+            "tier": "flagship",
+            "rayTracing": true,
+            "upscaling": "FSR 3"
+        },
+        {
+            "id": "rx-7900-xt",
+            "name": "Radeon RX 7900 XT",
+            "pcieGen": 4,
+            "memoryType": "GDDR6",
+            "vramGB": 20,
+            "tdpWatts": 315,
+            "msrpUSD": 899,
+            "gamingScore": 940,
+            "productivityScore": 910,
+            "tier": "enthusiast",
+            "rayTracing": true,
+            "upscaling": "FSR 3"
+        },
+        {
+            "id": "rx-7800-xt",
+            "name": "Radeon RX 7800 XT",
+            "pcieGen": 4,
+            "memoryType": "GDDR6",
+            "vramGB": 16,
+            "tdpWatts": 263,
+            "msrpUSD": 499,
+            "gamingScore": 900,
+            "productivityScore": 860,
+            "tier": "high",
+            "rayTracing": true,
+            "upscaling": "FSR 3"
+        },
+        {
+            "id": "rx-7700-xt",
+            "name": "Radeon RX 7700 XT",
+            "pcieGen": 4,
+            "memoryType": "GDDR6",
+            "vramGB": 12,
+            "tdpWatts": 245,
+            "msrpUSD": 449,
+            "gamingScore": 870,
+            "productivityScore": 830,
+            "tier": "mid-high",
+            "rayTracing": true,
+            "upscaling": "FSR 3"
+        },
+        {
+            "id": "rx-7600",
+            "name": "Radeon RX 7600",
+            "pcieGen": 4,
+            "memoryType": "GDDR6",
+            "vramGB": 8,
+            "tdpWatts": 165,
+            "msrpUSD": 269,
+            "gamingScore": 820,
+            "productivityScore": 760,
+            "tier": "mid",
+            "rayTracing": true,
+            "upscaling": "FSR 3"
+        }
+    ]
+}

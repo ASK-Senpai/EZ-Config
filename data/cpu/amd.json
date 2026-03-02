@@ -1,0 +1,2024 @@
+[
+  {
+    "id": "ryzen-5-3500",
+    "category": "cpu",
+    "brand": "AMD",
+    "name": "AMD Ryzen 5 3500",
+    "generation": "Ryzen 3000 (Zen 2)",
+    "launchYear": 2019,
+    "socket": "AM4",
+    "cores": 6,
+    "threads": 6,
+    "baseClockGHz": 3.6,
+    "boostClockGHz": 4.1,
+    "tdpWatts": 65,
+    "msrpUSD": 149,
+    "normalized": {
+      "gamingScore": 380,
+      "productivityScore": 320,
+      "scoreVersion": 1
+    },
+    "availableSkus": [
+      {
+        "sku": "ryzen-5-3500",
+        "suffix": "standard",
+        "hasIntegratedGraphics": false,
+        "integratedGraphicsId": null,
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 7999,
+            "max": 8999
+          },
+          "availability": "legacy",
+          "source": "mdcomputers",
+          "lastUpdated": "2026-02-28T23:59:00+05:30"
+        }
+      }
+    ],
+    "integratedGraphicsIds": [],
+    "legacy": true,
+    "updatedAt": "2026-03-01T18:00:00+05:30"
+  },
+  {
+    "id": "ryzen-5-3500x",
+    "category": "cpu",
+    "brand": "AMD",
+    "name": "AMD Ryzen 5 3500X",
+    "generation": "Ryzen 3000 (Zen 2)",
+    "launchYear": 2019,
+    "socket": "AM4",
+    "cores": 6,
+    "threads": 6,
+    "baseClockGHz": 3.6,
+    "boostClockGHz": 4.1,
+    "tdpWatts": 65,
+    "msrpUSD": 169,
+    "normalized": {
+      "gamingScore": 400,
+      "productivityScore": 340,
+      "scoreVersion": 1
+    },
+    "availableSkus": [
+      {
+        "sku": "ryzen-5-3500x",
+        "suffix": "X",
+        "hasIntegratedGraphics": false,
+        "integratedGraphicsId": null,
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 8999,
+            "max": 9999
+          },
+          "availability": "legacy",
+          "source": "mdcomputers",
+          "lastUpdated": "2026-02-28T23:59:00+05:30"
+        }
+      }
+    ],
+    "integratedGraphicsIds": [],
+    "legacy": true,
+    "updatedAt": "2026-03-01T18:00:00+05:30"
+  },
+  {
+    "id": "ryzen-3-3300x",
+    "category": "cpu",
+    "brand": "AMD",
+    "name": "AMD Ryzen 3 3300X",
+    "generation": "Ryzen 3000 (Zen 2)",
+    "launchYear": 2020,
+    "socket": "AM4",
+    "cores": 4,
+    "threads": 8,
+    "baseClockGHz": 3.8,
+    "boostClockGHz": 4.3,
+    "tdpWatts": 65,
+    "msrpUSD": 120,
+    "normalized": {
+      "gamingScore": 420,
+      "productivityScore": 300,
+      "scoreVersion": 1
+    },
+    "availableSkus": [
+      {
+        "sku": "ryzen-3-3300x",
+        "suffix": "X",
+        "hasIntegratedGraphics": false,
+        "integratedGraphicsId": null,
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 7999,
+            "max": 7999
+          },
+          "availability": "legacy",
+          "source": "mdcomputers",
+          "lastUpdated": "2026-02-28T23:59:00+05:30"
+        }
+      }
+    ],
+    "integratedGraphicsIds": [],
+    "legacy": true,
+    "updatedAt": "2026-03-01T18:00:00+05:30"
+  },
+  {
+    "id": "ryzen-3-3100",
+    "category": "cpu",
+    "brand": "AMD",
+    "name": "AMD Ryzen 3 3100",
+    "generation": "Ryzen 3000 (Zen 2)",
+    "launchYear": 2020,
+    "socket": "AM4",
+    "cores": 4,
+    "threads": 8,
+    "baseClockGHz": 3.6,
+    "boostClockGHz": 3.9,
+    "tdpWatts": 65,
+    "msrpUSD": 99,
+    "normalized": {
+      "gamingScore": 380,
+      "productivityScore": 280,
+      "scoreVersion": 1
+    },
+    "availableSkus": [
+      {
+        "sku": "ryzen-3-3100",
+        "suffix": "standard",
+        "hasIntegratedGraphics": false,
+        "integratedGraphicsId": null,
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 6999,
+            "max": 7999
+          },
+          "availability": "legacy",
+          "source": "mdcomputers",
+          "lastUpdated": "2026-02-28T23:59:00+05:30"
+        }
+      }
+    ],
+    "integratedGraphicsIds": [],
+    "legacy": true,
+    "updatedAt": "2026-03-01T18:00:00+05:30"
+  },
+  {
+    "id": "ryzen-9-3950x",
+    "category": "cpu",
+    "brand": "AMD",
+    "name": "AMD Ryzen 9 3950X",
+    "generation": "Ryzen 3000 (Zen 2)",
+    "launchYear": 2019,
+    "socket": "AM4",
+    "cores": 16,
+    "threads": 32,
+    "baseClockGHz": 3.5,
+    "boostClockGHz": 4.7,
+    "tdpWatts": 105,
+    "msrpUSD": 749,
+    "normalized": {
+      "gamingScore": 640,
+      "productivityScore": 920,
+      "scoreVersion": 1
+    },
+    "availableSkus": [
+      {
+        "sku": "ryzen-9-3950x",
+        "suffix": "X",
+        "hasIntegratedGraphics": false,
+        "integratedGraphicsId": null,
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 46999,
+            "max": 46999
+          },
+          "availability": "legacy",
+          "source": "mdcomputers",
+          "lastUpdated": "2026-02-28T23:59:00+05:30"
+        }
+      }
+    ],
+    "integratedGraphicsIds": [],
+    "legacy": true,
+    "updatedAt": "2026-03-01T18:00:00+05:30"
+  },
+  {
+    "id": "ryzen-7-3800x",
+    "category": "cpu",
+    "brand": "AMD",
+    "name": "AMD Ryzen 7 3800X",
+    "generation": "Ryzen 3000 (Zen 2)",
+    "launchYear": 2019,
+    "socket": "AM4",
+    "cores": 8,
+    "threads": 16,
+    "baseClockGHz": 3.9,
+    "boostClockGHz": 4.5,
+    "tdpWatts": 105,
+    "msrpUSD": 399,
+    "normalized": {
+      "gamingScore": 530,
+      "productivityScore": 600,
+      "scoreVersion": 1
+    },
+    "availableSkus": [
+      {
+        "sku": "ryzen-7-3800x",
+        "suffix": "X",
+        "hasIntegratedGraphics": false,
+        "integratedGraphicsId": null,
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 24999,
+            "max": 27999
+          },
+          "availability": "legacy",
+          "source": "mdcomputers",
+          "lastUpdated": "2026-02-28T23:59:00+05:30"
+        }
+      }
+    ],
+    "integratedGraphicsIds": [],
+    "legacy": true,
+    "updatedAt": "2026-03-01T18:30:00+05:30"
+  },
+  {
+    "id": "ryzen-7-4700g",
+    "category": "cpu",
+    "brand": "AMD",
+    "name": "AMD Ryzen 7 4700G",
+    "generation": "Ryzen 4000G (Zen 2 Renoir APU)",
+    "launchYear": 2020,
+    "socket": "AM4",
+    "cores": 8,
+    "threads": 16,
+    "baseClockGHz": 3.6,
+    "boostClockGHz": 4.4,
+    "tdpWatts": 65,
+    "msrpUSD": 309,
+    "normalized": {
+      "gamingScore": 540,
+      "productivityScore": 560,
+      "scoreVersion": 1
+    },
+    "availableSkus": [
+      {
+        "sku": "ryzen-7-4700g",
+        "suffix": "G",
+        "hasIntegratedGraphics": true,
+        "integratedGraphicsId": "amd-vega-8",
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 17999,
+            "max": 19999
+          },
+          "availability": "limited stock",
+          "source": "mdcomputers",
+          "lastUpdated": "2026-02-28T23:59:00+05:30"
+        }
+      }
+    ],
+    "integratedGraphicsIds": [
+      "amd-vega-8"
+    ],
+    "legacy": false,
+    "updatedAt": "2026-03-01T18:30:00+05:30"
+  },
+  {
+    "id": "ryzen-5-4600g",
+    "category": "cpu",
+    "brand": "AMD",
+    "name": "AMD Ryzen 5 4600G",
+    "generation": "Ryzen 4000G (Zen 2 Renoir APU)",
+    "launchYear": 2020,
+    "socket": "AM4",
+    "cores": 6,
+    "threads": 12,
+    "baseClockGHz": 3.7,
+    "boostClockGHz": 4.2,
+    "tdpWatts": 65,
+    "msrpUSD": 209,
+    "normalized": {
+      "gamingScore": 470,
+      "productivityScore": 450,
+      "scoreVersion": 1
+    },
+    "availableSkus": [
+      {
+        "sku": "ryzen-5-4600g",
+        "suffix": "G",
+        "hasIntegratedGraphics": true,
+        "integratedGraphicsId": "amd-vega-7",
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 13999,
+            "max": 15999
+          },
+          "availability": "limited stock",
+          "source": "mdcomputers",
+          "lastUpdated": "2026-02-28T23:59:00+05:30"
+        }
+      }
+    ],
+    "integratedGraphicsIds": [
+      "amd-vega-7"
+    ],
+    "legacy": false,
+    "updatedAt": "2026-03-01T18:30:00+05:30"
+  },
+  {
+    "id": "ryzen-3-4300g",
+    "category": "cpu",
+    "brand": "AMD",
+    "name": "AMD Ryzen 3 4300G",
+    "generation": "Ryzen 4000G (Zen 2 Renoir APU)",
+    "launchYear": 2020,
+    "socket": "AM4",
+    "cores": 4,
+    "threads": 8,
+    "baseClockGHz": 3.8,
+    "boostClockGHz": 4,
+    "tdpWatts": 65,
+    "msrpUSD": 149,
+    "normalized": {
+      "gamingScore": 400,
+      "productivityScore": 300,
+      "scoreVersion": 1
+    },
+    "availableSkus": [
+      {
+        "sku": "ryzen-3-4300g",
+        "suffix": "G",
+        "hasIntegratedGraphics": true,
+        "integratedGraphicsId": "amd-vega-6",
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 10999,
+            "max": 11999
+          },
+          "availability": "legacy",
+          "source": "mdcomputers",
+          "lastUpdated": "2026-02-28T23:59:00+05:30"
+        }
+      }
+    ],
+    "integratedGraphicsIds": [
+      "amd-vega-6"
+    ],
+    "legacy": true,
+    "updatedAt": "2026-03-01T18:30:00+05:30"
+  },
+  {
+    "id": "ryzen-3-5300g",
+    "category": "cpu",
+    "brand": "AMD",
+    "name": "AMD Ryzen 3 5300G",
+    "generation": "Ryzen 5000G (Zen 3 Cezanne APU)",
+    "launchYear": 2021,
+    "socket": "AM4",
+    "cores": 4,
+    "threads": 8,
+    "baseClockGHz": 4,
+    "boostClockGHz": 4.2,
+    "tdpWatts": 65,
+    "msrpUSD": 159,
+    "normalized": {
+      "gamingScore": 440,
+      "productivityScore": 350,
+      "scoreVersion": 1
+    },
+    "availableSkus": [
+      {
+        "sku": "ryzen-3-5300g",
+        "suffix": "G",
+        "hasIntegratedGraphics": true,
+        "integratedGraphicsId": "amd-vega-6",
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 11999,
+            "max": 12999
+          },
+          "availability": "limited stock",
+          "source": "mdcomputers",
+          "lastUpdated": "2026-02-28T23:59:00+05:30"
+        }
+      }
+    ],
+    "integratedGraphicsIds": [
+      "amd-vega-6"
+    ],
+    "legacy": false,
+    "updatedAt": "2026-03-01T18:30:00+05:30"
+  },
+  {
+    "id": "ryzen-5-5500",
+    "category": "cpu",
+    "brand": "AMD",
+    "name": "AMD Ryzen 5 5500",
+    "generation": "Ryzen 5000 (Zen 3 Cezanne)",
+    "launchYear": 2022,
+    "socket": "AM4",
+    "cores": 6,
+    "threads": 12,
+    "baseClockGHz": 3.6,
+    "boostClockGHz": 4.2,
+    "tdpWatts": 65,
+    "msrpUSD": 159,
+    "normalized": {
+      "gamingScore": 560,
+      "productivityScore": 520,
+      "scoreVersion": 1
+    },
+    "availableSkus": [
+      {
+        "sku": "ryzen-5-5500",
+        "suffix": "standard",
+        "hasIntegratedGraphics": false,
+        "integratedGraphicsId": null,
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 9999,
+            "max": 10999
+          },
+          "availability": "in stock",
+          "source": "mdcomputers",
+          "lastUpdated": "2026-02-28T23:59:00+05:30"
+        }
+      }
+    ],
+    "integratedGraphicsIds": [],
+    "legacy": false,
+    "updatedAt": "2026-03-01T19:00:00+05:30"
+  },
+  {
+    "id": "ryzen-7-5700x",
+    "category": "cpu",
+    "brand": "AMD",
+    "name": "AMD Ryzen 7 5700X",
+    "generation": "Ryzen 5000 (Zen 3)",
+    "launchYear": 2022,
+    "socket": "AM4",
+    "cores": 8,
+    "threads": 16,
+    "baseClockGHz": 3.4,
+    "boostClockGHz": 4.6,
+    "tdpWatts": 65,
+    "msrpUSD": 299,
+    "normalized": {
+      "gamingScore": 670,
+      "productivityScore": 720,
+      "scoreVersion": 1
+    },
+    "availableSkus": [
+      {
+        "sku": "ryzen-7-5700x",
+        "suffix": "X",
+        "hasIntegratedGraphics": false,
+        "integratedGraphicsId": null,
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 17999,
+            "max": 18999
+          },
+          "availability": "in stock",
+          "source": "mdcomputers",
+          "lastUpdated": "2026-02-28T23:59:00+05:30"
+        }
+      }
+    ],
+    "integratedGraphicsIds": [],
+    "legacy": false,
+    "updatedAt": "2026-03-01T19:00:00+05:30"
+  },
+  {
+    "id": "ryzen-5-7500f",
+    "category": "cpu",
+    "brand": "AMD",
+    "name": "AMD Ryzen 5 7500F",
+    "generation": "Ryzen 7000 (Zen 4)",
+    "launchYear": 2023,
+    "socket": "AM5",
+    "cores": 6,
+    "threads": 12,
+    "baseClockGHz": 3.7,
+    "boostClockGHz": 5,
+    "tdpWatts": 65,
+    "msrpUSD": 179,
+    "normalized": {
+      "gamingScore": 700,
+      "productivityScore": 640,
+      "scoreVersion": 1
+    },
+    "availableSkus": [
+      {
+        "sku": "ryzen-5-7500f",
+        "suffix": "F",
+        "hasIntegratedGraphics": false,
+        "integratedGraphicsId": null,
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 15999,
+            "max": 16999
+          },
+          "availability": "in stock",
+          "source": "mdcomputers",
+          "lastUpdated": "2026-02-28T23:59:00+05:30"
+        }
+      }
+    ],
+    "integratedGraphicsIds": [],
+    "legacy": false,
+    "updatedAt": "2026-03-01T19:00:00+05:30"
+  },
+  {
+    "id": "ryzen-7-7700",
+    "category": "cpu",
+    "brand": "AMD",
+    "name": "AMD Ryzen 7 7700",
+    "generation": "Ryzen 7000 (Zen 4)",
+    "launchYear": 2023,
+    "socket": "AM5",
+    "cores": 8,
+    "threads": 16,
+    "baseClockGHz": 3.6,
+    "boostClockGHz": 5.3,
+    "tdpWatts": 65,
+    "msrpUSD": 329,
+    "normalized": {
+      "gamingScore": 780,
+      "productivityScore": 760,
+      "scoreVersion": 1
+    },
+    "availableSkus": [
+      {
+        "sku": "ryzen-7-7700",
+        "suffix": "standard",
+        "hasIntegratedGraphics": true,
+        "integratedGraphicsId": "amd-rdna2-2cu",
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 25999,
+            "max": 26999
+          },
+          "availability": "in stock",
+          "source": "mdcomputers",
+          "lastUpdated": "2026-02-28T23:59:00+05:30"
+        }
+      }
+    ],
+    "integratedGraphicsIds": [
+      "amd-rdna2-2cu"
+    ],
+    "legacy": false,
+    "updatedAt": "2026-03-01T19:00:00+05:30"
+  },
+  {
+    "id": "ryzen-9-7900",
+    "category": "cpu",
+    "brand": "AMD",
+    "name": "AMD Ryzen 9 7900",
+    "generation": "Ryzen 7000 (Zen 4)",
+    "launchYear": 2023,
+    "socket": "AM5",
+    "cores": 12,
+    "threads": 24,
+    "baseClockGHz": 3.7,
+    "boostClockGHz": 5.4,
+    "tdpWatts": 65,
+    "msrpUSD": 429,
+    "normalized": {
+      "gamingScore": 820,
+      "productivityScore": 860,
+      "scoreVersion": 1
+    },
+    "availableSkus": [
+      {
+        "sku": "ryzen-9-7900",
+        "suffix": "standard",
+        "hasIntegratedGraphics": true,
+        "integratedGraphicsId": "amd-rdna2-2cu",
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 32999,
+            "max": 33999
+          },
+          "availability": "in stock",
+          "source": "mdcomputers",
+          "lastUpdated": "2026-02-28T23:59:00+05:30"
+        }
+      }
+    ],
+    "integratedGraphicsIds": [
+      "amd-rdna2-2cu"
+    ],
+    "legacy": false,
+    "updatedAt": "2026-03-01T19:00:00+05:30"
+  },
+  {
+    "id": "ryzen-7-8700g",
+    "category": "cpu",
+    "brand": "AMD",
+    "name": "AMD Ryzen 7 8700G",
+    "generation": "Ryzen 8000G (Zen 4 Phoenix APU)",
+    "launchYear": 2024,
+    "socket": "AM5",
+    "cores": 8,
+    "threads": 16,
+    "baseClockGHz": 4.2,
+    "boostClockGHz": 5.1,
+    "tdpWatts": 65,
+    "msrpUSD": 329,
+    "normalized": {
+      "gamingScore": 830,
+      "productivityScore": 780,
+      "scoreVersion": 1
+    },
+    "availableSkus": [
+      {
+        "sku": "ryzen-7-8700g",
+        "suffix": "G",
+        "hasIntegratedGraphics": true,
+        "integratedGraphicsId": "amd-rdna3-12cu",
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 28999,
+            "max": 29999
+          },
+          "availability": "in stock",
+          "source": "mdcomputers",
+          "lastUpdated": "2026-02-28T23:59:00+05:30"
+        }
+      }
+    ],
+    "integratedGraphicsIds": [
+      "amd-rdna3-12cu"
+    ],
+    "legacy": false,
+    "updatedAt": "2026-03-01T19:30:00+05:30"
+  },
+  {
+    "id": "ryzen-5-8600g",
+    "category": "cpu",
+    "brand": "AMD",
+    "name": "AMD Ryzen 5 8600G",
+    "generation": "Ryzen 8000G (Zen 4 Phoenix APU)",
+    "launchYear": 2024,
+    "socket": "AM5",
+    "cores": 6,
+    "threads": 12,
+    "baseClockGHz": 4.3,
+    "boostClockGHz": 5,
+    "tdpWatts": 65,
+    "msrpUSD": 229,
+    "normalized": {
+      "gamingScore": 760,
+      "productivityScore": 700,
+      "scoreVersion": 1
+    },
+    "availableSkus": [
+      {
+        "sku": "ryzen-5-8600g",
+        "suffix": "G",
+        "hasIntegratedGraphics": true,
+        "integratedGraphicsId": "amd-rdna3-8cu",
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 19999,
+            "max": 20999
+          },
+          "availability": "in stock",
+          "source": "mdcomputers",
+          "lastUpdated": "2026-02-28T23:59:00+05:30"
+        }
+      }
+    ],
+    "integratedGraphicsIds": [
+      "amd-rdna3-8cu"
+    ],
+    "legacy": false,
+    "updatedAt": "2026-03-01T19:30:00+05:30"
+  },
+  {
+    "id": "ryzen-5-8500g",
+    "category": "cpu",
+    "brand": "AMD",
+    "name": "AMD Ryzen 5 8500G",
+    "generation": "Ryzen 8000G (Zen 4 Phoenix APU)",
+    "launchYear": 2024,
+    "socket": "AM5",
+    "cores": 6,
+    "threads": 12,
+    "baseClockGHz": 3.5,
+    "boostClockGHz": 5,
+    "tdpWatts": 65,
+    "msrpUSD": 179,
+    "normalized": {
+      "gamingScore": 680,
+      "productivityScore": 630,
+      "scoreVersion": 1
+    },
+    "availableSkus": [
+      {
+        "sku": "ryzen-5-8500g",
+        "suffix": "G",
+        "hasIntegratedGraphics": true,
+        "integratedGraphicsId": "amd-rdna3-4cu",
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 16999,
+            "max": 17999
+          },
+          "availability": "in stock",
+          "source": "mdcomputers",
+          "lastUpdated": "2026-02-28T23:59:00+05:30"
+        }
+      }
+    ],
+    "integratedGraphicsIds": [
+      "amd-rdna3-4cu"
+    ],
+    "legacy": false,
+    "updatedAt": "2026-03-01T19:30:00+05:30"
+  },
+  {
+    "id": "ryzen-5-9600",
+    "category": "cpu",
+    "brand": "AMD",
+    "name": "AMD Ryzen 5 9600",
+    "generation": "Ryzen 9000 (Zen 5)",
+    "launchYear": 2025,
+    "socket": "AM5",
+    "cores": 6,
+    "threads": 12,
+    "baseClockGHz": 3.8,
+    "boostClockGHz": 5.2,
+    "tdpWatts": 65,
+    "msrpUSD": 249,
+    "normalized": {
+      "gamingScore": 840,
+      "productivityScore": 780,
+      "scoreVersion": 1
+    },
+    "availableSkus": [
+      {
+        "sku": "ryzen-5-9600",
+        "suffix": "standard",
+        "hasIntegratedGraphics": true,
+        "integratedGraphicsId": "amd-rdna3-2cu",
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 20999,
+            "max": 21999
+          },
+          "availability": "in stock",
+          "source": "mdcomputers",
+          "lastUpdated": "2026-02-28T23:59:00+05:30"
+        }
+      }
+    ],
+    "integratedGraphicsIds": [
+      "amd-rdna3-2cu"
+    ],
+    "legacy": false,
+    "updatedAt": "2026-03-01T19:30:00+05:30"
+  },
+  {
+    "id": "ryzen-7-9700",
+    "category": "cpu",
+    "brand": "AMD",
+    "name": "AMD Ryzen 7 9700",
+    "generation": "Ryzen 9000 (Zen 5)",
+    "launchYear": 2025,
+    "socket": "AM5",
+    "cores": 8,
+    "threads": 16,
+    "baseClockGHz": 3.6,
+    "boostClockGHz": 5.3,
+    "tdpWatts": 65,
+    "msrpUSD": 329,
+    "normalized": {
+      "gamingScore": 880,
+      "productivityScore": 840,
+      "scoreVersion": 1
+    },
+    "availableSkus": [
+      {
+        "sku": "ryzen-7-9700",
+        "suffix": "standard",
+        "hasIntegratedGraphics": true,
+        "integratedGraphicsId": "amd-rdna3-2cu",
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 27999,
+            "max": 28999
+          },
+          "availability": "in stock",
+          "source": "mdcomputers",
+          "lastUpdated": "2026-02-28T23:59:00+05:30"
+        }
+      }
+    ],
+    "integratedGraphicsIds": [
+      "amd-rdna3-2cu"
+    ],
+    "legacy": false,
+    "updatedAt": "2026-03-01T19:30:00+05:30"
+  },
+  {
+    "id": "ryzen-5-3600",
+    "category": "cpu",
+    "brand": "AMD",
+    "name": "AMD Ryzen 5 3600",
+    "generation": "Ryzen 3000 (Zen 2)",
+    "launchYear": 2019,
+    "socket": "AM4",
+    "cores": 6,
+    "threads": 12,
+    "baseClockGHz": 3.6,
+    "boostClockGHz": 4.2,
+    "tdpWatts": 65,
+    "msrpUSD": 199,
+    "normalized": {
+      "gamingScore": 480,
+      "productivityScore": 440,
+      "scoreVersion": 1
+    },
+    "availableSkus": [
+      {
+        "sku": "ryzen-5-3600",
+        "suffix": "standard",
+        "hasIntegratedGraphics": false,
+        "integratedGraphicsId": null,
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 8779,
+            "max": 8779
+          },
+          "availability": "in stock",
+          "source": "mdcomputers",
+          "lastUpdated": "2026-02-28T23:59:00+05:30"
+        }
+      }
+    ],
+    "integratedGraphicsIds": [],
+    "legacy": false,
+    "updatedAt": "2026-03-01T12:30:00+05:30"
+  },
+  {
+    "id": "ryzen-7-3700x",
+    "category": "cpu",
+    "brand": "AMD",
+    "name": "AMD Ryzen 7 3700X",
+    "generation": "Ryzen 3000 (Zen 2)",
+    "launchYear": 2019,
+    "socket": "AM4",
+    "cores": 8,
+    "threads": 16,
+    "baseClockGHz": 3.6,
+    "boostClockGHz": 4.4,
+    "tdpWatts": 65,
+    "msrpUSD": 329,
+    "normalized": {
+      "gamingScore": 520,
+      "productivityScore": 580,
+      "scoreVersion": 1
+    },
+    "availableSkus": [
+      {
+        "sku": "ryzen-7-3700x",
+        "suffix": "X",
+        "hasIntegratedGraphics": false,
+        "integratedGraphicsId": null,
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 31499,
+            "max": 31499
+          },
+          "availability": "in stock",
+          "source": "mdcomputers",
+          "lastUpdated": "2026-02-28T23:59:00+05:30"
+        }
+      }
+    ],
+    "integratedGraphicsIds": [],
+    "legacy": false,
+    "updatedAt": "2026-03-01T12:30:00+05:30"
+  },
+  {
+    "id": "ryzen-9-3900x",
+    "category": "cpu",
+    "brand": "AMD",
+    "name": "AMD Ryzen 9 3900X",
+    "generation": "Ryzen 3000 (Zen 2)",
+    "launchYear": 2019,
+    "socket": "AM4",
+    "cores": 12,
+    "threads": 24,
+    "baseClockGHz": 3.8,
+    "boostClockGHz": 4.6,
+    "tdpWatts": 105,
+    "msrpUSD": 499,
+    "normalized": {
+      "gamingScore": 550,
+      "productivityScore": 720,
+      "scoreVersion": 1
+    },
+    "availableSkus": [
+      {
+        "sku": "ryzen-9-3900x",
+        "suffix": "X",
+        "hasIntegratedGraphics": false,
+        "integratedGraphicsId": null,
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 42200,
+            "max": 42200
+          },
+          "availability": "in stock",
+          "source": "mdcomputers",
+          "lastUpdated": "2026-02-28T23:59:00+05:30"
+        }
+      }
+    ],
+    "integratedGraphicsIds": [],
+    "legacy": false,
+    "updatedAt": "2026-03-01T12:30:00+05:30"
+  },
+  {
+    "id": "ryzen-5-3600xt",
+    "category": "cpu",
+    "brand": "AMD",
+    "name": "AMD Ryzen 5 3600XT",
+    "generation": "Ryzen 3000 (Zen 2 XT refresh)",
+    "launchYear": 2020,
+    "socket": "AM4",
+    "cores": 6,
+    "threads": 12,
+    "baseClockGHz": 3.8,
+    "boostClockGHz": 4.5,
+    "tdpWatts": 95,
+    "msrpUSD": 249,
+    "normalized": {
+      "gamingScore": 500,
+      "productivityScore": 480,
+      "scoreVersion": 1
+    },
+    "availableSkus": [
+      {
+        "sku": "ryzen-5-3600xt",
+        "suffix": "XT",
+        "hasIntegratedGraphics": false,
+        "integratedGraphicsId": null,
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 18999,
+            "max": 18999
+          },
+          "availability": "limited stock",
+          "source": "mdcomputers",
+          "lastUpdated": "2026-02-28T23:59:00+05:30"
+        }
+      }
+    ],
+    "integratedGraphicsIds": [],
+    "legacy": false,
+    "updatedAt": "2026-03-01T12:30:00+05:30"
+  },
+  {
+    "id": "ryzen-7-3800xt",
+    "category": "cpu",
+    "brand": "AMD",
+    "name": "AMD Ryzen 7 3800XT",
+    "generation": "Ryzen 3000 (Zen 2 XT refresh)",
+    "launchYear": 2020,
+    "socket": "AM4",
+    "cores": 8,
+    "threads": 16,
+    "baseClockGHz": 3.9,
+    "boostClockGHz": 4.7,
+    "tdpWatts": 105,
+    "msrpUSD": 399,
+    "normalized": {
+      "gamingScore": 540,
+      "productivityScore": 600,
+      "scoreVersion": 1
+    },
+    "availableSkus": [
+      {
+        "sku": "ryzen-7-3800xt",
+        "suffix": "XT",
+        "hasIntegratedGraphics": false,
+        "integratedGraphicsId": null,
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 28999,
+            "max": 28999
+          },
+          "availability": "limited stock",
+          "source": "mdcomputers",
+          "lastUpdated": "2026-02-28T23:59:00+05:30"
+        }
+      }
+    ],
+    "integratedGraphicsIds": [],
+    "legacy": false,
+    "updatedAt": "2026-03-01T12:30:00+05:30"
+  },
+  {
+    "id": "ryzen-9-3900xt",
+    "category": "cpu",
+    "brand": "AMD",
+    "name": "AMD Ryzen 9 3900XT",
+    "generation": "Ryzen 3000 (Zen 2 XT refresh)",
+    "launchYear": 2020,
+    "socket": "AM4",
+    "cores": 12,
+    "threads": 24,
+    "baseClockGHz": 3.8,
+    "boostClockGHz": 4.7,
+    "tdpWatts": 105,
+    "msrpUSD": 499,
+    "normalized": {
+      "gamingScore": 570,
+      "productivityScore": 740,
+      "scoreVersion": 1
+    },
+    "availableSkus": [
+      {
+        "sku": "ryzen-9-3900xt",
+        "suffix": "XT",
+        "hasIntegratedGraphics": false,
+        "integratedGraphicsId": null,
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 39999,
+            "max": 39999
+          },
+          "availability": "limited stock",
+          "source": "mdcomputers",
+          "lastUpdated": "2026-02-28T23:59:00+05:30"
+        }
+      }
+    ],
+    "integratedGraphicsIds": [],
+    "legacy": false,
+    "updatedAt": "2026-03-01T13:40:00+05:30"
+  },
+  {
+    "id": "ryzen-5-5600x",
+    "category": "cpu",
+    "brand": "AMD",
+    "name": "AMD Ryzen 5 5600X",
+    "generation": "Ryzen 5000 (Zen 3)",
+    "launchYear": 2020,
+    "socket": "AM4",
+    "cores": 6,
+    "threads": 12,
+    "baseClockGHz": 3.7,
+    "boostClockGHz": 4.6,
+    "tdpWatts": 65,
+    "msrpUSD": 299,
+    "normalized": {
+      "gamingScore": 640,
+      "productivityScore": 600,
+      "scoreVersion": 1
+    },
+    "availableSkus": [
+      {
+        "sku": "ryzen-5-5600x",
+        "suffix": "X",
+        "hasIntegratedGraphics": false,
+        "integratedGraphicsId": null,
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 14299,
+            "max": 14299
+          },
+          "availability": "in stock",
+          "source": "mdcomputers",
+          "lastUpdated": "2026-02-28T23:59:00+05:30"
+        }
+      }
+    ],
+    "integratedGraphicsIds": [],
+    "legacy": false,
+    "updatedAt": "2026-03-01T13:40:00+05:30"
+  },
+  {
+    "id": "ryzen-5-5600g",
+    "category": "cpu",
+    "brand": "AMD",
+    "name": "AMD Ryzen 5 5600G",
+    "generation": "Ryzen 5000G (Zen 3 Cezanne APU)",
+    "launchYear": 2021,
+    "socket": "AM4",
+    "cores": 6,
+    "threads": 12,
+    "baseClockGHz": 3.9,
+    "boostClockGHz": 4.4,
+    "tdpWatts": 65,
+    "msrpUSD": 259,
+    "normalized": {
+      "gamingScore": 520,
+      "productivityScore": 470,
+      "scoreVersion": 1
+    },
+    "availableSkus": [
+      {
+        "sku": "ryzen-5-5600g",
+        "suffix": "G",
+        "hasIntegratedGraphics": true,
+        "integratedGraphicsId": "amd-vega-7",
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 13999,
+            "max": 14499
+          },
+          "availability": "in stock",
+          "source": "mdcomputers",
+          "lastUpdated": "2026-02-28T23:59:00+05:30"
+        }
+      }
+    ],
+    "integratedGraphicsIds": [
+      "amd-vega-7"
+    ],
+    "legacy": false,
+    "updatedAt": "2026-03-01T13:40:00+05:30"
+  },
+  {
+    "id": "ryzen-7-5800x",
+    "category": "cpu",
+    "brand": "AMD",
+    "name": "AMD Ryzen 7 5800X",
+    "generation": "Ryzen 5000 (Zen 3)",
+    "launchYear": 2020,
+    "socket": "AM4",
+    "cores": 8,
+    "threads": 16,
+    "baseClockGHz": 3.8,
+    "boostClockGHz": 4.7,
+    "tdpWatts": 105,
+    "msrpUSD": 449,
+    "normalized": {
+      "gamingScore": 680,
+      "productivityScore": 700,
+      "scoreVersion": 1
+    },
+    "availableSkus": [
+      {
+        "sku": "ryzen-7-5800x",
+        "suffix": "X",
+        "hasIntegratedGraphics": false,
+        "integratedGraphicsId": null,
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 19899,
+            "max": 19899
+          },
+          "availability": "in stock",
+          "source": "mdcomputers",
+          "lastUpdated": "2026-02-28T23:59:00+05:30"
+        }
+      }
+    ],
+    "integratedGraphicsIds": [],
+    "legacy": false,
+    "updatedAt": "2026-03-01T13:40:00+05:30"
+  },
+  {
+    "id": "ryzen-7-5700g",
+    "category": "cpu",
+    "brand": "AMD",
+    "name": "AMD Ryzen 7 5700G",
+    "generation": "Ryzen 5000G (Zen 3 Cezanne APU)",
+    "launchYear": 2021,
+    "socket": "AM4",
+    "cores": 8,
+    "threads": 16,
+    "baseClockGHz": 3.8,
+    "boostClockGHz": 4.6,
+    "tdpWatts": 65,
+    "msrpUSD": 359,
+    "normalized": {
+      "gamingScore": 560,
+      "productivityScore": 520,
+      "scoreVersion": 1
+    },
+    "availableSkus": [
+      {
+        "sku": "ryzen-7-5700g",
+        "suffix": "G",
+        "hasIntegratedGraphics": true,
+        "integratedGraphicsId": "amd-vega-8",
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 17999,
+            "max": 18999
+          },
+          "availability": "in stock",
+          "source": "mdcomputers",
+          "lastUpdated": "2026-02-28T23:59:00+05:30"
+        }
+      }
+    ],
+    "integratedGraphicsIds": [
+      "amd-vega-8"
+    ],
+    "legacy": false,
+    "updatedAt": "2026-03-01T13:40:00+05:30"
+  },
+  {
+    "id": "ryzen-9-5900x",
+    "category": "cpu",
+    "brand": "AMD",
+    "name": "AMD Ryzen 9 5900X",
+    "generation": "Ryzen 5000 (Zen 3)",
+    "launchYear": 2020,
+    "socket": "AM4",
+    "cores": 12,
+    "threads": 24,
+    "baseClockGHz": 3.7,
+    "boostClockGHz": 4.8,
+    "tdpWatts": 105,
+    "msrpUSD": 549,
+    "normalized": {
+      "gamingScore": 720,
+      "productivityScore": 840,
+      "scoreVersion": 1
+    },
+    "availableSkus": [
+      {
+        "sku": "ryzen-9-5900x",
+        "suffix": "X",
+        "hasIntegratedGraphics": false,
+        "integratedGraphicsId": null,
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 26999,
+            "max": 26999
+          },
+          "availability": "in stock",
+          "source": "mdcomputers",
+          "lastUpdated": "2026-02-28T23:59:00+05:30"
+        }
+      }
+    ],
+    "integratedGraphicsIds": [],
+    "legacy": false,
+    "updatedAt": "2026-03-01T13:40:00+05:30"
+  },
+  {
+    "id": "ryzen-9-5950x",
+    "category": "cpu",
+    "brand": "AMD",
+    "name": "AMD Ryzen 9 5950X",
+    "generation": "Ryzen 5000 (Zen 3)",
+    "launchYear": 2020,
+    "socket": "AM4",
+    "cores": 16,
+    "threads": 32,
+    "baseClockGHz": 3.4,
+    "boostClockGHz": 4.9,
+    "tdpWatts": 105,
+    "msrpUSD": 799,
+    "normalized": {
+      "gamingScore": 750,
+      "productivityScore": 920,
+      "scoreVersion": 1
+    },
+    "availableSkus": [
+      {
+        "sku": "ryzen-9-5950x",
+        "suffix": "X",
+        "hasIntegratedGraphics": false,
+        "integratedGraphicsId": null,
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 39999,
+            "max": 39999
+          },
+          "availability": "limited stock",
+          "source": "mdcomputers",
+          "lastUpdated": "2026-02-28T23:59:00+05:30"
+        }
+      }
+    ],
+    "integratedGraphicsIds": [],
+    "legacy": false,
+    "updatedAt": "2026-03-01T13:40:00+05:30"
+  },
+  {
+    "id": "ryzen-5-5600",
+    "category": "cpu",
+    "brand": "AMD",
+    "name": "AMD Ryzen 5 5600",
+    "generation": "Ryzen 5000 (Zen 3 refresh)",
+    "launchYear": 2022,
+    "socket": "AM4",
+    "cores": 6,
+    "threads": 12,
+    "baseClockGHz": 3.5,
+    "boostClockGHz": 4.4,
+    "tdpWatts": 65,
+    "msrpUSD": 199,
+    "normalized": {
+      "gamingScore": 620,
+      "productivityScore": 580,
+      "scoreVersion": 1
+    },
+    "availableSkus": [
+      {
+        "sku": "ryzen-5-5600",
+        "suffix": "standard",
+        "hasIntegratedGraphics": false,
+        "integratedGraphicsId": null,
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 11999,
+            "max": 11999
+          },
+          "availability": "in stock",
+          "source": "mdcomputers",
+          "lastUpdated": "2026-02-28T23:59:00+05:30"
+        }
+      }
+    ],
+    "integratedGraphicsIds": [],
+    "legacy": false,
+    "updatedAt": "2026-03-01T14:10:00+05:30"
+  },
+  {
+    "id": "ryzen-7-5800x3d",
+    "category": "cpu",
+    "brand": "AMD",
+    "name": "AMD Ryzen 7 5800X3D",
+    "generation": "Ryzen 5000 (Zen 3 3D V-Cache)",
+    "launchYear": 2022,
+    "socket": "AM4",
+    "cores": 8,
+    "threads": 16,
+    "baseClockGHz": 3.4,
+    "boostClockGHz": 4.5,
+    "tdpWatts": 105,
+    "msrpUSD": 449,
+    "normalized": {
+      "gamingScore": 780,
+      "productivityScore": 700,
+      "scoreVersion": 1
+    },
+    "availableSkus": [
+      {
+        "sku": "ryzen-7-5800x3d",
+        "suffix": "X3D",
+        "hasIntegratedGraphics": false,
+        "integratedGraphicsId": null,
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 24999,
+            "max": 24999
+          },
+          "availability": "in stock",
+          "source": "mdcomputers",
+          "lastUpdated": "2026-02-28T23:59:00+05:30"
+        }
+      }
+    ],
+    "integratedGraphicsIds": [],
+    "legacy": false,
+    "updatedAt": "2026-03-01T14:10:00+05:30"
+  },
+  {
+    "id": "ryzen-5-7600",
+    "category": "cpu",
+    "brand": "AMD",
+    "name": "AMD Ryzen 5 7600",
+    "generation": "Ryzen 7000 (Zen 4)",
+    "launchYear": 2023,
+    "socket": "AM5",
+    "cores": 6,
+    "threads": 12,
+    "baseClockGHz": 3.8,
+    "boostClockGHz": 5.1,
+    "tdpWatts": 65,
+    "msrpUSD": 229,
+    "normalized": {
+      "gamingScore": 720,
+      "productivityScore": 660,
+      "scoreVersion": 1
+    },
+    "availableSkus": [
+      {
+        "sku": "ryzen-5-7600",
+        "suffix": "standard",
+        "hasIntegratedGraphics": true,
+        "integratedGraphicsId": "amd-rdna2-2cu",
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 18999,
+            "max": 18999
+          },
+          "availability": "in stock",
+          "source": "mdcomputers",
+          "lastUpdated": "2026-02-28T23:59:00+05:30"
+        }
+      }
+    ],
+    "integratedGraphicsIds": [
+      "amd-rdna2-2cu"
+    ],
+    "legacy": false,
+    "updatedAt": "2026-03-01T14:10:00+05:30"
+  },
+  {
+    "id": "ryzen-7-7700x",
+    "category": "cpu",
+    "brand": "AMD",
+    "name": "AMD Ryzen 7 7700X",
+    "generation": "Ryzen 7000 (Zen 4)",
+    "launchYear": 2022,
+    "socket": "AM5",
+    "cores": 8,
+    "threads": 16,
+    "baseClockGHz": 4.5,
+    "boostClockGHz": 5.4,
+    "tdpWatts": 105,
+    "msrpUSD": 399,
+    "normalized": {
+      "gamingScore": 800,
+      "productivityScore": 780,
+      "scoreVersion": 1
+    },
+    "availableSkus": [
+      {
+        "sku": "ryzen-7-7700x",
+        "suffix": "X",
+        "hasIntegratedGraphics": true,
+        "integratedGraphicsId": "amd-rdna2-2cu",
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 28999,
+            "max": 28999
+          },
+          "availability": "in stock",
+          "source": "mdcomputers",
+          "lastUpdated": "2026-02-28T23:59:00+05:30"
+        }
+      }
+    ],
+    "integratedGraphicsIds": [
+      "amd-rdna2-2cu"
+    ],
+    "legacy": false,
+    "updatedAt": "2026-03-01T14:10:00+05:30"
+  },
+  {
+    "id": "ryzen-9-7900x",
+    "category": "cpu",
+    "brand": "AMD",
+    "name": "AMD Ryzen 9 7900X",
+    "generation": "Ryzen 7000 (Zen 4)",
+    "launchYear": 2022,
+    "socket": "AM5",
+    "cores": 12,
+    "threads": 24,
+    "baseClockGHz": 4.7,
+    "boostClockGHz": 5.6,
+    "tdpWatts": 170,
+    "msrpUSD": 549,
+    "normalized": {
+      "gamingScore": 840,
+      "productivityScore": 880,
+      "scoreVersion": 1
+    },
+    "availableSkus": [
+      {
+        "sku": "ryzen-9-7900x",
+        "suffix": "X",
+        "hasIntegratedGraphics": true,
+        "integratedGraphicsId": "amd-rdna2-2cu",
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 36999,
+            "max": 36999
+          },
+          "availability": "in stock",
+          "source": "mdcomputers",
+          "lastUpdated": "2026-02-28T23:59:00+05:30"
+        }
+      }
+    ],
+    "integratedGraphicsIds": [
+      "amd-rdna2-2cu"
+    ],
+    "legacy": false,
+    "updatedAt": "2026-03-01T14:10:00+05:30"
+  },
+  {
+    "id": "ryzen-9-7950x",
+    "category": "cpu",
+    "brand": "AMD",
+    "name": "AMD Ryzen 9 7950X",
+    "generation": "Ryzen 7000 (Zen 4)",
+    "launchYear": 2022,
+    "socket": "AM5",
+    "cores": 16,
+    "threads": 32,
+    "baseClockGHz": 4.5,
+    "boostClockGHz": 5.7,
+    "tdpWatts": 170,
+    "msrpUSD": 699,
+    "normalized": {
+      "gamingScore": 880,
+      "productivityScore": 940,
+      "scoreVersion": 1
+    },
+    "availableSkus": [
+      {
+        "sku": "ryzen-9-7950x",
+        "suffix": "X",
+        "hasIntegratedGraphics": true,
+        "integratedGraphicsId": "amd-rdna2-2cu",
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 47999,
+            "max": 47999
+          },
+          "availability": "in stock",
+          "source": "mdcomputers",
+          "lastUpdated": "2026-02-28T23:59:00+05:30"
+        }
+      }
+    ],
+    "integratedGraphicsIds": [
+      "amd-rdna2-2cu"
+    ],
+    "legacy": false,
+    "updatedAt": "2026-03-01T14:35:00+05:30"
+  },
+  {
+    "id": "ryzen-7-7800x3d",
+    "category": "cpu",
+    "brand": "AMD",
+    "name": "AMD Ryzen 7 7800X3D",
+    "generation": "Ryzen 7000 (Zen 4 3D V-Cache)",
+    "launchYear": 2023,
+    "socket": "AM5",
+    "cores": 8,
+    "threads": 16,
+    "baseClockGHz": 4.2,
+    "boostClockGHz": 5,
+    "tdpWatts": 120,
+    "msrpUSD": 449,
+    "normalized": {
+      "gamingScore": 960,
+      "productivityScore": 820,
+      "scoreVersion": 1
+    },
+    "availableSkus": [
+      {
+        "sku": "ryzen-7-7800x3d",
+        "suffix": "X3D",
+        "hasIntegratedGraphics": true,
+        "integratedGraphicsId": "amd-rdna2-2cu",
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 35999,
+            "max": 35999
+          },
+          "availability": "in stock",
+          "source": "mdcomputers",
+          "lastUpdated": "2026-02-28T23:59:00+05:30"
+        }
+      }
+    ],
+    "integratedGraphicsIds": [
+      "amd-rdna2-2cu"
+    ],
+    "legacy": false,
+    "updatedAt": "2026-03-01T14:35:00+05:30"
+  },
+  {
+    "id": "ryzen-9-7900x3d",
+    "category": "cpu",
+    "brand": "AMD",
+    "name": "AMD Ryzen 9 7900X3D",
+    "generation": "Ryzen 7000 (Zen 4 3D V-Cache)",
+    "launchYear": 2023,
+    "socket": "AM5",
+    "cores": 12,
+    "threads": 24,
+    "baseClockGHz": 4.4,
+    "boostClockGHz": 5.6,
+    "tdpWatts": 120,
+    "msrpUSD": 599,
+    "normalized": {
+      "gamingScore": 920,
+      "productivityScore": 900,
+      "scoreVersion": 1
+    },
+    "availableSkus": [
+      {
+        "sku": "ryzen-9-7900x3d",
+        "suffix": "X3D",
+        "hasIntegratedGraphics": true,
+        "integratedGraphicsId": "amd-rdna2-2cu",
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 44999,
+            "max": 44999
+          },
+          "availability": "in stock",
+          "source": "mdcomputers",
+          "lastUpdated": "2026-02-28T23:59:00+05:30"
+        }
+      }
+    ],
+    "integratedGraphicsIds": [
+      "amd-rdna2-2cu"
+    ],
+    "legacy": false,
+    "updatedAt": "2026-03-01T14:35:00+05:30"
+  },
+  {
+    "id": "ryzen-9-7950x3d",
+    "category": "cpu",
+    "brand": "AMD",
+    "name": "AMD Ryzen 9 7950X3D",
+    "generation": "Ryzen 7000 (Zen 4 3D V-Cache)",
+    "launchYear": 2023,
+    "socket": "AM5",
+    "cores": 16,
+    "threads": 32,
+    "baseClockGHz": 4.2,
+    "boostClockGHz": 5.7,
+    "tdpWatts": 120,
+    "msrpUSD": 699,
+    "normalized": {
+      "gamingScore": 990,
+      "productivityScore": 960,
+      "scoreVersion": 1
+    },
+    "availableSkus": [
+      {
+        "sku": "ryzen-9-7950x3d",
+        "suffix": "X3D",
+        "hasIntegratedGraphics": true,
+        "integratedGraphicsId": "amd-rdna2-2cu",
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 52999,
+            "max": 52999
+          },
+          "availability": "in stock",
+          "source": "mdcomputers",
+          "lastUpdated": "2026-02-28T23:59:00+05:30"
+        }
+      }
+    ],
+    "integratedGraphicsIds": [
+      "amd-rdna2-2cu"
+    ],
+    "legacy": false,
+    "updatedAt": "2026-03-01T14:35:00+05:30"
+  },
+  {
+    "id": "ryzen-5-9600x",
+    "category": "cpu",
+    "brand": "AMD",
+    "name": "AMD Ryzen 5 9600X",
+    "generation": "Ryzen 9000 (Zen 5)",
+    "launchYear": 2025,
+    "socket": "AM5",
+    "cores": 6,
+    "threads": 12,
+    "baseClockGHz": 4,
+    "boostClockGHz": 5.4,
+    "tdpWatts": 105,
+    "msrpUSD": 279,
+    "normalized": {
+      "gamingScore": 860,
+      "productivityScore": 800,
+      "scoreVersion": 1
+    },
+    "availableSkus": [
+      {
+        "sku": "ryzen-5-9600x",
+        "suffix": "X",
+        "hasIntegratedGraphics": true,
+        "integratedGraphicsId": "amd-rdna3-2cu",
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 22999,
+            "max": 22999
+          },
+          "availability": "in stock",
+          "source": "mdcomputers",
+          "lastUpdated": "2026-02-28T23:59:00+05:30"
+        }
+      }
+    ],
+    "integratedGraphicsIds": [
+      "amd-rdna3-2cu"
+    ],
+    "legacy": false,
+    "updatedAt": "2026-03-01T14:35:00+05:30"
+  },
+  {
+    "id": "ryzen-7-9700x",
+    "category": "cpu",
+    "brand": "AMD",
+    "name": "AMD Ryzen 7 9700X",
+    "generation": "Ryzen 9000 (Zen 5)",
+    "launchYear": 2025,
+    "socket": "AM5",
+    "cores": 8,
+    "threads": 16,
+    "baseClockGHz": 3.8,
+    "boostClockGHz": 5.5,
+    "tdpWatts": 105,
+    "msrpUSD": 359,
+    "normalized": {
+      "gamingScore": 900,
+      "productivityScore": 860,
+      "scoreVersion": 1
+    },
+    "availableSkus": [
+      {
+        "sku": "ryzen-7-9700x",
+        "suffix": "X",
+        "hasIntegratedGraphics": true,
+        "integratedGraphicsId": "amd-rdna3-2cu",
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 30999,
+            "max": 30999
+          },
+          "availability": "in stock",
+          "source": "mdcomputers",
+          "lastUpdated": "2026-02-28T23:59:00+05:30"
+        }
+      }
+    ],
+    "integratedGraphicsIds": [
+      "amd-rdna3-2cu"
+    ],
+    "legacy": false,
+    "updatedAt": "2026-03-01T15:05:00+05:30"
+  },
+  {
+    "id": "ryzen-9-9900x",
+    "category": "cpu",
+    "brand": "AMD",
+    "name": "AMD Ryzen 9 9900X",
+    "generation": "Ryzen 9000 (Zen 5)",
+    "launchYear": 2025,
+    "socket": "AM5",
+    "cores": 12,
+    "threads": 24,
+    "baseClockGHz": 4.2,
+    "boostClockGHz": 5.7,
+    "tdpWatts": 170,
+    "msrpUSD": 499,
+    "normalized": {
+      "gamingScore": 940,
+      "productivityScore": 920,
+      "scoreVersion": 1
+    },
+    "availableSkus": [
+      {
+        "sku": "ryzen-9-9900x",
+        "suffix": "X",
+        "hasIntegratedGraphics": true,
+        "integratedGraphicsId": "amd-rdna3-2cu",
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 42999,
+            "max": 42999
+          },
+          "availability": "in stock",
+          "source": "mdcomputers",
+          "lastUpdated": "2026-02-28T23:59:00+05:30"
+        }
+      }
+    ],
+    "integratedGraphicsIds": [
+      "amd-rdna3-2cu"
+    ],
+    "legacy": false,
+    "updatedAt": "2026-03-01T15:05:00+05:30"
+  },
+  {
+    "id": "ryzen-9-9950x",
+    "category": "cpu",
+    "brand": "AMD",
+    "name": "AMD Ryzen 9 9950X",
+    "generation": "Ryzen 9000 (Zen 5)",
+    "launchYear": 2025,
+    "socket": "AM5",
+    "cores": 16,
+    "threads": 32,
+    "baseClockGHz": 4.3,
+    "boostClockGHz": 5.8,
+    "tdpWatts": 170,
+    "msrpUSD": 699,
+    "normalized": {
+      "gamingScore": 970,
+      "productivityScore": 980,
+      "scoreVersion": 1
+    },
+    "availableSkus": [
+      {
+        "sku": "ryzen-9-9950x",
+        "suffix": "X",
+        "hasIntegratedGraphics": true,
+        "integratedGraphicsId": "amd-rdna3-2cu",
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 54999,
+            "max": 54999
+          },
+          "availability": "in stock",
+          "source": "mdcomputers",
+          "lastUpdated": "2026-02-28T23:59:00+05:30"
+        }
+      }
+    ],
+    "integratedGraphicsIds": [
+      "amd-rdna3-2cu"
+    ],
+    "legacy": false,
+    "updatedAt": "2026-03-01T15:05:00+05:30"
+  },
+  {
+    "id": "ryzen-7-9800x3d",
+    "category": "cpu",
+    "brand": "AMD",
+    "name": "AMD Ryzen 7 9800X3D",
+    "generation": "Ryzen 9000 (Zen 5 3D V-Cache)",
+    "launchYear": 2026,
+    "socket": "AM5",
+    "cores": 8,
+    "threads": 16,
+    "baseClockGHz": 4.1,
+    "boostClockGHz": 5.6,
+    "tdpWatts": 120,
+    "msrpUSD": 449,
+    "normalized": {
+      "gamingScore": 980,
+      "productivityScore": 880,
+      "scoreVersion": 1
+    },
+    "availableSkus": [
+      {
+        "sku": "ryzen-7-9800x3d",
+        "suffix": "X3D",
+        "hasIntegratedGraphics": true,
+        "integratedGraphicsId": "amd-rdna3-2cu",
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 37999,
+            "max": 37999
+          },
+          "availability": "in stock",
+          "source": "mdcomputers",
+          "lastUpdated": "2026-02-28T23:59:00+05:30"
+        }
+      }
+    ],
+    "integratedGraphicsIds": [
+      "amd-rdna3-2cu"
+    ],
+    "legacy": false,
+    "updatedAt": "2026-03-01T15:05:00+05:30"
+  },
+  {
+    "id": "ryzen-9-9900x3d",
+    "category": "cpu",
+    "brand": "AMD",
+    "name": "AMD Ryzen 9 9900X3D",
+    "generation": "Ryzen 9000 (Zen 5 3D V-Cache)",
+    "launchYear": 2026,
+    "socket": "AM5",
+    "cores": 12,
+    "threads": 24,
+    "baseClockGHz": 4.3,
+    "boostClockGHz": 5.8,
+    "tdpWatts": 120,
+    "msrpUSD": 599,
+    "normalized": {
+      "gamingScore": 990,
+      "productivityScore": 950,
+      "scoreVersion": 1
+    },
+    "availableSkus": [
+      {
+        "sku": "ryzen-9-9900x3d",
+        "suffix": "X3D",
+        "hasIntegratedGraphics": true,
+        "integratedGraphicsId": "amd-rdna3-2cu",
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 48999,
+            "max": 48999
+          },
+          "availability": "in stock",
+          "source": "mdcomputers",
+          "lastUpdated": "2026-02-28T23:59:00+05:30"
+        }
+      }
+    ],
+    "integratedGraphicsIds": [
+      "amd-rdna3-2cu"
+    ],
+    "legacy": false,
+    "updatedAt": "2026-03-01T15:05:00+05:30"
+  },
+  {
+    "id": "ryzen-9-9950x3d",
+    "category": "cpu",
+    "brand": "AMD",
+    "name": "AMD Ryzen 9 9950X3D",
+    "generation": "Ryzen 9000 (Zen 5 3D V-Cache)",
+    "launchYear": 2026,
+    "socket": "AM5",
+    "cores": 16,
+    "threads": 32,
+    "baseClockGHz": 4.4,
+    "boostClockGHz": 5.9,
+    "tdpWatts": 170,
+    "msrpUSD": 749,
+    "normalized": {
+      "gamingScore": 1000,
+      "productivityScore": 1000,
+      "scoreVersion": 1
+    },
+    "availableSkus": [
+      {
+        "sku": "ryzen-9-9950x3d",
+        "suffix": "X3D",
+        "hasIntegratedGraphics": true,
+        "integratedGraphicsId": "amd-rdna3-2cu",
+        "pricing": {
+          "currency": "INR",
+          "priceRange": {
+            "min": 59999,
+            "max": 59999
+          },
+          "availability": "in stock",
+          "source": "mdcomputers",
+          "lastUpdated": "2026-02-28T23:59:00+05:30"
+        }
+      }
+    ],
+    "integratedGraphicsIds": [
+      "amd-rdna3-2cu"
+    ],
+    "legacy": false,
+    "updatedAt": "2026-03-01T15:05:00+05:30"
+  }
+]

@@ -1,0 +1,49 @@
+{
+    "brand": "AMD",
+    "year": 2016,
+    "architecture": "Polaris",
+    "models": [
+        {
+            "id": "rx-480",
+            "name": "Radeon RX 480",
+            "pcieGen": 3,
+            "memoryType": "GDDR5",
+            "vramGB": 8,
+            "tdpWatts": 150,
+            "msrpUSD": 199,
+            "gamingScore": 380,
+            "productivityScore": 300,
+            "tier": "mid",
+            "rayTracing": false,
+            "upscaling": "None"
+        },
+        {
+            "id": "rx-470",
+            "name": "Radeon RX 470",
+            "pcieGen": 3,
+            "memoryType": "GDDR5",
+            "vramGB": 4,
+            "tdpWatts": 120,
+            "msrpUSD": 179,
+            "gamingScore": 350,
+            "productivityScore": 270,
+            "tier": "mid",
+            "rayTracing": false,
+            "upscaling": "None"
+        },
+        {
+            "id": "rx-460",
+            "name": "Radeon RX 460",
+            "pcieGen": 3,
+            "memoryType": "GDDR5",
+            "vramGB": 4,
+            "tdpWatts": 75,
+            "msrpUSD": 109,
+            "gamingScore": 280,
+            "productivityScore": 210,
+            "tier": "budget",
+            "rayTracing": false,
+            "upscaling": "None"
+        }
+    ]
+}

@@ -1,0 +1,49 @@
+{
+    "brand": "NVIDIA",
+    "year": 2021,
+    "architecture": "Ampere",
+    "models": [
+        {
+            "id": "rtx-3060",
+            "name": "GeForce RTX 3060",
+            "pcieGen": 4,
+            "memoryType": "GDDR6",
+            "vramGB": 12,
+            "tdpWatts": 170,
+            "msrpUSD": 329,
+            "gamingScore": 720,
+            "productivityScore": 640,
+            "tier": "mid",
+            "rayTracing": true,
+            "upscaling": "DLSS 2"
+        },
+        {
+            "id": "rtx-3080-ti",
+            "name": "GeForce RTX 3080 Ti",
+            "pcieGen": 4,
+            "memoryType": "GDDR6X",
+            "vramGB": 12,
+            "tdpWatts": 350,
+            "msrpUSD": 1199,
+            "gamingScore": 910,
+            "productivityScore": 880,
+            "tier": "enthusiast",
+            "rayTracing": true,
+            "upscaling": "DLSS 2"
+        },
+        {
+            "id": "rtx-3070-ti",
+            "name": "GeForce RTX 3070 Ti",
+            "pcieGen": 4,
+            "memoryType": "GDDR6X",
+            "vramGB": 8,
+            "tdpWatts": 290,
+            "msrpUSD": 599,
+            "gamingScore": 840,
+            "productivityScore": 780,
+            "tier": "high",
+            "rayTracing": true,
+            "upscaling": "DLSS 2"
+        }
+    ]
+}

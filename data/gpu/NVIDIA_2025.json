@@ -1,0 +1,91 @@
+{
+    "brand": "NVIDIA",
+    "year": 2025,
+    "architecture": "Blackwell",
+    "models": [
+        {
+            "id": "rtx-5090",
+            "name": "GeForce RTX 5090",
+            "pcieGen": 5,
+            "memoryType": "GDDR7",
+            "vramGB": 24,
+            "tdpWatts": 450,
+            "msrpUSD": 1599,
+            "gamingScore": 1000,
+            "productivityScore": 1000,
+            "tier": "flagship",
+            "rayTracing": true,
+            "upscaling": "DLSS 4"
+        },
+        {
+            "id": "rtx-5080",
+            "name": "GeForce RTX 5080",
+            "pcieGen": 5,
+            "memoryType": "GDDR7",
+            "vramGB": 16,
+            "tdpWatts": 350,
+            "msrpUSD": 999,
+            "gamingScore": 970,
+            "productivityScore": 960,
+            "tier": "enthusiast",
+            "rayTracing": true,
+            "upscaling": "DLSS 4"
+        },
+        {
+            "id": "rtx-5070-ti",
+            "name": "GeForce RTX 5070 Ti",
+            "pcieGen": 5,
+            "memoryType": "GDDR7",
+            "vramGB": 16,
+            "tdpWatts": 285,
+            "msrpUSD": 799,
+            "gamingScore": 950,
+            "productivityScore": 920,
+            "tier": "high",
+            "rayTracing": true,
+            "upscaling": "DLSS 4"
+        },
+        {
+            "id": "rtx-5070",
+            "name": "GeForce RTX 5070",
+            "pcieGen": 5,
+            "memoryType": "GDDR7",
+            "vramGB": 12,
+            "tdpWatts": 220,
+            "msrpUSD": 599,
+            "gamingScore": 920,
+            "productivityScore": 880,
+            "tier": "high",
+            "rayTracing": true,
+            "upscaling": "DLSS 4"
+        },
+        {
+            "id": "rtx-5060-ti",
+            "name": "GeForce RTX 5060 Ti",
+            "pcieGen": 5,
+            "memoryType": "GDDR7",
+            "vramGB": 12,
+            "tdpWatts": 180,
+            "msrpUSD": 449,
+            "gamingScore": 880,
+            "productivityScore": 820,
+            "tier": "mid-high",
+            "rayTracing": true,
+            "upscaling": "DLSS 4"
+        },
+        {
+            "id": "rtx-5060",
+            "name": "GeForce RTX 5060",
+            "pcieGen": 5,
+            "memoryType": "GDDR7",
+            "vramGB": 8,
+            "tdpWatts": 150,
+            "msrpUSD": 349,
+            "gamingScore": 850,
+            "productivityScore": 780,
+            "tier": "mid",
+            "rayTracing": true,
+            "upscaling": "DLSS 4"
+        }
+    ]
+}

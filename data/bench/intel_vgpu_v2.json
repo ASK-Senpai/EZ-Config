@@ -1,0 +1,87 @@
+[
+    {
+        "id": "intel-uhd-630",
+        "category": "vgpu",
+        "brand": "Intel",
+        "name": "Intel UHD Graphics 630",
+        "architecture": "Gen9.5",
+        "launchYear": 2017,
+        "normalized": {
+            "gamingScore": 13,
+            "productivityScore": 10,
+            "scoreVersion": 2
+        },
+        "performanceTier": "entry",
+        "anchorScale": 1000,
+        "legacy": true,
+        "updatedAt": "2026-03-01T08:30:00+05:30"
+    },
+    {
+        "id": "intel-uhd-730",
+        "category": "vgpu",
+        "brand": "Intel",
+        "name": "Intel UHD Graphics 730",
+        "architecture": "Xe-LP",
+        "launchYear": 2021,
+        "normalized": {
+            "gamingScore": 17,
+            "productivityScore": 13,
+            "scoreVersion": 2
+        },
+        "performanceTier": "entry",
+        "anchorScale": 1000,
+        "legacy": false,
+        "updatedAt": "2026-03-01T08:30:00+05:30"
+    },
+    {
+        "id": "intel-uhd-750",
+        "category": "vgpu",
+        "brand": "Intel",
+        "name": "Intel UHD Graphics 750",
+        "architecture": "Xe-LP",
+        "launchYear": 2021,
+        "normalized": {
+            "gamingScore": 19,
+            "productivityScore": 14,
+            "scoreVersion": 2
+        },
+        "performanceTier": "entry",
+        "anchorScale": 1000,
+        "legacy": false,
+        "updatedAt": "2026-03-01T08:30:00+05:30"
+    },
+    {
+        "id": "intel-uhd-770",
+        "category": "vgpu",
+        "brand": "Intel",
+        "name": "Intel UHD Graphics 770",
+        "architecture": "Xe-LP",
+        "launchYear": 2021,
+        "normalized": {
+            "gamingScore": 22,
+            "productivityScore": 17,
+            "scoreVersion": 2
+        },
+        "performanceTier": "entry",
+        "anchorScale": 1000,
+        "legacy": false,
+        "updatedAt": "2026-03-01T08:30:00+05:30"
+    },
+    {
+        "id": "intel-xe-lpg",
+        "category": "vgpu",
+        "brand": "Intel",
+        "name": "Intel Xe-LPG Graphics",
+        "architecture": "Xe-LPG (Alchemist-derived)",
+        "launchYear": 2024,
+        "normalized": {
+            "gamingScore": 35,
+            "productivityScore": 26,
+            "scoreVersion": 2
+        },
+        "performanceTier": "low-mid",
+        "anchorScale": 1000,
+        "legacy": false,
+        "updatedAt": "2026-03-01T08:30:00+05:30"
+    }
+]

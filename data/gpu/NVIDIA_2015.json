@@ -1,0 +1,77 @@
+{
+    "brand": "NVIDIA",
+    "year": 2015,
+    "architecture": "Maxwell",
+    "models": [
+        {
+            "id": "gtx-980-ti",
+            "name": "GeForce GTX 980 Ti",
+            "pcieGen": 3,
+            "memoryType": "GDDR5",
+            "vramGB": 6,
+            "tdpWatts": 250,
+            "msrpUSD": 649,
+            "gamingScore": 420,
+            "productivityScore": 300,
+            "tier": "high",
+            "rayTracing": false,
+            "upscaling": "None"
+        },
+        {
+            "id": "gtx-980",
+            "name": "GeForce GTX 980",
+            "pcieGen": 3,
+            "memoryType": "GDDR5",
+            "vramGB": 4,
+            "tdpWatts": 165,
+            "msrpUSD": 549,
+            "gamingScore": 380,
+            "productivityScore": 270,
+            "tier": "high",
+            "rayTracing": false,
+            "upscaling": "None"
+        },
+        {
+            "id": "gtx-970",
+            "name": "GeForce GTX 970",
+            "pcieGen": 3,
+            "memoryType": "GDDR5",
+            "vramGB": 4,
+            "tdpWatts": 145,
+            "msrpUSD": 329,
+            "gamingScore": 330,
+            "productivityScore": 240,
+            "tier": "mid",
+            "rayTracing": false,
+            "upscaling": "None"
+        },
+        {
+            "id": "gtx-960",
+            "name": "GeForce GTX 960",
+            "pcieGen": 3,
+            "memoryType": "GDDR5",
+            "vramGB": 2,
+            "tdpWatts": 120,
+            "msrpUSD": 199,
+            "gamingScore": 250,
+            "productivityScore": 180,
+            "tier": "budget",
+            "rayTracing": false,
+            "upscaling": "None"
+        },
+        {
+            "id": "gtx-950",
+            "name": "GeForce GTX 950",
+            "pcieGen": 3,
+            "memoryType": "GDDR5",
+            "vramGB": 2,
+            "tdpWatts": 90,
+            "msrpUSD": 159,
+            "gamingScore": 210,
+            "productivityScore": 150,
+            "tier": "entry",
+            "rayTracing": false,
+            "upscaling": "None"
+        }
+    ]
+}
