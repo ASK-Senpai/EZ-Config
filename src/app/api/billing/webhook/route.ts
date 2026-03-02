@@ -203,8 +203,8 @@ export async function POST(request: NextRequest) {
         console.log("EXPECTED:", expected);
         console.log("EXPECTED LENGTH:", expected.length);
 
-        const expectedBuffer = Buffer.from(expected, "utf8");
-        const signatureBuffer = Buffer.from(signature, "utf8");
+        const expectedBuffer = Buffer.from(expected, "hex");
+        const signatureBuffer = Buffer.from(signature, "hex");
 
         console.log("EXPECTED BUFFER LENGTH:", expectedBuffer.length);
         console.log("SIGNATURE BUFFER LENGTH:", signatureBuffer.length);
