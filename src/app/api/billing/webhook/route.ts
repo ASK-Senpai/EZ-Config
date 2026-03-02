@@ -239,10 +239,11 @@ export async function POST(request: NextRequest) {
             const razorpayEventId = tempPayload?.id;
             const subscriptionId = tempPayload?.payload?.subscription?.entity?.id;
 
-            eventId = razorpayEventId || paymentId || (subscriptionId ? `${event}_${subscriptionId}` : "");
+            const baseId = razorpayEventId || paymentId || (subscriptionId ? `${event}_${subscriptionId}` : "");
+            eventId = `v2_${baseId}`;
 
-            if (!eventId) {
-                eventId = `fallback_${event}_${Date.now()}`;
+            if (!baseId) {
+                eventId = `v2_fallback_${event}_${Date.now()}`;
                 console.warn("MISSING RELIABLE ID, USING FALLBACK:", eventId);
             }
         } catch (e) {
