@@ -27,54 +27,38 @@ async function markWebhookEventProcessed(eventId: string) {
 }
 
 async function resolveUserRefBySubscription(subscriptionId: string, email?: string) {
-    console.log("RESOLVING USER FOR SUB:", subscriptionId, "EMAIL:", email || "not provided");
-
     // 1. Try Document ID lookup in 'subscriptions' collection
     const subDoc = await adminDb.collection("subscriptions").doc(subscriptionId).get();
-    console.log("SUB DOC EXISTS:", subDoc.exists);
-
     const subData = subDoc.exists ? (subDoc.data() as Record<string, any>) : null;
     const uid = String(subData?.uid || "");
     if (uid) {
-        console.log("RESOLVED USER VIA SUB DOC:", uid);
         return adminDb.collection("users").doc(uid);
     }
 
     // 2. Try Query lookup in 'users' collection by subscriptionId
-    console.log("FALLING BACK TO ID QUERY SEARCH...");
     const idSnapshot = await adminDb
         .collection("users")
         .where("razorpaySubscriptionId", "==", subscriptionId)
         .limit(1)
         .get();
 
-    console.log("ID QUERY SNAPSHOT SIZE:", idSnapshot.size);
-
     if (!idSnapshot.empty) {
-        const resolvedRef = idSnapshot.docs[0].ref;
-        console.log("RESOLVED USER VIA ID QUERY:", resolvedRef.id);
-        return resolvedRef;
+        return idSnapshot.docs[0].ref;
     }
 
     // 3. Try Query lookup in 'users' collection by email (FINAL FALLBACK)
     if (email) {
-        console.log("FALLING BACK TO EMAIL QUERY SEARCH:", email);
         const emailSnapshot = await adminDb
             .collection("users")
             .where("email", "==", email.toLowerCase().trim())
             .limit(1)
             .get();
 
-        console.log("EMAIL QUERY SNAPSHOT SIZE:", emailSnapshot.size);
-
         if (!emailSnapshot.empty) {
-            const resolvedRef = emailSnapshot.docs[0].ref;
-            console.log("RESOLVED USER VIA EMAIL QUERY:", resolvedRef.id);
-            return resolvedRef;
+            return emailSnapshot.docs[0].ref;
         }
     }
 
-    console.error("COULD NOT RESOLVE USER VIA ANY METHOD");
     return null;
 }
 
@@ -98,11 +82,9 @@ async function handleSubscriptionActivated(payload: any) {
 
     const planName = process.env.RAZORPAY_PLAN_NAME || "premium_monthly";
 
-    console.log(`[WEBHOOK] PROCESSING UPGRADE FOR SUB: ${subscriptionId} (${email || "no-email"})`);
-
     const userRef = await resolveUserRefBySubscription(subscriptionId, email);
     if (!userRef) {
-        console.error(`[WEBHOOK] SKIPPING UPGRADE: NO USER RESOLVED FOR SUB: ${subscriptionId}`);
+        console.warn("[WEBHOOK] Webhook ignored - missing subscription");
         return;
     }
 
@@ -111,7 +93,6 @@ async function handleSubscriptionActivated(payload: any) {
         const userData = userSnap.data() as Record<string, any>;
         // SAFETY GUARD: If already premium and active, skip redundant writes
         if (userData.plan === planName && userData.subscriptionStatus === "active") {
-            console.log(`[WEBHOOK] USER ${userRef.id} IS ALREADY PREMIUM. SKIPPING.`);
             return;
         }
     }
@@ -127,7 +108,7 @@ async function handleSubscriptionActivated(payload: any) {
         updatedAt: FieldValue.serverTimestamp(),
     }, { merge: true });
 
-    console.log(`[WEBHOOK] PREMIUM GRANTED TO: ${email || userRef.id}`);
+    console.info("[WEBHOOK] Subscription activated for user:", userRef.id);
 
     await upsertSubscription(subscriptionId, {
         uid: userRef.id,
@@ -223,7 +204,6 @@ export async function POST(request: NextRequest) {
         try {
             const ab = await request.arrayBuffer();
             rawBodyBuffer = Buffer.from(ab);
-            console.log("BODY READ SUCCESS");
         } catch (err) {
             console.error("BODY READ FAILED:", err);
             return NextResponse.json(
@@ -286,11 +266,10 @@ export async function POST(request: NextRequest) {
 
         const shouldProcess = await markWebhookEventProcessed(eventId);
         if (!shouldProcess) {
-            console.log(`[WEBHOOK] DUPLICATE DETECTED: ${eventId}`);
             return NextResponse.json({ success: true, duplicate: true }, { status: 200 });
         }
 
-        console.log(`[WEBHOOK] PROCESSING: ${event} | ID: ${eventId}`);
+        console.info("[WEBHOOK] Webhook received:", event);
         if (event === "subscription.activated") {
             await handleSubscriptionActivated(payload);
         } else if (event === "subscription.charged") {
@@ -303,7 +282,7 @@ export async function POST(request: NextRequest) {
 
         return NextResponse.json({ success: true }, { status: 200 });
     } catch (error) {
-        console.error("Billing webhook failed:", error);
+        console.error("[WEBHOOK] Webhook processing failed");
         return NextResponse.json({ error: "INTERNAL_SERVER_ERROR" }, { status: 500 });
     }
 }

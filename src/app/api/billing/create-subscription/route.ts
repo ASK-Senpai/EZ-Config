@@ -55,60 +55,47 @@ export async function POST(request: NextRequest) {
             key_secret: keySecret,
         });
 
-        try {
-            const subscription = await razorpay.subscriptions.create({
-                plan_id: planId,
-                customer_notify: 1,
-                total_count: Number(process.env.RAZORPAY_BILLING_CYCLES ?? 1200),
-            });
+        const subscription = await razorpay.subscriptions.create({
+            plan_id: planId,
+            customer_notify: 1,
+            total_count: Number(process.env.RAZORPAY_BILLING_CYCLES ?? 1200),
+        });
 
-            console.log("CREATING SUB DOC FOR:", subscription.id);
-            console.log("UID:", uid);
-            console.log("PLAN NAME:", planName);
+        await adminDb.collection("subscriptions").doc(subscription.id).set(
+            {
+                uid,
+                razorpaySubscriptionId: subscription.id,
+                status: "created",
+                plan: planName,
+                amountInr: Number.isFinite(planAmountInr) ? planAmountInr : 0,
+                currentPeriodStart: null,
+                currentPeriodEnd: null,
+                createdAt: FieldValue.serverTimestamp(),
+                updatedAt: FieldValue.serverTimestamp(),
+            },
+            { merge: true }
+        );
 
-            await adminDb.collection("subscriptions").doc(subscription.id).set(
-                {
-                    uid,
-                    razorpaySubscriptionId: subscription.id,
-                    status: "created",
-                    plan: planName,
-                    amountInr: Number.isFinite(planAmountInr) ? planAmountInr : 0,
-                    currentPeriodStart: null,
-                    currentPeriodEnd: null,
-                    createdAt: FieldValue.serverTimestamp(),
-                    updatedAt: FieldValue.serverTimestamp(),
-                },
-                { merge: true }
-            );
-
-            const checkDoc = await adminDb.collection("subscriptions").doc(subscription.id).get();
-            console.log("SUB DOC VERIFIED CREATED:", checkDoc.exists);
-
-            return NextResponse.json(
-                {
-                    subscriptionId: subscription.id,
-                    key: keyId,
-                },
-                { status: 200 }
-            );
-        } catch (err: any) {
-            console.error("========== RAZORPAY CREATE SUBSCRIPTION ERROR ==========");
-            console.error("FULL ERROR OBJECT:", err);
-            console.error("ERROR JSON:", JSON.stringify(err, null, 2));
-            console.error("PLAN ID USED:", planId);
-            console.error("BILLING CYCLES USED:", process.env.RAZORPAY_BILLING_CYCLES);
-            console.error("==========================================================");
-
-            return NextResponse.json(
-                { error: "Subscription creation failed" },
-                { status: 500 }
-            );
-        }
-    } catch (error) {
-        console.error("Create subscription failed:", error);
         return NextResponse.json(
-            { error: "INTERNAL_SERVER_ERROR", message: "Failed to create subscription." },
+            {
+                subscriptionId: subscription.id,
+                key: keyId,
+            },
+            { status: 200 }
+        );
+    } catch (err: any) {
+        console.error("[BILLING] Subscription creation failed");
+
+        return NextResponse.json(
+            { error: "Subscription creation failed" },
             { status: 500 }
         );
     }
+} catch (error) {
+    console.error("Create subscription failed:", error);
+    return NextResponse.json(
+        { error: "INTERNAL_SERVER_ERROR", message: "Failed to create subscription." },
+        { status: 500 }
+    );
+}
 }
