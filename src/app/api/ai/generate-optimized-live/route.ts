@@ -90,7 +90,11 @@ export async function POST(request: NextRequest) {
 
         const userDoc = await db.collection("users").doc(userId).get();
         const user = userDoc.exists ? userDoc.data() : null;
-        const isPremium = user?.plan === "premium" && user?.subscriptionStatus === "active";
+        const rawPlan = String(user?.plan || "").toLowerCase();
+        const rawStatus = String(user?.subscriptionStatus || "").toLowerCase();
+        const isPremium =
+            (rawPlan === "premium" && rawStatus === "active") ||
+            (rawPlan === "premium" && user?.isPremium === true);
         if (!user || !isPremium) {
             return NextResponse.json(
                 { error: "Premium required" },

@@ -8,8 +8,17 @@ export async function GET(request: NextRequest) {
         const db = getFirestore();
         const userDoc = await db.collection("users").doc(decodedClaims.uid).get();
         const userData = userDoc.exists ? userDoc.data() || {} : {};
-        const plan = userData?.plan || "free";
-        const status = userData?.subscriptionStatus || "inactive";
+        const rawPlan = String(userData?.plan || "").toLowerCase();
+        const rawStatus = String(userData?.subscriptionStatus || "").toLowerCase();
+
+        let normalizedStatus: "active" | "inactive" = "inactive";
+        if (rawStatus === "active") {
+            normalizedStatus = "active";
+        } else if (rawPlan === "premium" && userData?.isPremium === true) {
+            normalizedStatus = "active";
+        }
+
+        const normalizedPlan: "free" | "premium" = rawPlan === "premium" ? "premium" : "free";
         const aiUsage = Number(
             userData?.aiUsage ??
             userData?.monthlyReportUsage ??
@@ -18,7 +27,7 @@ export async function GET(request: NextRequest) {
         );
         const aiLimit = Number(
             userData?.aiLimit ??
-            (plan === "premium" ? 50 : 5)
+            (normalizedPlan === "premium" ? 50 : 5)
         );
 
         return NextResponse.json(
@@ -26,8 +35,8 @@ export async function GET(request: NextRequest) {
                 status: "success",
                 uid: decodedClaims.uid,
                 subscription: {
-                    plan,
-                    status,
+                    plan: normalizedPlan,
+                    status: normalizedStatus,
                     aiUsage,
                     aiLimit,
                 },

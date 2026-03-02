@@ -129,7 +129,12 @@ export async function POST(
         }
 
         const userData = userDoc.data()!;
-        const plan = userData.plan || "free";
+        const rawPlan = String(userData?.plan || "").toLowerCase();
+        const rawStatus = String(userData?.subscriptionStatus || "").toLowerCase();
+        const isPremiumActive =
+            (rawPlan === "premium" && rawStatus === "active") ||
+            (rawPlan === "premium" && userData?.isPremium === true);
+        const plan = isPremiumActive ? "premium" : "free";
         const monthKey = currentMonthKey();
 
         const ownedBuild = await getOwnedBuildOrNull(db, buildId, userId);

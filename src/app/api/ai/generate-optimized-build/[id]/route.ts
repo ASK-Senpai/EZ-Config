@@ -104,8 +104,11 @@ export async function POST(
 
         const userDoc = await db.collection("users").doc(userId).get();
         const userData = userDoc.exists ? userDoc.data() || {} : {};
-        const userPlan = userData?.plan || "free";
-        const isPremiumActive = userPlan === "premium" && userData?.subscriptionStatus === "active";
+        const rawPlan = String(userData?.plan || "").toLowerCase();
+        const rawStatus = String(userData?.subscriptionStatus || "").toLowerCase();
+        const isPremiumActive =
+            (rawPlan === "premium" && rawStatus === "active") ||
+            (rawPlan === "premium" && userData?.isPremium === true);
         if (!isFeatureEnabled("OPTIMIZE_BUILD", isPremiumActive ? "premium" : "free")) {
             return NextResponse.json({ error: "PREMIUM_REQUIRED", message: "Upgrade required" }, { status: 403 });
         }

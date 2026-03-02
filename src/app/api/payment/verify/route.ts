@@ -46,7 +46,9 @@ export async function POST(request: NextRequest) {
             plan: "premium",
             subscriptionId: razorpay_subscription_id,
             subscriptionStatus: "active",
-            upgradedAt: FieldValue.serverTimestamp()
+            premiumSince: FieldValue.serverTimestamp(),
+            aiLimit: 50,
+            updatedAt: FieldValue.serverTimestamp()
         });
 
         // Analytics: track premium upgrade

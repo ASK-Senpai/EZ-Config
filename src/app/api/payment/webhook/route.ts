@@ -58,31 +58,36 @@ export async function POST(request: NextRequest) {
                 updates = {
                     plan: "premium",
                     subscriptionStatus: "active",
+                    premiumSince: FieldValue.serverTimestamp(),
+                    aiLimit: 50,
                     updatedAt: FieldValue.serverTimestamp()
                 };
                 break;
             case "subscription.charged":
                 updates = {
+                    plan: "premium",
                     subscriptionStatus: "active",
+                    aiLimit: 50,
                     updatedAt: FieldValue.serverTimestamp()
                 };
                 break;
             case "subscription.halted":
+            case "subscription.cancelled":
                 updates = {
-                    subscriptionStatus: "halted",
+                    subscriptionStatus: "cancelled",
                     updatedAt: FieldValue.serverTimestamp()
                 };
-                analyticsUpdates = { subscriptionStatus: "halted" };
+                analyticsUpdates = { subscriptionStatus: "cancelled" };
                 break;
-            case "subscription.cancelled":
             case "subscription.completed":
                 updates = {
                     plan: "free",
-                    subscriptionStatus: "inactive",
+                    subscriptionStatus: "expired",
                     subscriptionId: null, // Clear the subscription link if completed/cancelled
+                    aiLimit: 5,
                     updatedAt: FieldValue.serverTimestamp()
                 };
-                analyticsUpdates = { subscriptionStatus: "inactive", isCancellation: true };
+                analyticsUpdates = { subscriptionStatus: "expired", isCancellation: true };
                 break;
             default:
                 // Unhandled events return 200 to prevent Razorpay from retrying

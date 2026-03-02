@@ -13,7 +13,11 @@ export async function GET(request: NextRequest) {
         const db = getFirestore();
         const userDoc = await db.collection("users").doc(userId).get();
         const userData = userDoc.exists ? userDoc.data() || {} : {};
-        const isPremiumActive = userData?.plan === "premium" && userData?.subscriptionStatus === "active";
+        const rawPlan = String(userData?.plan || "").toLowerCase();
+        const rawStatus = String(userData?.subscriptionStatus || "").toLowerCase();
+        const isPremiumActive =
+            (rawPlan === "premium" && rawStatus === "active") ||
+            (rawPlan === "premium" && userData?.isPremium === true);
         const plan = isPremiumActive ? "premium" : "free";
 
         if (!isFeatureEnabled("COMPARE_BUILDS", plan)) {

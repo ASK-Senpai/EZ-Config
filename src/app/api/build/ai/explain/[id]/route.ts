@@ -49,8 +49,15 @@ export async function POST(
         }
 
         const userDoc = await db.collection("users").doc(userId).get();
-        const userPlan = userDoc.exists ? userDoc.data()?.plan || "free" : "free";
-        if (!isFeatureEnabled("AI_FULL_OVERVIEW", userPlan)) {
+        const userData = userDoc.exists ? userDoc.data() || {} : {};
+        const rawPlan = String(userData?.plan || "").toLowerCase();
+        const rawStatus = String(userData?.subscriptionStatus || "").toLowerCase();
+        const isPremiumActive =
+            (rawPlan === "premium" && rawStatus === "active") ||
+            (rawPlan === "premium" && userData?.isPremium === true);
+        const effectivePlan = isPremiumActive ? "premium" : "free";
+
+        if (!isFeatureEnabled("AI_FULL_OVERVIEW", effectivePlan)) {
             return NextResponse.json({ success: false, message: "Upgrade required" }, { status: 403 });
         }
 
@@ -78,7 +85,7 @@ export async function POST(
             (buildInput as any)[componentType] = { id: componentDoc.id, ...componentDoc.data()! };
         }
 
-        const analysis = analyzeBuild(buildInput, userPlan);
+        const analysis = analyzeBuild(buildInput, effectivePlan);
         const explanationObject = await explainBuild({
             cpuName: buildInput.cpu?.name || "Unknown CPU",
             gpuName: (buildInput.activeGpu ?? buildInput.gpu)?.name || "Unknown GPU",

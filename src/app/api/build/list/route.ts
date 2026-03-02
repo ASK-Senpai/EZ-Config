@@ -21,18 +21,24 @@ export async function GET(req: NextRequest) {
             .get();
         const userData = userDoc.exists ? (userDoc.data() as Record<string, any>) : {};
 
-        const plan = userData?.plan || "free";
-        const status = userData?.subscriptionStatus || "inactive";
+        const rawPlan = String(userData?.plan || "").toLowerCase();
+        const rawStatus = String(userData?.subscriptionStatus || "").toLowerCase();
+
+        let normalizedStatus: "active" | "inactive" = "inactive";
+        if (rawStatus === "active") {
+            normalizedStatus = "active";
+        } else if (rawPlan === "premium" && userData?.isPremium === true) {
+            normalizedStatus = "active";
+        }
+
+        const normalizedPlan: "free" | "premium" = rawPlan === "premium" ? "premium" : "free";
         const aiUsage = Number(
             userData?.aiUsage ??
             userData?.monthlyReportUsage ??
             userData?.monthlyCount ??
             0
         );
-        const aiLimit = Number(
-            userData?.aiLimit ??
-            (plan === "premium" ? 50 : 5)
-        );
+        const aiLimit = Number(userData?.aiLimit ?? (normalizedPlan === "premium" ? 50 : 5));
 
         const snapshot = await adminDb
             .collection("builds")
@@ -55,8 +61,8 @@ export async function GET(req: NextRequest) {
             success: true,
             builds,
             subscription: {
-                plan,
-                status,
+                plan: normalizedPlan,
+                status: normalizedStatus,
                 aiUsage,
                 aiLimit,
             },

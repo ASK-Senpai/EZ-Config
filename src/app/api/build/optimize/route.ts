@@ -22,7 +22,11 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ error: "NOT_FOUND" }, { status: 404 });
         }
         const userData = userDoc.data() || {};
-        const isPremiumActive = userData?.plan === "premium" && userData?.subscriptionStatus === "active";
+        const rawPlan = String(userData?.plan || "").toLowerCase();
+        const rawStatus = String(userData?.subscriptionStatus || "").toLowerCase();
+        const isPremiumActive =
+            (rawPlan === "premium" && rawStatus === "active") ||
+            (rawPlan === "premium" && userData?.isPremium === true);
         const plan = isPremiumActive ? "premium" : "free";
 
         if (!isFeatureEnabled("OPTIMIZE_BUILD", plan)) {
