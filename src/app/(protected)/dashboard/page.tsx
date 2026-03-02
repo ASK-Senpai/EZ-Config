@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { useBuildStore } from "@/store/useBuildStore";
 import { isFeatureEnabled } from "@/lib/featureFlags";
+import { useAuth } from "@/components/features/auth/AuthProvider";
 
 function Badge({ children, variant = "default", className = "" }: any) {
     let bg = "bg-primary/20 text-primary border-primary/20";
@@ -32,6 +33,7 @@ interface AIExplanation {
 
 export default function DashboardPage() {
     const router = useRouter();
+    const { user, loading: authLoading } = useAuth();
     const [builds, setBuilds] = useState<any[]>([]);
     const [plan, setPlan] = useState<string>("free");
     const [loading, setLoading] = useState(true);
@@ -90,7 +92,18 @@ export default function DashboardPage() {
     useEffect(() => {
         const fetchBuilds = async () => {
             try {
-                const res = await fetch("/api/build/list");
+                if (authLoading) return;
+                if (!user) {
+                    router.push("/login");
+                    return;
+                }
+
+                const token = await user.getIdToken();
+                const res = await fetch("/api/build/list", {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
                 if (!res.ok) {
                     if (res.status === 401) {
                         router.push("/login"); // Token likely expired
@@ -99,7 +112,7 @@ export default function DashboardPage() {
                     throw new Error("Failed to load builds");
                 }
                 const data = await res.json();
-                setBuilds(data.builds || []);
+                setBuilds(data.builds);
                 setPlan(data.plan || "free");
                 if (data.aiUsage) setAiUsage(data.aiUsage);
             } catch (err: any) {
@@ -111,7 +124,7 @@ export default function DashboardPage() {
         };
 
         fetchBuilds();
-    }, [router]);
+    }, [authLoading, router, user]);
 
     // Handle delete action
     const handleDelete = async (id: string) => {
