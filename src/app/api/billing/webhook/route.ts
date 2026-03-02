@@ -26,42 +26,56 @@ async function markWebhookEventProcessed(eventId: string) {
     });
 }
 
-async function resolveUserRefBySubscription(subscriptionId: string) {
-    console.log("RESOLVING USER FOR SUB:", subscriptionId);
+async function resolveUserRefBySubscription(subscriptionId: string, email?: string) {
+    console.log("RESOLVING USER FOR SUB:", subscriptionId, "EMAIL:", email || "not provided");
 
+    // 1. Try Document ID lookup in 'subscriptions' collection
     const subDoc = await adminDb.collection("subscriptions").doc(subscriptionId).get();
     console.log("SUB DOC EXISTS:", subDoc.exists);
 
     const subData = subDoc.exists ? (subDoc.data() as Record<string, any>) : null;
-    if (subData) {
-        console.log("SUB DATA FOUND, UID:", subData.uid);
-    } else {
-        console.log("NO SUB DATA FOUND VIA DOC ID");
-    }
-
     const uid = String(subData?.uid || "");
     if (uid) {
         console.log("RESOLVED USER VIA SUB DOC:", uid);
         return adminDb.collection("users").doc(uid);
     }
 
-    console.log("FALLING BACK TO QUERY SEARCH...");
-    const userSnapshot = await adminDb
+    // 2. Try Query lookup in 'users' collection by subscriptionId
+    console.log("FALLING BACK TO ID QUERY SEARCH...");
+    const idSnapshot = await adminDb
         .collection("users")
         .where("razorpaySubscriptionId", "==", subscriptionId)
         .limit(1)
         .get();
 
-    console.log("FALLBACK QUERY SIZE:", userSnapshot.size);
+    console.log("ID QUERY SNAPSHOT SIZE:", idSnapshot.size);
 
-    if (userSnapshot.empty) {
-        console.error("COULD NOT RESOLVE USER FOR SUB:", subscriptionId);
-        return null;
+    if (!idSnapshot.empty) {
+        const resolvedRef = idSnapshot.docs[0].ref;
+        console.log("RESOLVED USER VIA ID QUERY:", resolvedRef.id);
+        return resolvedRef;
     }
 
-    const resolvedRef = userSnapshot.docs[0].ref;
-    console.log("RESOLVED USER VIA FALLBACK:", resolvedRef.id);
-    return resolvedRef;
+    // 3. Try Query lookup in 'users' collection by email (FINAL FALLBACK)
+    if (email) {
+        console.log("FALLING BACK TO EMAIL QUERY SEARCH:", email);
+        const emailSnapshot = await adminDb
+            .collection("users")
+            .where("email", "==", email.toLowerCase().trim())
+            .limit(1)
+            .get();
+
+        console.log("EMAIL QUERY SNAPSHOT SIZE:", emailSnapshot.size);
+
+        if (!emailSnapshot.empty) {
+            const resolvedRef = emailSnapshot.docs[0].ref;
+            console.log("RESOLVED USER VIA EMAIL QUERY:", resolvedRef.id);
+            return resolvedRef;
+        }
+    }
+
+    console.error("COULD NOT RESOLVE USER VIA ANY METHOD");
+    return null;
 }
 
 async function upsertSubscription(subscriptionId: string, data: Record<string, unknown>) {
@@ -73,8 +87,19 @@ async function upsertSubscription(subscriptionId: string, data: Record<string, u
 }
 
 async function handleSubscriptionActivated(payload: any) {
-    const entity = payload?.payload?.subscription?.entity || {};
-    const subscriptionId = String(entity?.id || "");
+    const subEntity = payload?.payload?.subscription?.entity || {};
+    const paymentEntity = payload?.payload?.payment?.entity || {};
+
+    // Extracting Sub ID from multiple possible locations
+    const subIdTop = subEntity?.id;
+    const subIdPayment = paymentEntity?.subscription_id;
+    const subscriptionId = String(subIdTop || subIdPayment || "");
+
+    // Extracting Email for fallback resolution
+    const emailSub = subEntity?.customer_email;
+    const emailPayment = paymentEntity?.email;
+    const email = String(emailSub || emailPayment || "");
+
     if (!subscriptionId) {
         console.error("NO SUBSCRIPTION ID IN PAYLOAD");
         return;
@@ -84,8 +109,9 @@ async function handleSubscriptionActivated(payload: any) {
 
     console.log("==== STARTING UPGRADE LOGIC ====");
     console.log("Subscription ID:", subscriptionId);
+    console.log("Email Found:", email || "NONE");
 
-    const userRef = await resolveUserRefBySubscription(subscriptionId);
+    const userRef = await resolveUserRefBySubscription(subscriptionId, email);
     if (!userRef) {
         console.error("SKIPPING UPGRADE: NO USER RESOLVED FOR SUB:", subscriptionId);
         return;
