@@ -23,6 +23,19 @@ export async function POST(request: NextRequest) {
         const decoded = await admin.auth().verifyIdToken(token);
         const uid = decoded.uid;
 
+        const userDoc = await adminDb.collection("users").doc(uid).get();
+        const userData = userDoc.exists ? (userDoc.data() as Record<string, any>) : {};
+        const rawPlan = String(userData?.plan || "").toLowerCase();
+        const rawStatus = String(userData?.subscriptionStatus || "").toLowerCase();
+        const planName = (process.env.RAZORPAY_PLAN_NAME || "premium_monthly").toLowerCase();
+
+        if (rawStatus === "active" && (rawPlan === planName || rawPlan === "premium")) {
+            return NextResponse.json(
+                { error: "Subscription already active" },
+                { status: 409 }
+            );
+        }
+
         const keyId = process.env.RAZORPAY_KEY_ID;
         const keySecret = process.env.RAZORPAY_KEY_SECRET;
         const planId = process.env.RAZORPAY_PLAN_ID;

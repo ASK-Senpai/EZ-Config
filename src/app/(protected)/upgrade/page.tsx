@@ -1,11 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Check, X, Shield, Zap, TrendingUp, Loader2 } from "lucide-react";
 
 import { SectionContainer } from "@/components/ui/SectionContainer";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
     Accordion,
@@ -30,8 +31,13 @@ export default function UpgradePage() {
     const { user } = useAuth();
     const [isUpgrading, setIsUpgrading] = useState(false);
     const displayPriceInr = process.env.NEXT_PUBLIC_PREMIUM_PRICE_INR || "1";
+    const [isPremiumActive, setIsPremiumActive] = useState(false);
+    const [subscriptionStatus, setSubscriptionStatus] = useState<"active" | "inactive" | "cancelled" | "expired" | "past_due">("inactive");
 
     const handleUpgrade = async () => {
+        if (isPremiumActive) {
+            return;
+        }
         if (!window.Razorpay) {
             alert("Razorpay SDK not loaded. Please check your connection.");
             return;
@@ -120,6 +126,27 @@ export default function UpgradePage() {
         }
     };
 
+    useEffect(() => {
+        const loadSubscriptionStatus = async () => {
+            if (!user) return;
+            try {
+                const token = await user.getIdToken();
+                const res = await fetch("/api/subscription/status", {
+                    headers: { Authorization: `Bearer ${token}` },
+                });
+                if (!res.ok) return;
+                const data = await res.json();
+                setSubscriptionStatus(data.subscriptionStatus || "inactive");
+                setIsPremiumActive(Boolean(data.isPremiumActive));
+            } catch {
+                setSubscriptionStatus("inactive");
+                setIsPremiumActive(false);
+            }
+        };
+
+        loadSubscriptionStatus();
+    }, [user]);
+
     return (
         <div className="bg-background min-h-screen text-foreground pb-24">
             <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="lazyOnload" />
@@ -155,9 +182,9 @@ export default function UpgradePage() {
                             size="lg"
                             className="w-full sm:w-auto"
                             onClick={handleUpgrade}
-                            disabled={isUpgrading}
+                            disabled={isUpgrading || isPremiumActive}
                         >
-                            Upgrade Now
+                            {isPremiumActive ? "Premium Active" : "Upgrade Now"}
                         </Button>
                         <Button variant="outline" size="lg" className="w-full sm:w-auto" asChild>
                             <Link href="/dashboard">Back to Dashboard</Link>
@@ -272,31 +299,51 @@ export default function UpgradePage() {
                                 <div className="absolute top-0 right-0 w-32 h-32 bg-primary/20 rounded-full blur-[50px] pointer-events-none translate-x-1/2 -translate-y-1/2" />
 
                                 <div className="text-center space-y-6 relative z-10">
-                                    <h3 className="text-2xl font-bold tracking-tight">Premium Plan</h3>
-                                    <div className="flex items-end justify-center gap-1">
-                                        <span className="text-4xl font-bold">₹{displayPriceInr}</span>
-                                        <span className="text-muted-foreground mb-1">/month</span>
-                                    </div>
-                                    <p className="text-sm text-muted-foreground">
-                                        Full access to all advanced insights, scoring, and priority AI processing.
-                                    </p>
+                                    {isPremiumActive ? (
+                                        <>
+                                            <h3 className="text-2xl font-bold tracking-tight">You are Premium</h3>
+                                            <p className="text-sm text-muted-foreground">
+                                                Your premium subscription is active.
+                                            </p>
+                                            <Badge variant="success" className="uppercase tracking-widest text-[10px]">Active</Badge>
+                                            <Button
+                                                variant="outline"
+                                                size="lg"
+                                                className="w-full"
+                                                onClick={() => router.push("/dashboard")}
+                                            >
+                                                Manage Subscription
+                                            </Button>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <h3 className="text-2xl font-bold tracking-tight">Premium Plan</h3>
+                                            <div className="flex items-end justify-center gap-1">
+                                                <span className="text-4xl font-bold">₹{displayPriceInr}</span>
+                                                <span className="text-muted-foreground mb-1">/month</span>
+                                            </div>
+                                            <p className="text-sm text-muted-foreground">
+                                                Full access to all advanced insights, scoring, and priority AI processing.
+                                            </p>
 
-                                    <Button
-                                        variant="premium"
-                                        size="lg"
-                                        className="w-full"
-                                        onClick={handleUpgrade}
-                                        disabled={isUpgrading}
-                                    >
-                                        {isUpgrading ? (
-                                            <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Processing...</>
-                                        ) : "Upgrade via Razorpay"}
-                                    </Button>
+                                            <Button
+                                                variant="premium"
+                                                size="lg"
+                                                className="w-full"
+                                                onClick={handleUpgrade}
+                                                disabled={isUpgrading}
+                                            >
+                                                {isUpgrading ? (
+                                                    <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Processing...</>
+                                                ) : "Upgrade via Razorpay"}
+                                            </Button>
 
-                                    <p className="text-xs text-muted-foreground/60 flex items-center justify-center gap-2">
-                                        <Shield className="h-3 w-3" />
-                                        Secure payment powered by Razorpay
-                                    </p>
+                                            <p className="text-xs text-muted-foreground/60 flex items-center justify-center gap-2">
+                                                <Shield className="h-3 w-3" />
+                                                Secure payment powered by Razorpay
+                                            </p>
+                                        </>
+                                    )}
                                 </div>
                             </Card>
                         </motion.div>
