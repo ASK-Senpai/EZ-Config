@@ -100,8 +100,15 @@ async function handleSubscriptionActivated(payload: any) {
     const emailPayment = paymentEntity?.email;
     const email = String(emailSub || emailPayment || "");
 
+    console.log("==== UPGRADE DEBUG ====");
+    console.log("SUB ID TOP:", subIdTop);
+    console.log("SUB ID PAYMENT:", subIdPayment);
+    console.log("PAYMENT ID:", paymentEntity?.id);
+    console.log("EMAIL SUB:", emailSub);
+    console.log("EMAIL PAYMENT:", emailPayment);
+
     if (!subscriptionId) {
-        console.error("NO SUBSCRIPTION ID IN PAYLOAD");
+        console.error("NO SUBSCRIPTION ID IN PAYLOAD - KEYS:", Object.keys(payload?.payload || {}));
         return;
     }
 
@@ -265,11 +272,14 @@ export async function POST(request: NextRequest) {
             const razorpayEventId = tempPayload?.id;
             const subscriptionId = tempPayload?.payload?.subscription?.entity?.id;
 
-            const baseId = razorpayEventId || paymentId || (subscriptionId ? `${event}_${subscriptionId}` : "");
-            eventId = `v2_${baseId}`;
+            const baseId = razorpayEventId || paymentId || (subscriptionId ? `${subscriptionId}` : "");
+
+            // v3: Include EVENT NAME in the key to prevent different events 
+            // from blocking each other (e.g. payment.captured blocking subscription.activated)
+            eventId = `v3_${event}_${baseId}`;
 
             if (!baseId) {
-                eventId = `v2_fallback_${event}_${Date.now()}`;
+                eventId = `v3_fallback_${event}_${Date.now()}`;
                 console.warn("MISSING RELIABLE ID, USING FALLBACK:", eventId);
             }
         } catch (e) {
