@@ -113,9 +113,13 @@ export async function POST(
     { params }: { params: Promise<{ id: string }> }
 ) {
     try {
+        console.log("=== GENERATE BUILD REPORT START ===");
         const decodedUser = await requireAuth();
         const userId = decodedUser.uid;
         const { id: buildId } = await params;
+
+        console.log("Report ID:", buildId);
+        console.log("User UID:", decodedUser.uid);
 
         if (!buildId) {
             return NextResponse.json({ error: "BAD_REQUEST", message: "Build ID is required." }, { status: 400 });
@@ -136,6 +140,12 @@ export async function POST(
             rawPlan === planName && rawStatus === "active";
         const plan = isPremiumActive ? "premium" : "free";
         const monthKey = currentMonthKey();
+
+        console.log("Subscription object:", {
+            plan: userData?.plan || "unknown",
+            subscriptionStatus: userData?.subscriptionStatus || "unknown",
+            isPremiumActive,
+        });
 
         const ownedBuild = await getOwnedBuildOrNull(db, buildId, userId);
         if (!ownedBuild) {
@@ -264,9 +274,12 @@ export async function POST(
             ],
         });
 
+        console.log("Calling Groq model...");
         const reportJson = await generateTechnicalReport(structuredBuildPayloadString);
+        console.log("Groq response received");
 
         const batch = db.batch();
+        console.log("Saving report to Firestore...");
         batch.set(reportRef, {
             userId,
             buildId,
@@ -300,11 +313,16 @@ export async function POST(
         await batch.commit();
 
         return NextResponse.json({ reportId, cached: false, engineSnapshotHash, reportJson }, { status: 200 });
-    } catch (error: any) {
-        if (error.message === "UNAUTHORIZED") {
-            return NextResponse.json({ error: "UNAUTHORIZED", message: "Missing or invalid session" }, { status: 401 });
-        }
-        console.error("Failed to generate build report:", error);
-        return NextResponse.json({ error: "INTERNAL_SERVER_ERROR", message: "Failed to generate report." }, { status: 500 });
+    } catch (err: any) {
+        console.error("========= GENERATE BUILD REPORT ERROR =========");
+        console.error("FULL ERROR:", err);
+        console.error("ERROR JSON:", JSON.stringify(err, null, 2));
+        console.error("Stack:", err?.stack);
+        console.error("===============================================");
+
+        return NextResponse.json(
+            { error: "Failed to generate report" },
+            { status: 500 }
+        );
     }
 }
