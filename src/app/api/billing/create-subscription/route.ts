@@ -17,7 +17,10 @@ export async function POST(request: NextRequest) {
     try {
         const token = getBearerToken(request);
         if (!token) {
-            return NextResponse.json({ error: "UNAUTHORIZED", message: "Missing bearer token." }, { status: 401 });
+            return NextResponse.json(
+                { error: "UNAUTHORIZED", message: "Missing bearer token." },
+                { status: 401 }
+            );
         }
 
         const decoded = await admin.auth().verifyIdToken(token);
@@ -25,25 +28,26 @@ export async function POST(request: NextRequest) {
 
         const userDoc = await adminDb.collection("users").doc(uid).get();
         const userData = userDoc.exists ? (userDoc.data() as Record<string, any>) : {};
+
+        const keyId = process.env.RAZORPAY_KEY_ID;
+        const keySecret = process.env.RAZORPAY_KEY_SECRET;
+        const planId = process.env.RAZORPAY_PLAN_ID;
+        const planName = (process.env.RAZORPAY_PLAN_NAME ?? "premium_monthly").toLowerCase();
+        const planAmountInr = Number(process.env.RAZORPAY_PLAN_AMOUNT_INR ?? 0);
+
+        if (!keyId || !keySecret || !planId) {
+            throw new Error("Missing Razorpay environment variables");
+        }
+
         const rawPlan = String(userData?.plan ?? "").toLowerCase();
         const rawStatus = String(userData?.subscriptionStatus ?? "").toLowerCase();
-        const planName = (process.env.RAZORPAY_PLAN_NAME ?? "premium_monthly").toLowerCase();
 
+        // ✅ Duplicate subscription protection
         if (rawStatus === "active" && (rawPlan === planName || rawPlan === "premium")) {
             return NextResponse.json(
                 { error: "Subscription already active" },
                 { status: 409 }
             );
-        }
-
-        const keyId = process.env.RAZORPAY_KEY_ID;
-        const keySecret = process.env.RAZORPAY_KEY_SECRET;
-        const planId = process.env.RAZORPAY_PLAN_ID;
-        const planName = process.env.RAZORPAY_PLAN_NAME ?? "premium_monthly";
-        const planAmountInr = Number(process.env.RAZORPAY_PLAN_AMOUNT_INR ?? 0);
-
-        if (!keyId || !keySecret || !planId) {
-            throw new Error("Missing Razorpay environment variables");
         }
 
         const razorpay = new Razorpay({
@@ -58,17 +62,20 @@ export async function POST(request: NextRequest) {
                 total_count: Number(process.env.RAZORPAY_BILLING_CYCLES ?? 1200),
             });
 
-            await adminDb.collection("subscriptions").doc(subscription.id).set({
-                uid,
-                razorpaySubscriptionId: subscription.id,
-                status: "created",
-                plan: planName,
-                amountInr: Number.isFinite(planAmountInr) ? planAmountInr : 0,
-                currentPeriodStart: null,
-                currentPeriodEnd: null,
-                createdAt: FieldValue.serverTimestamp(),
-                updatedAt: FieldValue.serverTimestamp(),
-            }, { merge: true });
+            await adminDb.collection("subscriptions").doc(subscription.id).set(
+                {
+                    uid,
+                    razorpaySubscriptionId: subscription.id,
+                    status: "created",
+                    plan: planName,
+                    amountInr: Number.isFinite(planAmountInr) ? planAmountInr : 0,
+                    currentPeriodStart: null,
+                    currentPeriodEnd: null,
+                    createdAt: FieldValue.serverTimestamp(),
+                    updatedAt: FieldValue.serverTimestamp(),
+                },
+                { merge: true }
+            );
 
             return NextResponse.json(
                 {
@@ -81,7 +88,7 @@ export async function POST(request: NextRequest) {
             console.error("========== RAZORPAY CREATE SUBSCRIPTION ERROR ==========");
             console.error("FULL ERROR OBJECT:", err);
             console.error("ERROR JSON:", JSON.stringify(err, null, 2));
-            console.error("PLAN ID USED:", process.env.RAZORPAY_PLAN_ID);
+            console.error("PLAN ID USED:", planId);
             console.error("BILLING CYCLES USED:", process.env.RAZORPAY_BILLING_CYCLES);
             console.error("==========================================================");
 
@@ -92,6 +99,9 @@ export async function POST(request: NextRequest) {
         }
     } catch (error) {
         console.error("Create subscription failed:", error);
-        return NextResponse.json({ error: "INTERNAL_SERVER_ERROR", message: "Failed to create subscription." }, { status: 500 });
+        return NextResponse.json(
+            { error: "INTERNAL_SERVER_ERROR", message: "Failed to create subscription." },
+            { status: 500 }
+        );
     }
 }
