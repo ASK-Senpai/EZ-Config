@@ -116,12 +116,19 @@ async function handleSubscriptionActivated(payload: any) {
 }
 
 async function handleSubscriptionCharged(payload: any) {
-    const entity = payload?.payload?.subscription?.entity || {};
-    const subscriptionId = String(entity?.id || "");
-    if (!subscriptionId) return;
+    // Razorpay puts subscription info under payment entity sometimes
+    const subIdTop = payload?.payload?.subscription?.entity?.id;
+    const subIdPayment = payload?.payload?.payment?.entity?.subscription_id;
+    const subscriptionId = String(subIdTop || subIdPayment || "");
+
+    if (!subscriptionId) {
+        console.error("COULD NOT FIND SUBSCRIPTION ID IN CHARGED PAYLOAD");
+        return;
+    }
 
     console.log("PAYMENT CHARGED FOR SUB:", subscriptionId);
 
+    const entity = payload?.payload?.subscription?.entity || {};
     const currentStart = toDateOrNull(entity?.current_start);
     const currentEnd = toDateOrNull(entity?.current_end);
 
@@ -270,11 +277,8 @@ export async function POST(request: NextRequest) {
 
         console.log("==== WEBHOOK EVENT RECEIVED ====");
         console.log("EVENT TYPE:", event);
+        console.log("EVENT ID (INTERNAL):", eventId);
         console.log("EVENT ID (PAYLOAD):", payload?.id);
-        console.log("FULL PAYLOAD KEYS:", Object.keys(payload));
-        // Be careful with full payload logging in production due to PII/Secrets, 
-        // but for this debug cycle it's essential.
-        console.log("FULL PAYLOAD:", JSON.stringify(payload, null, 1));
 
         const shouldProcess = await markWebhookEventProcessed(eventId);
         if (!shouldProcess) {
