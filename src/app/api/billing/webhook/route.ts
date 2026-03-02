@@ -115,6 +115,8 @@ async function handleSubscriptionCharged(payload: any) {
     const subscriptionId = String(entity?.id || "");
     if (!subscriptionId) return;
 
+    console.log("PAYMENT CHARGED FOR SUB:", subscriptionId);
+
     const currentStart = toDateOrNull(entity?.current_start);
     const currentEnd = toDateOrNull(entity?.current_end);
 
@@ -123,6 +125,9 @@ async function handleSubscriptionCharged(payload: any) {
         currentPeriodStart: currentStart,
         currentPeriodEnd: currentEnd,
     });
+
+    // Also trigger user upgrade to ensure premium is active
+    await handleSubscriptionActivated(payload);
 }
 
 async function handleSubscriptionCancelled(payload: any) {
@@ -211,9 +216,16 @@ export async function POST(request: NextRequest) {
         let eventId = "unknown";
         let event = "unknown";
         try {
-            const payload = JSON.parse(rawBody);
-            eventId = String(payload?.id || "unknown");
-            event = String(payload?.event || "unknown");
+            const tempPayload = JSON.parse(rawBody);
+            // Razorpay event ID is top level 'id'
+            eventId = String(tempPayload?.id || "");
+            event = String(tempPayload?.event || "unknown");
+
+            // If ID is missing, we use a timestamp + event name to prevent collision in duplicate check
+            if (!eventId) {
+                eventId = `fallback_${event}_${Date.now()}`;
+                console.warn("MISSING EVENT ID, USING FALLBACK:", eventId);
+            }
         } catch (e) {
             console.error("FAILED TO PARSE PAYLOAD FOR LOGGING", e);
         }
