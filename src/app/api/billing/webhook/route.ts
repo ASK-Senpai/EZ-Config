@@ -88,44 +88,34 @@ async function upsertSubscription(subscriptionId: string, data: Record<string, u
 
 async function handleSubscriptionActivated(payload: any) {
     const subEntity = payload?.payload?.subscription?.entity || {};
-    const paymentEntity = payload?.payload?.payment?.entity || {};
-
-    // Extracting Sub ID from multiple possible locations
-    const subIdTop = subEntity?.id;
-    const subIdPayment = paymentEntity?.subscription_id;
-    const subscriptionId = String(subIdTop || subIdPayment || "");
-
-    // Extracting Email for fallback resolution
-    const emailSub = subEntity?.customer_email;
-    const emailPayment = paymentEntity?.email;
-    const email = String(emailSub || emailPayment || "");
-
-    console.log("==== UPGRADE DEBUG ====");
-    console.log("SUB ID TOP:", subIdTop);
-    console.log("SUB ID PAYMENT:", subIdPayment);
-    console.log("PAYMENT ID:", paymentEntity?.id);
-    console.log("EMAIL SUB:", emailSub);
-    console.log("EMAIL PAYMENT:", emailPayment);
+    const subscriptionId = String(subEntity?.id || "");
+    const email = String(subEntity?.customer_email || "").toLowerCase().trim();
 
     if (!subscriptionId) {
-        console.error("NO SUBSCRIPTION ID IN PAYLOAD - KEYS:", Object.keys(payload?.payload || {}));
+        console.error("[WEBHOOK] NO SUBSCRIPTION ID IN PAYLOAD");
         return;
     }
 
     const planName = process.env.RAZORPAY_PLAN_NAME || "premium_monthly";
 
-    console.log("==== STARTING UPGRADE LOGIC ====");
-    console.log("Subscription ID:", subscriptionId);
-    console.log("Email Found:", email || "NONE");
+    console.log(`[WEBHOOK] PROCESSING UPGRADE FOR SUB: ${subscriptionId} (${email || "no-email"})`);
 
     const userRef = await resolveUserRefBySubscription(subscriptionId, email);
     if (!userRef) {
-        console.error("SKIPPING UPGRADE: NO USER RESOLVED FOR SUB:", subscriptionId);
+        console.error(`[WEBHOOK] SKIPPING UPGRADE: NO USER RESOLVED FOR SUB: ${subscriptionId}`);
         return;
     }
 
-    console.log("UPGRADING USER DOCUMENT:", userRef.id);
     const userSnap = await userRef.get();
+    if (userSnap.exists) {
+        const userData = userSnap.data() as Record<string, any>;
+        // SAFETY GUARD: If already premium and active, skip redundant writes
+        if (userData.plan === planName && userData.subscriptionStatus === "active") {
+            console.log(`[WEBHOOK] USER ${userRef.id} IS ALREADY PREMIUM. SKIPPING.`);
+            return;
+        }
+    }
+
     const userData = userSnap.exists ? (userSnap.data() as Record<string, any>) : {};
 
     await userRef.set({
@@ -137,33 +127,26 @@ async function handleSubscriptionActivated(payload: any) {
         updatedAt: FieldValue.serverTimestamp(),
     }, { merge: true });
 
-    console.log("USER DOCUMENT UPDATED SUCCESSFULLY");
+    console.log(`[WEBHOOK] PREMIUM GRANTED TO: ${email || userRef.id}`);
 
     await upsertSubscription(subscriptionId, {
         uid: userRef.id,
         status: "active",
         plan: planName,
     });
-    console.log("SUBSCRIPTION DOC UPDATED TO ACTIVE");
-    console.log("==== UPGRADE LOGIC COMPLETE ====");
 }
 
 async function handleSubscriptionCharged(payload: any) {
-    // Razorpay puts subscription info under payment entity sometimes
-    const subIdTop = payload?.payload?.subscription?.entity?.id;
-    const subIdPayment = payload?.payload?.payment?.entity?.subscription_id;
-    const subscriptionId = String(subIdTop || subIdPayment || "");
+    const subEntity = payload?.payload?.subscription?.entity || {};
+    const subscriptionId = String(subEntity?.id || "");
 
     if (!subscriptionId) {
-        console.error("COULD NOT FIND SUBSCRIPTION ID IN CHARGED PAYLOAD");
+        console.error("[WEBHOOK] NO SUBSCRIPTION ID IN CHARGED PAYLOAD");
         return;
     }
 
-    console.log("PAYMENT CHARGED FOR SUB:", subscriptionId);
-
-    const entity = payload?.payload?.subscription?.entity || {};
-    const currentStart = toDateOrNull(entity?.current_start);
-    const currentEnd = toDateOrNull(entity?.current_end);
+    const currentStart = toDateOrNull(subEntity?.current_start);
+    const currentEnd = toDateOrNull(subEntity?.current_end);
 
     await upsertSubscription(subscriptionId, {
         status: "active",
@@ -171,7 +154,7 @@ async function handleSubscriptionCharged(payload: any) {
         currentPeriodEnd: currentEnd,
     });
 
-    // CRITICAL: Upgrade user on charge since 'activated' might not fire
+    // CRITICAL: Upgrade user on charge
     await handleSubscriptionActivated(payload);
 }
 
@@ -258,38 +241,29 @@ export async function POST(request: NextRequest) {
         }
 
         // --- PRE-SIGNATURE LOGGING & IDEMPOTENCY ID ---
-        let eventId = "unknown";
-        let event = "unknown";
-        try {
-            const tempPayload = JSON.parse(rawBody);
-            event = String(tempPayload?.event || "unknown");
+        const tempPayload = JSON.parse(rawBody);
+        const event = String(tempPayload?.event || "unknown");
+        const bodyId = String(tempPayload?.id || "unknown");
 
-            // Build a reliable idempotency ID
-            // 1. Try Payment ID (finest grain)
-            // 2. Try Event ID (standard)
-            // 3. Try Subscription ID + Event (fallback)
-            const paymentId = tempPayload?.payload?.payment?.entity?.id;
-            const razorpayEventId = tempPayload?.id;
-            const subscriptionId = tempPayload?.payload?.subscription?.entity?.id;
-
-            const baseId = razorpayEventId || paymentId || (subscriptionId ? `${subscriptionId}` : "");
-
-            // v3: Include EVENT NAME in the key to prevent different events 
-            // from blocking each other (e.g. payment.captured blocking subscription.activated)
-            eventId = `v3_${event}_${baseId}`;
-
-            if (!baseId) {
-                eventId = `v3_fallback_${event}_${Date.now()}`;
-                console.warn("MISSING RELIABLE ID, USING FALLBACK:", eventId);
-            }
-        } catch (e) {
-            console.error("FAILED TO PARSE PAYLOAD FOR LOGGING", e);
+        // 1. Return 200 immediately for non-subscription events to avoid processing noise
+        if (!event.startsWith("subscription.")) {
+            console.log(`[WEBHOOK] IGNORING NON-SUBSCRIPTION EVENT: ${event}`);
+            return NextResponse.json({ success: true, ignored: true }, { status: 200 });
         }
+
+        const subscriptionId = tempPayload?.payload?.subscription?.entity?.id;
+        if (!subscriptionId) {
+            console.warn("[WEBHOOK] IGNORED: MISSING SUBSCRIPTION ID IN " + event);
+            return NextResponse.json({ success: true, warning: "missing_sub_id" }, { status: 200 });
+        }
+
+        // v4: Use event + subscriptionId for deterministic idempotency
+        const eventId = `v4_${event}_${subscriptionId}`;
 
         const signature = request.headers.get("x-razorpay-signature");
 
         if (!signature) {
-            console.error("NO SIGNATURE HEADER RECEIVED");
+            console.error("[WEBHOOK] NO SIGNATURE HEADER RECEIVED");
             return NextResponse.json({ error: "NO_SIGNATURE" }, { status: 400 });
         }
 
@@ -303,29 +277,21 @@ export async function POST(request: NextRequest) {
 
         const isValid = crypto.timingSafeEqual(expectedBuffer, signatureBuffer);
 
-        console.log("SIGNATURE VALID:", isValid);
-        console.log("---- WEBHOOK DEBUG END ----");
-
         if (!isValid) {
+            console.error("[WEBHOOK] INVALID SIGNATURE");
             return NextResponse.json({ error: "INVALID_SIGNATURE" }, { status: 400 });
         }
 
-        const payload = JSON.parse(rawBody);
-
-        console.log("==== WEBHOOK EVENT RECEIVED ====");
-        console.log("EVENT TYPE:", event);
-        console.log("EVENT ID (INTERNAL):", eventId);
-        console.log("EVENT ID (PAYLOAD):", payload?.id);
+        const payload = tempPayload; // Use consistent name
 
         const shouldProcess = await markWebhookEventProcessed(eventId);
         if (!shouldProcess) {
-            console.log("EVENT ALREADY PROCESSED (DUPLICATE)");
+            console.log(`[WEBHOOK] DUPLICATE DETECTED: ${eventId}`);
             return NextResponse.json({ success: true, duplicate: true }, { status: 200 });
         }
 
-        console.log(`DISPATCHING EVENT: ${event}`);
-
-        if (event === "subscription.activated" || event === "payment.captured") {
+        console.log(`[WEBHOOK] PROCESSING: ${event} | ID: ${eventId}`);
+        if (event === "subscription.activated") {
             await handleSubscriptionActivated(payload);
         } else if (event === "subscription.charged") {
             await handleSubscriptionCharged(payload);
@@ -333,11 +299,8 @@ export async function POST(request: NextRequest) {
             await handleSubscriptionCancelled(payload);
         } else if (event === "subscription.completed") {
             await handleSubscriptionCompleted(payload);
-        } else if (event === "payment.failed") {
-            await handlePaymentFailed(payload);
         }
 
-        console.log("WEBHOOK PROCESSED SUCCESSFULLY");
         return NextResponse.json({ success: true }, { status: 200 });
     } catch (error) {
         console.error("Billing webhook failed:", error);
