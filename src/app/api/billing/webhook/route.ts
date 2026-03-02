@@ -163,6 +163,12 @@ export async function POST(request: NextRequest) {
         const webhookSecret = process.env.RAZORPAY_WEBHOOK_SECRET;
 
         console.log("WEBHOOK RECEIVED");
+        console.log("ENV SECRET PRESENT:", !!process.env.RAZORPAY_WEBHOOK_SECRET);
+        console.log("ENV SECRET VALUE:", process.env.RAZORPAY_WEBHOOK_SECRET || "undefined");
+
+        const headersObject = Object.fromEntries(request.headers.entries());
+        console.log("ALL HEADERS:", headersObject);
+
         console.log("Webhook secret present:", !!webhookSecret);
         console.log("Signature present:", !!signature);
         console.log("Raw body length:", rawBodyBuffer.length);
