@@ -6,6 +6,10 @@ const protectedRoutes = ["/dashboard", "/builder", "/compare", "/upgrade"];
 const publicRoutes = ["/login", "/register", "/", "/about", "/contact", "/privacy", "/terms"];
 
 export default function middleware(request: NextRequest) {
+    if (request.nextUrl.pathname.startsWith("/api/billing/webhook")) {
+        return NextResponse.next();
+    }
+
     if (request.nextUrl.pathname.startsWith("/api")) {
         return NextResponse.next();
     }
@@ -31,6 +35,6 @@ export default function middleware(request: NextRequest) {
 
 export const config = {
     matcher: [
-        "/((?!api|_next/static|_next/image|favicon.ico).*)",
+        "/((?!api/billing/webhook|_next/static|_next/image|favicon.ico).*)",
     ],
 };

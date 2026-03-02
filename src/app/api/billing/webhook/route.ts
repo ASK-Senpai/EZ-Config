@@ -156,7 +156,20 @@ async function handlePaymentFailed(payload: any) {
 
 export async function POST(request: NextRequest) {
     try {
-        const rawBodyBuffer = Buffer.from(await request.arrayBuffer());
+        let rawBodyBuffer: Buffer;
+
+        try {
+            const ab = await request.arrayBuffer();
+            rawBodyBuffer = Buffer.from(ab);
+            console.log("BODY READ SUCCESS");
+        } catch (err) {
+            console.error("BODY READ FAILED:", err);
+            return NextResponse.json(
+                { error: "BODY_READ_FAILED" },
+                { status: 400 }
+            );
+        }
+
         const rawBody = rawBodyBuffer.toString("utf8");
 
         const signature = request.headers.get("x-razorpay-signature");
