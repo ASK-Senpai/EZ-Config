@@ -164,10 +164,11 @@ export async function POST(request: NextRequest) {
 
         console.log("WEBHOOK RECEIVED");
         console.log("Webhook secret present:", !!webhookSecret);
-        console.log("Received signature:", signature);
+        console.log("Signature present:", !!signature);
         console.log("Raw body length:", rawBodyBuffer.length);
 
         if (!signature || !webhookSecret) {
+            console.error("Missing signature or webhook secret");
             return NextResponse.json({ error: "BAD_REQUEST" }, { status: 400 });
         }
 
@@ -176,12 +177,20 @@ export async function POST(request: NextRequest) {
             .update(rawBodyBuffer)
             .digest("hex");
 
-        const isValid =
-            signature &&
-            crypto.timingSafeEqual(
-                Buffer.from(expected, "utf8"),
-                Buffer.from(signature, "utf8")
-            );
+        const expectedBuffer = Buffer.from(expected, "utf8");
+        const signatureBuffer = Buffer.from(signature, "utf8");
+
+        console.log("Expected signature length:", expectedBuffer.length);
+        console.log("Received signature length:", signatureBuffer.length);
+
+        if (expectedBuffer.length !== signatureBuffer.length) {
+            console.error("SIGNATURE LENGTH MISMATCH");
+            console.error("Expected:", expected);
+            console.error("Received:", signature);
+            return NextResponse.json({ error: "INVALID_SIGNATURE" }, { status: 400 });
+        }
+
+        const isValid = crypto.timingSafeEqual(expectedBuffer, signatureBuffer);
 
         if (!isValid) {
             console.error("INVALID SIGNATURE");
