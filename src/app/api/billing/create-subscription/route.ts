@@ -25,9 +25,9 @@ export async function POST(request: NextRequest) {
 
         const userDoc = await adminDb.collection("users").doc(uid).get();
         const userData = userDoc.exists ? (userDoc.data() as Record<string, any>) : {};
-        const rawPlan = String(userData?.plan || "").toLowerCase();
-        const rawStatus = String(userData?.subscriptionStatus || "").toLowerCase();
-        const planName = (process.env.RAZORPAY_PLAN_NAME || "premium_monthly").toLowerCase();
+        const rawPlan = String(userData?.plan ?? "").toLowerCase();
+        const rawStatus = String(userData?.subscriptionStatus ?? "").toLowerCase();
+        const planName = (process.env.RAZORPAY_PLAN_NAME ?? "premium_monthly").toLowerCase();
 
         if (rawStatus === "active" && (rawPlan === planName || rawPlan === "premium")) {
             return NextResponse.json(
@@ -39,12 +39,11 @@ export async function POST(request: NextRequest) {
         const keyId = process.env.RAZORPAY_KEY_ID;
         const keySecret = process.env.RAZORPAY_KEY_SECRET;
         const planId = process.env.RAZORPAY_PLAN_ID;
-        const planName = process.env.RAZORPAY_PLAN_NAME || "premium_monthly";
-        const planAmountInr = Number(process.env.RAZORPAY_PLAN_AMOUNT_INR || 0);
-        const publicKeyId = process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || keyId;
+        const planName = process.env.RAZORPAY_PLAN_NAME ?? "premium_monthly";
+        const planAmountInr = Number(process.env.RAZORPAY_PLAN_AMOUNT_INR ?? 0);
 
-        if (!keyId || !keySecret || !planId || !publicKeyId) {
-            return NextResponse.json({ error: "CONFIG_ERROR", message: "Razorpay subscription config missing." }, { status: 500 });
+        if (!keyId || !keySecret || !planId) {
+            throw new Error("Missing Razorpay environment variables");
         }
 
         const razorpay = new Razorpay({
@@ -56,7 +55,7 @@ export async function POST(request: NextRequest) {
             const subscription = await razorpay.subscriptions.create({
                 plan_id: planId,
                 customer_notify: 1,
-                total_count: Number(process.env.RAZORPAY_BILLING_CYCLES || 1200),
+                total_count: Number(process.env.RAZORPAY_BILLING_CYCLES ?? 1200),
             });
 
             await adminDb.collection("subscriptions").doc(subscription.id).set({
@@ -74,7 +73,7 @@ export async function POST(request: NextRequest) {
             return NextResponse.json(
                 {
                     subscriptionId: subscription.id,
-                    key: publicKeyId,
+                    key: keyId,
                 },
                 { status: 200 }
             );
