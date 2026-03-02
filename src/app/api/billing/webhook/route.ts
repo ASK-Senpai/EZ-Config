@@ -227,14 +227,22 @@ export async function POST(request: NextRequest) {
         const eventId = String(payload?.id || "");
         const event = String(payload?.event || "");
 
+        console.log("EVENT ID:", eventId);
+        console.log("EVENT NAME:", event);
+        console.log("PAYLOAD KEYS:", Object.keys(payload));
+
         if (!eventId || !event) {
+            console.error("INVALID WEBHOOK PAYLOAD - MISSING ID OR EVENT");
             return NextResponse.json({ error: "BAD_REQUEST", message: "Invalid webhook payload." }, { status: 400 });
         }
 
         const shouldProcess = await markWebhookEventProcessed(eventId);
         if (!shouldProcess) {
+            console.log("EVENT ALREADY PROCESSED (DUPLICATE)");
             return NextResponse.json({ success: true, duplicate: true }, { status: 200 });
         }
+
+        console.log(`DISPATCHING EVENT: ${event}`);
 
         if (event === "subscription.activated" || event === "payment.captured") {
             await handleSubscriptionActivated(payload);
@@ -248,6 +256,7 @@ export async function POST(request: NextRequest) {
             await handlePaymentFailed(payload);
         }
 
+        console.log("WEBHOOK PROCESSED SUCCESSFULLY");
         return NextResponse.json({ success: true }, { status: 200 });
     } catch (error) {
         console.error("Billing webhook failed:", error);
