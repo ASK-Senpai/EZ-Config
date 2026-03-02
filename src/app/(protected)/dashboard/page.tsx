@@ -32,8 +32,8 @@ interface AIExplanation {
 }
 
 interface SubscriptionState {
-    plan: "free" | "premium";
-    status: "active" | "inactive";
+    plan: string;
+    subscriptionStatus: "active" | "inactive" | "cancelled" | "expired" | "past_due";
     aiUsage: number;
     aiLimit: number;
 }
@@ -125,8 +125,8 @@ export default function DashboardPage() {
 
                 setBuilds(Array.isArray(data.builds) ? data.builds : []);
                 setSubscription({
-                    plan: data.subscription.plan === "premium" ? "premium" : "free",
-                    status: data.subscription.status === "active" ? "active" : "inactive",
+                    plan: data.subscription.plan || "free",
+                    subscriptionStatus: (data.subscription.subscriptionStatus || data.subscription.status || "inactive"),
                     aiUsage: Number(data.subscription.aiUsage || 0),
                     aiLimit: Number(data.subscription.aiLimit || 0),
                 });
@@ -272,7 +272,8 @@ export default function DashboardPage() {
             router.push("/login");
             return;
         }
-        const isPremium = subscription?.plan === "premium" && subscription?.status === "active";
+        const planName = process.env.NEXT_PUBLIC_RAZORPAY_PLAN_NAME || "premium_monthly";
+        const isPremium = subscription?.plan === planName && subscription?.subscriptionStatus === "active";
         if (!isPremium) {
             router.push("/upgrade");
             return;
@@ -387,7 +388,8 @@ export default function DashboardPage() {
         );
     }
 
-    const isPremium = subscription?.plan === "premium" && subscription?.status === "active";
+    const planName = process.env.NEXT_PUBLIC_RAZORPAY_PLAN_NAME || "premium_monthly";
+    const isPremium = subscription?.plan === planName && subscription?.subscriptionStatus === "active";
     const effectivePlan = isPremium ? "premium" : "free";
     const isLimitReached = effectivePlan === "free" && builds.length >= 3;
     const hasAiOverview = isFeatureEnabled("AI_FULL_OVERVIEW", effectivePlan);

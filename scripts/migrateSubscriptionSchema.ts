@@ -1,4 +1,8 @@
 import admin from "firebase-admin";
+import dotenv from "dotenv";
+
+dotenv.config({ path: ".env.local" });
+dotenv.config();
 
 function getServiceAccountFromEnv() {
     const raw = process.env.FIREBASE_ADMIN_KEY;

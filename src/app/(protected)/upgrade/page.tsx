@@ -16,6 +16,7 @@ import {
 import Link from "next/link";
 import Script from "next/script";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/components/features/auth/AuthProvider";
 
 // Declare Razorpay on window
 declare global {
@@ -26,7 +27,9 @@ declare global {
 
 export default function UpgradePage() {
     const router = useRouter();
+    const { user } = useAuth();
     const [isUpgrading, setIsUpgrading] = useState(false);
+    const displayPriceInr = process.env.NEXT_PUBLIC_PREMIUM_PRICE_INR || "1";
 
     const handleUpgrade = async () => {
         if (!window.Razorpay) {
@@ -37,18 +40,29 @@ export default function UpgradePage() {
         setIsUpgrading(true);
 
         try {
-            // 1. Create Subscription
-            const subRes = await fetch("/api/payment/create-subscription", { method: "POST" });
-            const subData = await subRes.json();
-
-            if (!subRes.ok) {
-                throw new Error(subData.message || "Failed to create subscription.");
+            if (!user) {
+                router.push("/login");
+                return;
             }
 
-            // 2. Initialize Razorpay Checkout
+            const token = await user.getIdToken();
+
+            const subscriptionRes = await fetch("/api/billing/create-subscription", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            const subscriptionData = await subscriptionRes.json();
+
+            if (!subscriptionRes.ok) {
+                throw new Error(subscriptionData.message || "Failed to create subscription.");
+            }
+
             const options = {
-                key: subData.keyId,
-                subscription_id: subData.subscriptionId,
+                key: subscriptionData.key,
+                subscription_id: subscriptionData.subscriptionId,
                 name: "EZConfig Premium",
                 description: "Premium SaaS Build Intelligence",
                 theme: {
@@ -56,12 +70,15 @@ export default function UpgradePage() {
                 },
                 handler: async function (response: any) {
                     try {
-                        const verifyRes = await fetch("/api/payment/verify", {
+                        const verifyRes = await fetch("/api/billing/verify", {
                             method: "POST",
-                            headers: { "Content-Type": "application/json" },
+                            headers: {
+                                "Content-Type": "application/json",
+                                Authorization: `Bearer ${token}`,
+                            },
                             body: JSON.stringify({
-                                razorpay_payment_id: response.razorpay_payment_id,
                                 razorpay_subscription_id: response.razorpay_subscription_id,
+                                razorpay_payment_id: response.razorpay_payment_id,
                                 razorpay_signature: response.razorpay_signature
                             })
                         });
@@ -133,7 +150,13 @@ export default function UpgradePage() {
                         transition={{ delay: 0.2, duration: 0.6 }}
                         className="flex flex-col sm:flex-row justify-center items-center gap-4"
                     >
-                        <Button variant="premium" size="lg" className="w-full sm:w-auto">
+                        <Button
+                            variant="premium"
+                            size="lg"
+                            className="w-full sm:w-auto"
+                            onClick={handleUpgrade}
+                            disabled={isUpgrading}
+                        >
                             Upgrade Now
                         </Button>
                         <Button variant="outline" size="lg" className="w-full sm:w-auto" asChild>
@@ -251,7 +274,7 @@ export default function UpgradePage() {
                                 <div className="text-center space-y-6 relative z-10">
                                     <h3 className="text-2xl font-bold tracking-tight">Premium Plan</h3>
                                     <div className="flex items-end justify-center gap-1">
-                                        <span className="text-4xl font-bold">₹499</span>
+                                        <span className="text-4xl font-bold">₹{displayPriceInr}</span>
                                         <span className="text-muted-foreground mb-1">/month</span>
                                     </div>
                                     <p className="text-sm text-muted-foreground">

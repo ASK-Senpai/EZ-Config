@@ -131,9 +131,9 @@ export async function POST(
         const userData = userDoc.data()!;
         const rawPlan = String(userData?.plan || "").toLowerCase();
         const rawStatus = String(userData?.subscriptionStatus || "").toLowerCase();
+        const planName = (process.env.RAZORPAY_PLAN_NAME || "premium_monthly").toLowerCase();
         const isPremiumActive =
-            (rawPlan === "premium" && rawStatus === "active") ||
-            (rawPlan === "premium" && userData?.isPremium === true);
+            rawPlan === planName && rawStatus === "active";
         const plan = isPremiumActive ? "premium" : "free";
         const monthKey = currentMonthKey();
 

@@ -92,9 +92,9 @@ export async function POST(request: NextRequest) {
         const user = userDoc.exists ? userDoc.data() : null;
         const rawPlan = String(user?.plan || "").toLowerCase();
         const rawStatus = String(user?.subscriptionStatus || "").toLowerCase();
+        const planName = (process.env.RAZORPAY_PLAN_NAME || "premium_monthly").toLowerCase();
         const isPremium =
-            (rawPlan === "premium" && rawStatus === "active") ||
-            (rawPlan === "premium" && user?.isPremium === true);
+            rawPlan === planName && rawStatus === "active";
         if (!user || !isPremium) {
             return NextResponse.json(
                 { error: "Premium required" },

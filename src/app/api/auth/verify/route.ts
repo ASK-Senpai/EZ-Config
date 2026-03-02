@@ -10,15 +10,13 @@ export async function GET(request: NextRequest) {
         const userData = userDoc.exists ? userDoc.data() || {} : {};
         const rawPlan = String(userData?.plan || "").toLowerCase();
         const rawStatus = String(userData?.subscriptionStatus || "").toLowerCase();
+        const planName = (process.env.RAZORPAY_PLAN_NAME || "premium_monthly").toLowerCase();
 
-        let normalizedStatus: "active" | "inactive" = "inactive";
-        if (rawStatus === "active") {
-            normalizedStatus = "active";
-        } else if (rawPlan === "premium" && userData?.isPremium === true) {
-            normalizedStatus = "active";
-        }
+        const allowedStatuses = new Set(["inactive", "active", "cancelled", "expired", "past_due"]);
+        const normalizedStatus =
+            allowedStatuses.has(rawStatus) ? rawStatus : "inactive";
 
-        const normalizedPlan: "free" | "premium" = rawPlan === "premium" ? "premium" : "free";
+        const normalizedPlan = rawPlan === planName ? planName : "free";
         const aiUsage = Number(
             userData?.aiUsage ??
             userData?.monthlyReportUsage ??
@@ -27,7 +25,7 @@ export async function GET(request: NextRequest) {
         );
         const aiLimit = Number(
             userData?.aiLimit ??
-            (normalizedPlan === "premium" ? 50 : 5)
+            (normalizedPlan === planName ? 50 : 5)
         );
 
         return NextResponse.json(
@@ -36,7 +34,7 @@ export async function GET(request: NextRequest) {
                 uid: decodedClaims.uid,
                 subscription: {
                     plan: normalizedPlan,
-                    status: normalizedStatus,
+                    subscriptionStatus: normalizedStatus,
                     aiUsage,
                     aiLimit,
                 },

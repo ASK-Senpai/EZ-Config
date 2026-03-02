@@ -52,9 +52,9 @@ export async function POST(
         const userData = userDoc.exists ? userDoc.data() || {} : {};
         const rawPlan = String(userData?.plan || "").toLowerCase();
         const rawStatus = String(userData?.subscriptionStatus || "").toLowerCase();
+        const planName = (process.env.RAZORPAY_PLAN_NAME || "premium_monthly").toLowerCase();
         const isPremiumActive =
-            (rawPlan === "premium" && rawStatus === "active") ||
-            (rawPlan === "premium" && userData?.isPremium === true);
+            rawPlan === planName && rawStatus === "active";
         const effectivePlan = isPremiumActive ? "premium" : "free";
 
         if (!isFeatureEnabled("AI_FULL_OVERVIEW", effectivePlan)) {
