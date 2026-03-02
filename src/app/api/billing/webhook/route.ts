@@ -75,15 +75,19 @@ async function upsertSubscription(subscriptionId: string, data: Record<string, u
 async function handleSubscriptionActivated(payload: any) {
     const entity = payload?.payload?.subscription?.entity || {};
     const subscriptionId = String(entity?.id || "");
-    if (!subscriptionId) return;
+    if (!subscriptionId) {
+        console.error("NO SUBSCRIPTION ID IN PAYLOAD");
+        return;
+    }
 
     const planName = process.env.RAZORPAY_PLAN_NAME || "premium_monthly";
 
-    console.log("STARTING UPGRADE LOGIC FOR SUB:", subscriptionId);
+    console.log("==== STARTING UPGRADE LOGIC ====");
+    console.log("Subscription ID:", subscriptionId);
 
     const userRef = await resolveUserRefBySubscription(subscriptionId);
     if (!userRef) {
-        console.error("SKIPPING UPGRADE: NO USER RESOLVED");
+        console.error("SKIPPING UPGRADE: NO USER RESOLVED FOR SUB:", subscriptionId);
         return;
     }
 
@@ -95,7 +99,7 @@ async function handleSubscriptionActivated(payload: any) {
         plan: planName,
         subscriptionStatus: "active",
         razorpaySubscriptionId: subscriptionId,
-        premiumSince: userData?.premiumSince ?? FieldValue.serverTimestamp(),
+        premiumSince: userData?.premiumSince ?? new Date().toISOString(),
         aiLimit: 50,
         updatedAt: FieldValue.serverTimestamp(),
     }, { merge: true });
@@ -108,6 +112,7 @@ async function handleSubscriptionActivated(payload: any) {
         plan: planName,
     });
     console.log("SUBSCRIPTION DOC UPDATED TO ACTIVE");
+    console.log("==== UPGRADE LOGIC COMPLETE ====");
 }
 
 async function handleSubscriptionCharged(payload: any) {
@@ -126,7 +131,7 @@ async function handleSubscriptionCharged(payload: any) {
         currentPeriodEnd: currentEnd,
     });
 
-    // Also trigger user upgrade to ensure premium is active
+    // CRITICAL: Upgrade user on charge since 'activated' might not fire
     await handleSubscriptionActivated(payload);
 }
 
@@ -212,19 +217,26 @@ export async function POST(request: NextRequest) {
             throw new Error("RAZORPAY_WEBHOOK_SECRET NOT SET");
         }
 
-        // --- PRE-SIGNATURE LOGGING ---
+        // --- PRE-SIGNATURE LOGGING & IDEMPOTENCY ID ---
         let eventId = "unknown";
         let event = "unknown";
         try {
             const tempPayload = JSON.parse(rawBody);
-            // Razorpay event ID is top level 'id'
-            eventId = String(tempPayload?.id || "");
             event = String(tempPayload?.event || "unknown");
 
-            // If ID is missing, we use a timestamp + event name to prevent collision in duplicate check
+            // Build a reliable idempotency ID
+            // 1. Try Payment ID (finest grain)
+            // 2. Try Event ID (standard)
+            // 3. Try Subscription ID + Event (fallback)
+            const paymentId = tempPayload?.payload?.payment?.entity?.id;
+            const razorpayEventId = tempPayload?.id;
+            const subscriptionId = tempPayload?.payload?.subscription?.entity?.id;
+
+            eventId = razorpayEventId || paymentId || (subscriptionId ? `${event}_${subscriptionId}` : "");
+
             if (!eventId) {
                 eventId = `fallback_${event}_${Date.now()}`;
-                console.warn("MISSING EVENT ID, USING FALLBACK:", eventId);
+                console.warn("MISSING RELIABLE ID, USING FALLBACK:", eventId);
             }
         } catch (e) {
             console.error("FAILED TO PARSE PAYLOAD FOR LOGGING", e);
