@@ -90,7 +90,8 @@ export async function POST(request: NextRequest) {
 
         const userDoc = await db.collection("users").doc(userId).get();
         const user = userDoc.exists ? userDoc.data() : null;
-        if (!user || user.plan !== "premium") {
+        const isPremium = user?.plan === "premium" && user?.subscriptionStatus === "active";
+        if (!user || !isPremium) {
             return NextResponse.json(
                 { error: "Premium required" },
                 { status: 403 }

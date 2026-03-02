@@ -39,6 +39,13 @@ const BUILDER_CATEGORIES = [
     { id: "psu", title: "PSU", icon: Zap, description: "Power supply for stability" },
 ];
 
+type SubscriptionState = {
+    plan: "free" | "premium";
+    status: "active" | "inactive";
+    aiUsage: number;
+    aiLimit: number;
+};
+
 // ── Toast ─────────────────────────────────────────────────────────────────────
 function Toast({ message, type, onClose }: { message: string; type: "success" | "error"; onClose: () => void }) {
     return (
@@ -127,7 +134,7 @@ export default function BuilderPage() {
         futureDelta: string;
         budgetDelta: string;
     } | null>(null);
-    const [userPlan, setUserPlan] = useState<string>("free");
+    const [subscription, setSubscription] = useState<SubscriptionState | null>(null);
     const [isOptimizingBuild, setIsOptimizingBuild] = useState(false);
     const [isGeneratingReport, setIsGeneratingReport] = useState(false);
     const [hasTechnicalReport, setHasTechnicalReport] = useState(false);
@@ -200,9 +207,18 @@ export default function BuilderPage() {
                 const res = await fetch("/api/auth/verify");
                 if (!res.ok) return;
                 const data = await res.json();
-                setUserPlan(data.plan || "free");
+                if (!data.subscription) {
+                    setToast({ message: "Subscription state unavailable.", type: "error" });
+                    return;
+                }
+                setSubscription({
+                    plan: data.subscription.plan === "premium" ? "premium" : "free",
+                    status: data.subscription.status === "active" ? "active" : "inactive",
+                    aiUsage: Number(data.subscription.aiUsage || 0),
+                    aiLimit: Number(data.subscription.aiLimit || 0),
+                });
             } catch {
-                setUserPlan("free");
+                setSubscription(null);
             }
         };
         fetchPlan();
@@ -268,7 +284,12 @@ export default function BuilderPage() {
     }, [store]);
 
     const handleGenerateOptimizedBuild = useCallback(async () => {
-        if (userPlan !== "premium") {
+        if (!subscription) {
+            router.push("/login");
+            return;
+        }
+        const isPremium = subscription?.plan === "premium" && subscription?.status === "active";
+        if (!isPremium) {
             router.push("/upgrade");
             return;
         }
@@ -326,7 +347,7 @@ export default function BuilderPage() {
         } finally {
             setIsOptimizingBuild(false);
         }
-    }, [router, userPlan]);
+    }, [router, subscription]);
 
     const handleGenerateReport = useCallback(async () => {
         const buildId = searchParams.get("load");

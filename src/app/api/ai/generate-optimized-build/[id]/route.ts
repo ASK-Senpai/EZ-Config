@@ -103,8 +103,10 @@ export async function POST(
         const db = getFirestore();
 
         const userDoc = await db.collection("users").doc(userId).get();
-        const userPlan = userDoc.exists ? userDoc.data()?.plan || "free" : "free";
-        if (!isFeatureEnabled("OPTIMIZE_BUILD", userPlan)) {
+        const userData = userDoc.exists ? userDoc.data() || {} : {};
+        const userPlan = userData?.plan || "free";
+        const isPremiumActive = userPlan === "premium" && userData?.subscriptionStatus === "active";
+        if (!isFeatureEnabled("OPTIMIZE_BUILD", isPremiumActive ? "premium" : "free")) {
             return NextResponse.json({ error: "PREMIUM_REQUIRED", message: "Upgrade required" }, { status: 403 });
         }
 

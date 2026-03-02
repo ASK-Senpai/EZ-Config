@@ -31,14 +31,20 @@ interface AIExplanation {
     verdict: string;
 }
 
+interface SubscriptionState {
+    plan: "free" | "premium";
+    status: "active" | "inactive";
+    aiUsage: number;
+    aiLimit: number;
+}
+
 export default function DashboardPage() {
     const router = useRouter();
     const { user, loading: authLoading } = useAuth();
     const [builds, setBuilds] = useState<any[]>([]);
-    const [plan, setPlan] = useState<string>("free");
+    const [subscription, setSubscription] = useState<SubscriptionState | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const [aiUsage, setAiUsage] = useState<{ count: number, limit: number } | null>(null);
 
     // AI Modal State
     const [explainingId, setExplainingId] = useState<string | null>(null);
@@ -112,9 +118,18 @@ export default function DashboardPage() {
                     throw new Error("Failed to load builds");
                 }
                 const data = await res.json();
-                setBuilds(data.builds);
-                setPlan(data.plan || "free");
-                if (data.aiUsage) setAiUsage(data.aiUsage);
+                if (!data.subscription) {
+                    setError("Subscription state unavailable.");
+                    return;
+                }
+
+                setBuilds(Array.isArray(data.builds) ? data.builds : []);
+                setSubscription({
+                    plan: data.subscription.plan === "premium" ? "premium" : "free",
+                    status: data.subscription.status === "active" ? "active" : "inactive",
+                    aiUsage: Number(data.subscription.aiUsage || 0),
+                    aiLimit: Number(data.subscription.aiLimit || 0),
+                });
             } catch (err: any) {
                 setError(err.message);
                 console.error("Dashboard error:", err);
@@ -253,7 +268,12 @@ export default function DashboardPage() {
 
     // Handle Optimized Build Generation (Premium)
     const handleGenerateOptimized = async (buildId: string) => {
-        if (!isFeatureEnabled("OPTIMIZE_BUILD", plan)) {
+        if (!subscription) {
+            router.push("/login");
+            return;
+        }
+        const isPremium = subscription?.plan === "premium" && subscription?.status === "active";
+        if (!isPremium) {
             router.push("/upgrade");
             return;
         }
@@ -289,7 +309,9 @@ export default function DashboardPage() {
             });
 
             router.push(`/builder?${params.toString()}`);
-            setAiUsage(prev => prev ? { ...prev, count: prev.count + 1 } : prev);
+            setSubscription((prev) =>
+                prev ? { ...prev, aiUsage: prev.aiUsage + 1 } : prev
+            );
         } catch (err: any) {
             console.error("Optimization failed:", err);
             alert("Optimization failed");
@@ -365,10 +387,12 @@ export default function DashboardPage() {
         );
     }
 
-    const isLimitReached = plan === "free" && builds.length >= 3;
-    const hasAiOverview = isFeatureEnabled("AI_FULL_OVERVIEW", plan);
-    const hasOptimize = isFeatureEnabled("OPTIMIZE_BUILD", plan);
-    const isAiLimitReached = hasAiOverview && aiUsage ? aiUsage.count >= aiUsage.limit : false;
+    const isPremium = subscription?.plan === "premium" && subscription?.status === "active";
+    const effectivePlan = isPremium ? "premium" : "free";
+    const isLimitReached = effectivePlan === "free" && builds.length >= 3;
+    const hasAiOverview = isFeatureEnabled("AI_FULL_OVERVIEW", effectivePlan);
+    const hasOptimize = isFeatureEnabled("OPTIMIZE_BUILD", effectivePlan);
+    const isAiLimitReached = hasAiOverview && subscription ? subscription.aiUsage >= subscription.aiLimit : false;
 
     return (
         <div className="min-h-screen bg-background text-foreground pb-24">
@@ -379,15 +403,15 @@ export default function DashboardPage() {
                     <div>
                         <div className="flex items-center gap-3 mb-2">
                             <h1 className="text-3xl md:text-4xl font-bold tracking-tight">Your Builds</h1>
-                            {plan === "free" ? (
+                            {effectivePlan === "free" ? (
                                 <Badge variant="secondary" className="uppercase tracking-widest text-[10px]">Free Plan</Badge>
                             ) : (
                                 <Badge variant="success" className="uppercase tracking-widest text-[10px] bg-primary/20 text-primary border-primary/20">Premium Plan</Badge>
                             )}
 
-                            {hasAiOverview && aiUsage && (
+                            {hasAiOverview && subscription && (
                                 <Badge variant={isAiLimitReached ? "destructive" : "outline"} className="uppercase tracking-widest text-[10px]">
-                                    AI Usage: {aiUsage.count} / {aiUsage.limit}
+                                    AI Usage: {subscription.aiUsage} / {subscription.aiLimit}
                                 </Badge>
                             )}
                         </div>

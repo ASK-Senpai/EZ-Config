@@ -21,7 +21,9 @@ export async function POST(request: NextRequest) {
         if (!userDoc.exists) {
             return NextResponse.json({ error: "NOT_FOUND" }, { status: 404 });
         }
-        const plan = userDoc.data()?.plan || "free";
+        const userData = userDoc.data() || {};
+        const isPremiumActive = userData?.plan === "premium" && userData?.subscriptionStatus === "active";
+        const plan = isPremiumActive ? "premium" : "free";
 
         if (!isFeatureEnabled("OPTIMIZE_BUILD", plan)) {
             return NextResponse.json(

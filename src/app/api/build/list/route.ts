@@ -15,6 +15,25 @@ export async function GET(req: NextRequest) {
         const token = authHeader.replace("Bearer ", "");
         const decoded = await admin.auth().verifyIdToken(token);
 
+        const userDoc = await adminDb
+            .collection("users")
+            .doc(decoded.uid)
+            .get();
+        const userData = userDoc.exists ? (userDoc.data() as Record<string, any>) : {};
+
+        const plan = userData?.plan || "free";
+        const status = userData?.subscriptionStatus || "inactive";
+        const aiUsage = Number(
+            userData?.aiUsage ??
+            userData?.monthlyReportUsage ??
+            userData?.monthlyCount ??
+            0
+        );
+        const aiLimit = Number(
+            userData?.aiLimit ??
+            (plan === "premium" ? 50 : 5)
+        );
+
         const snapshot = await adminDb
             .collection("builds")
             .where("userId", "==", decoded.uid)
@@ -35,6 +54,12 @@ export async function GET(req: NextRequest) {
         return NextResponse.json({
             success: true,
             builds,
+            subscription: {
+                plan,
+                status,
+                aiUsage,
+                aiLimit,
+            },
         });
     } catch (error) {
         console.error(error);
