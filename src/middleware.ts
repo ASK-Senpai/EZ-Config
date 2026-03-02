@@ -6,6 +6,10 @@ const protectedRoutes = ["/dashboard", "/builder", "/compare", "/upgrade"];
 const publicRoutes = ["/login", "/register", "/", "/about", "/contact", "/privacy", "/terms"];
 
 export default function middleware(request: NextRequest) {
+    if (request.nextUrl.pathname.startsWith("/api")) {
+        return NextResponse.next();
+    }
+
     const sessionCookie = request.cookies.get(SESSION_COOKIE_NAME)?.value;
     const isProtectedRoute = protectedRoutes.some((route) => request.nextUrl.pathname.startsWith(route));
     const isPublicRoute = publicRoutes.includes(request.nextUrl.pathname);
@@ -26,5 +30,7 @@ export default function middleware(request: NextRequest) {
 }
 
 export const config = {
-    matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
+    matcher: [
+        "/((?!api|_next/static|_next/image|favicon.ico).*)",
+    ],
 };
