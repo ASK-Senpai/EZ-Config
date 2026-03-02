@@ -27,21 +27,41 @@ async function markWebhookEventProcessed(eventId: string) {
 }
 
 async function resolveUserRefBySubscription(subscriptionId: string) {
+    console.log("RESOLVING USER FOR SUB:", subscriptionId);
+
     const subDoc = await adminDb.collection("subscriptions").doc(subscriptionId).get();
+    console.log("SUB DOC EXISTS:", subDoc.exists);
+
     const subData = subDoc.exists ? (subDoc.data() as Record<string, any>) : null;
+    if (subData) {
+        console.log("SUB DATA FOUND, UID:", subData.uid);
+    } else {
+        console.log("NO SUB DATA FOUND VIA DOC ID");
+    }
+
     const uid = String(subData?.uid || "");
     if (uid) {
+        console.log("RESOLVED USER VIA SUB DOC:", uid);
         return adminDb.collection("users").doc(uid);
     }
 
+    console.log("FALLING BACK TO QUERY SEARCH...");
     const userSnapshot = await adminDb
         .collection("users")
         .where("razorpaySubscriptionId", "==", subscriptionId)
         .limit(1)
         .get();
 
-    if (userSnapshot.empty) return null;
-    return userSnapshot.docs[0].ref;
+    console.log("FALLBACK QUERY SIZE:", userSnapshot.size);
+
+    if (userSnapshot.empty) {
+        console.error("COULD NOT RESOLVE USER FOR SUB:", subscriptionId);
+        return null;
+    }
+
+    const resolvedRef = userSnapshot.docs[0].ref;
+    console.log("RESOLVED USER VIA FALLBACK:", resolvedRef.id);
+    return resolvedRef;
 }
 
 async function upsertSubscription(subscriptionId: string, data: Record<string, unknown>) {
@@ -59,9 +79,15 @@ async function handleSubscriptionActivated(payload: any) {
 
     const planName = process.env.RAZORPAY_PLAN_NAME || "premium_monthly";
 
-    const userRef = await resolveUserRefBySubscription(subscriptionId);
-    if (!userRef) return;
+    console.log("STARTING UPGRADE LOGIC FOR SUB:", subscriptionId);
 
+    const userRef = await resolveUserRefBySubscription(subscriptionId);
+    if (!userRef) {
+        console.error("SKIPPING UPGRADE: NO USER RESOLVED");
+        return;
+    }
+
+    console.log("UPGRADING USER DOCUMENT:", userRef.id);
     const userSnap = await userRef.get();
     const userData = userSnap.exists ? (userSnap.data() as Record<string, any>) : {};
 
@@ -74,11 +100,14 @@ async function handleSubscriptionActivated(payload: any) {
         updatedAt: FieldValue.serverTimestamp(),
     }, { merge: true });
 
+    console.log("USER DOCUMENT UPDATED SUCCESSFULLY");
+
     await upsertSubscription(subscriptionId, {
         uid: userRef.id,
         status: "active",
         plan: planName,
     });
+    console.log("SUBSCRIPTION DOC UPDATED TO ACTIVE");
 }
 
 async function handleSubscriptionCharged(payload: any) {
@@ -190,17 +219,6 @@ export async function POST(request: NextRequest) {
         }
 
         const signature = request.headers.get("x-razorpay-signature");
-        const altSignature = request.headers.get("X-Razorpay-Signature");
-
-        console.log("---- WEBHOOK DEBUG START ----");
-        console.log("EVENT ID:", eventId);
-        console.log("EVENT NAME:", event);
-        console.log("SIGNATURE HEADER:", signature);
-        console.log("WEBHOOK SECRET LENGTH:", webhookSecret.length);
-
-        if (!signature && altSignature) {
-            console.log("FOUND ALT HEADER VERSION");
-        }
 
         if (!signature) {
             console.error("NO SIGNATURE HEADER RECEIVED");
@@ -212,15 +230,8 @@ export async function POST(request: NextRequest) {
             .update(rawBodyBuffer)
             .digest("hex");
 
-        console.log("EXPECTED:", expected);
-
         const expectedBuffer = Buffer.from(expected, "hex");
         const signatureBuffer = Buffer.from(signature, "hex");
-
-        if (expectedBuffer.length !== signatureBuffer.length) {
-            console.error("LENGTH MISMATCH");
-            return NextResponse.json({ error: "LENGTH_MISMATCH" }, { status: 400 });
-        }
 
         const isValid = crypto.timingSafeEqual(expectedBuffer, signatureBuffer);
 
@@ -232,6 +243,14 @@ export async function POST(request: NextRequest) {
         }
 
         const payload = JSON.parse(rawBody);
+
+        console.log("==== WEBHOOK EVENT RECEIVED ====");
+        console.log("EVENT TYPE:", event);
+        console.log("EVENT ID (PAYLOAD):", payload?.id);
+        console.log("FULL PAYLOAD KEYS:", Object.keys(payload));
+        // Be careful with full payload logging in production due to PII/Secrets, 
+        // but for this debug cycle it's essential.
+        console.log("FULL PAYLOAD:", JSON.stringify(payload, null, 1));
 
         const shouldProcess = await markWebhookEventProcessed(eventId);
         if (!shouldProcess) {

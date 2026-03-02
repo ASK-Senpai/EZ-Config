@@ -62,6 +62,10 @@ export async function POST(request: NextRequest) {
                 total_count: Number(process.env.RAZORPAY_BILLING_CYCLES ?? 1200),
             });
 
+            console.log("CREATING SUB DOC FOR:", subscription.id);
+            console.log("UID:", uid);
+            console.log("PLAN NAME:", planName);
+
             await adminDb.collection("subscriptions").doc(subscription.id).set(
                 {
                     uid,
@@ -76,6 +80,9 @@ export async function POST(request: NextRequest) {
                 },
                 { merge: true }
             );
+
+            const checkDoc = await adminDb.collection("subscriptions").doc(subscription.id).get();
+            console.log("SUB DOC VERIFIED CREATED:", checkDoc.exists);
 
             return NextResponse.json(
                 {
