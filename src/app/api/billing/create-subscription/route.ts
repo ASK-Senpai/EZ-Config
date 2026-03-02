@@ -42,7 +42,7 @@ export async function POST(request: NextRequest) {
         const subscription = await razorpay.subscriptions.create({
             plan_id: planId,
             customer_notify: 1,
-            total_count: 0,
+            total_count: Number(process.env.RAZORPAY_BILLING_CYCLES),
         });
 
         await adminDb.collection("subscriptions").doc(subscription.id).set({
