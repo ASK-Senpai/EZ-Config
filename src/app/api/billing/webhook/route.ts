@@ -177,14 +177,26 @@ export async function POST(request: NextRequest) {
         if (!webhookSecret) {
             throw new Error("RAZORPAY_WEBHOOK_SECRET NOT SET");
         }
-        console.log("WEBHOOK SECRET LENGTH:", webhookSecret.length);
+
+        // --- PRE-SIGNATURE LOGGING ---
+        let eventId = "unknown";
+        let event = "unknown";
+        try {
+            const payload = JSON.parse(rawBody);
+            eventId = String(payload?.id || "unknown");
+            event = String(payload?.event || "unknown");
+        } catch (e) {
+            console.error("FAILED TO PARSE PAYLOAD FOR LOGGING", e);
+        }
 
         const signature = request.headers.get("x-razorpay-signature");
         const altSignature = request.headers.get("X-Razorpay-Signature");
 
         console.log("---- WEBHOOK DEBUG START ----");
+        console.log("EVENT ID:", eventId);
+        console.log("EVENT NAME:", event);
         console.log("SIGNATURE HEADER:", signature);
-        console.log("SIGNATURE LENGTH:", signature?.length);
+        console.log("WEBHOOK SECRET LENGTH:", webhookSecret.length);
 
         if (!signature && altSignature) {
             console.log("FOUND ALT HEADER VERSION");
@@ -201,13 +213,9 @@ export async function POST(request: NextRequest) {
             .digest("hex");
 
         console.log("EXPECTED:", expected);
-        console.log("EXPECTED LENGTH:", expected.length);
 
         const expectedBuffer = Buffer.from(expected, "hex");
         const signatureBuffer = Buffer.from(signature, "hex");
-
-        console.log("EXPECTED BUFFER LENGTH:", expectedBuffer.length);
-        console.log("SIGNATURE BUFFER LENGTH:", signatureBuffer.length);
 
         if (expectedBuffer.length !== signatureBuffer.length) {
             console.error("LENGTH MISMATCH");
@@ -224,17 +232,6 @@ export async function POST(request: NextRequest) {
         }
 
         const payload = JSON.parse(rawBody);
-        const eventId = String(payload?.id || "");
-        const event = String(payload?.event || "");
-
-        console.log("EVENT ID:", eventId);
-        console.log("EVENT NAME:", event);
-        console.log("PAYLOAD KEYS:", Object.keys(payload));
-
-        if (!eventId || !event) {
-            console.error("INVALID WEBHOOK PAYLOAD - MISSING ID OR EVENT");
-            return NextResponse.json({ error: "BAD_REQUEST", message: "Invalid webhook payload." }, { status: 400 });
-        }
 
         const shouldProcess = await markWebhookEventProcessed(eventId);
         if (!shouldProcess) {
