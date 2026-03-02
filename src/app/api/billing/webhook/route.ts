@@ -160,6 +160,11 @@ export async function POST(request: NextRequest) {
         const signature = request.headers.get("x-razorpay-signature");
         const webhookSecret = process.env.RAZORPAY_WEBHOOK_SECRET;
 
+        console.log("WEBHOOK RECEIVED");
+        console.log("Webhook secret present:", !!webhookSecret);
+        console.log("Received signature:", signature);
+        console.log("Raw body length:", rawBody?.length);
+
         if (!signature || !webhookSecret) {
             return NextResponse.json({ error: "BAD_REQUEST" }, { status: 400 });
         }
@@ -170,6 +175,9 @@ export async function POST(request: NextRequest) {
             .digest("hex");
 
         if (expected !== signature) {
+            console.error("INVALID SIGNATURE");
+            console.error("Expected:", expected);
+            console.error("Received:", signature);
             return NextResponse.json({ error: "INVALID_SIGNATURE" }, { status: 400 });
         }
 
@@ -186,7 +194,7 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ success: true, duplicate: true }, { status: 200 });
         }
 
-        if (event === "subscription.activated") {
+        if (event === "subscription.activated" || event === "payment.captured") {
             await handleSubscriptionActivated(payload);
         } else if (event === "subscription.charged") {
             await handleSubscriptionCharged(payload);
