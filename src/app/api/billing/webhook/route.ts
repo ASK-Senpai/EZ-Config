@@ -156,14 +156,16 @@ async function handlePaymentFailed(payload: any) {
 
 export async function POST(request: NextRequest) {
     try {
-        const rawBody = await request.text();
+        const rawBodyBuffer = Buffer.from(await request.arrayBuffer());
+        const rawBody = rawBodyBuffer.toString("utf8");
+
         const signature = request.headers.get("x-razorpay-signature");
         const webhookSecret = process.env.RAZORPAY_WEBHOOK_SECRET;
 
         console.log("WEBHOOK RECEIVED");
         console.log("Webhook secret present:", !!webhookSecret);
         console.log("Received signature:", signature);
-        console.log("Raw body length:", rawBody?.length);
+        console.log("Raw body length:", rawBodyBuffer.length);
 
         if (!signature || !webhookSecret) {
             return NextResponse.json({ error: "BAD_REQUEST" }, { status: 400 });
@@ -171,10 +173,17 @@ export async function POST(request: NextRequest) {
 
         const expected = crypto
             .createHmac("sha256", webhookSecret)
-            .update(rawBody)
+            .update(rawBodyBuffer)
             .digest("hex");
 
-        if (expected !== signature) {
+        const isValid =
+            signature &&
+            crypto.timingSafeEqual(
+                Buffer.from(expected, "utf8"),
+                Buffer.from(signature, "utf8")
+            );
+
+        if (!isValid) {
             console.error("INVALID SIGNATURE");
             console.error("Expected:", expected);
             console.error("Received:", signature);
