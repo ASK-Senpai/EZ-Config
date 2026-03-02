@@ -172,49 +172,54 @@ export async function POST(request: NextRequest) {
 
         const rawBody = rawBodyBuffer.toString("utf8");
 
-        const signature = request.headers.get("x-razorpay-signature");
         const webhookSecret = process.env.RAZORPAY_WEBHOOK_SECRET;
 
-        console.log("WEBHOOK RECEIVED");
-        console.log("ENV SECRET PRESENT:", !!process.env.RAZORPAY_WEBHOOK_SECRET);
-        console.log("ENV SECRET VALUE:", process.env.RAZORPAY_WEBHOOK_SECRET || "undefined");
+        if (!webhookSecret) {
+            throw new Error("RAZORPAY_WEBHOOK_SECRET NOT SET");
+        }
+        console.log("WEBHOOK SECRET LENGTH:", webhookSecret.length);
 
-        const headersObject = Object.fromEntries(request.headers.entries());
-        console.log("ALL HEADERS:", headersObject);
+        const signature = request.headers.get("x-razorpay-signature");
+        const altSignature = request.headers.get("X-Razorpay-Signature");
 
-        console.log("Webhook secret present:", !!webhookSecret);
-        console.log("Signature present:", !!signature);
-        console.log("Raw body length:", rawBodyBuffer.length);
+        console.log("---- WEBHOOK DEBUG START ----");
+        console.log("SIGNATURE HEADER:", signature);
+        console.log("SIGNATURE LENGTH:", signature?.length);
 
-        if (!signature || !webhookSecret) {
-            console.error("Missing signature or webhook secret");
-            return NextResponse.json({ error: "BAD_REQUEST" }, { status: 400 });
+        if (!signature && altSignature) {
+            console.log("FOUND ALT HEADER VERSION");
+        }
+
+        if (!signature) {
+            console.error("NO SIGNATURE HEADER RECEIVED");
+            return NextResponse.json({ error: "NO_SIGNATURE" }, { status: 400 });
         }
 
         const expected = crypto
-            .createHmac("sha256", webhookSecret)
+            .createHmac("sha256", webhookSecret.trim())
             .update(rawBodyBuffer)
             .digest("hex");
+
+        console.log("EXPECTED:", expected);
+        console.log("EXPECTED LENGTH:", expected.length);
 
         const expectedBuffer = Buffer.from(expected, "utf8");
         const signatureBuffer = Buffer.from(signature, "utf8");
 
-        console.log("Expected signature length:", expectedBuffer.length);
-        console.log("Received signature length:", signatureBuffer.length);
+        console.log("EXPECTED BUFFER LENGTH:", expectedBuffer.length);
+        console.log("SIGNATURE BUFFER LENGTH:", signatureBuffer.length);
 
         if (expectedBuffer.length !== signatureBuffer.length) {
-            console.error("SIGNATURE LENGTH MISMATCH");
-            console.error("Expected:", expected);
-            console.error("Received:", signature);
-            return NextResponse.json({ error: "INVALID_SIGNATURE" }, { status: 400 });
+            console.error("LENGTH MISMATCH");
+            return NextResponse.json({ error: "LENGTH_MISMATCH" }, { status: 400 });
         }
 
         const isValid = crypto.timingSafeEqual(expectedBuffer, signatureBuffer);
 
+        console.log("SIGNATURE VALID:", isValid);
+        console.log("---- WEBHOOK DEBUG END ----");
+
         if (!isValid) {
-            console.error("INVALID SIGNATURE");
-            console.error("Expected:", expected);
-            console.error("Received:", signature);
             return NextResponse.json({ error: "INVALID_SIGNATURE" }, { status: 400 });
         }
 
