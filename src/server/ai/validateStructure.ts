@@ -1,9 +1,10 @@
 type ReportContext = {
     cpu?: { name?: string };
     gpu?: { name?: string };
-    ram?: { capacityGB?: number };
-    storage?: { capacityGB?: number };
-    psu?: { wattage?: number };
+    motherboard?: { name?: string };
+    ram?: { name?: string };
+    storage?: { name?: string };
+    psu?: { name?: string };
 };
 
 function normalizeText(value: string) {
@@ -22,6 +23,10 @@ function extractModelMentions(text: string) {
         /\bryzen\s?\d{3,4}\s?(x|g|xt)?\b/gi,
         /\bcore\s?i[3579]-\d{4,5}[a-z]{0,2}\b/gi,
         /\bxeon\s?\w+\b/gi,
+        // Common Mobo/PSU/RAM patterns to broaden detection
+        /\b(rog|strix|tuf|aorus|mag|mpg|meg|taichi|phantom|velocita|proart)\b/gi,
+        /\b(corsair|g\.?skill|kingston|crucial|teamgroup|trident|vengeance|dominator)\b/gi,
+        /\b(evga|seasonic|be\s?quiet|thermaltake|cooler\s?master|deepcool|nzxt)\b/gi,
     ];
 
     const matches = new Set<string>();
@@ -38,15 +43,20 @@ function extractModelMentions(text: string) {
 
 export function validateStructure(aiOutput: any, context: ReportContext) {
     const outputText = normalizeText(JSON.stringify(aiOutput));
-    const cpuName = normalizeText(context?.cpu?.name || "");
-    const gpuName = normalizeText(context?.gpu?.name || "");
+    const allowedNames = [
+        normalizeText(context?.cpu?.name || ""),
+        normalizeText(context?.gpu?.name || ""),
+        normalizeText(context?.motherboard?.name || ""),
+        normalizeText(context?.ram?.name || ""),
+        normalizeText(context?.storage?.name || ""),
+        normalizeText(context?.psu?.name || ""),
+    ].filter(Boolean);
 
     const modelMentions = extractModelMentions(outputText);
     for (const mention of modelMentions) {
-        const cpuAllowed = cpuName && cpuName.includes(mention);
-        const gpuAllowed = gpuName && gpuName.includes(mention);
-        if (!cpuAllowed && !gpuAllowed) {
-            throw new Error(`AI referenced foreign hardware model: ${mention}`);
+        const isAllowed = allowedNames.some(name => name.includes(mention));
+        if (!isAllowed) {
+            throw new Error(`AI referenced foreign hardware model or brand: ${mention}`);
         }
     }
 
@@ -65,3 +75,4 @@ export function validateStructure(aiOutput: any, context: ReportContext) {
         }
     }
 }
+

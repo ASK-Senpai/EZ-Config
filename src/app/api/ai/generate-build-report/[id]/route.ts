@@ -274,12 +274,17 @@ export async function POST(
             ],
         });
 
-        console.log("Calling Groq model...");
+        console.log("Calling technical report generator...");
         const reportJson = await generateTechnicalReport(structuredBuildPayloadString);
-        console.log("Groq response received");
+
+        if (reportJson.isFallback) {
+            console.warn("[API] AI report is using fallback data due to validation issues.");
+        }
 
         const batch = db.batch();
+
         console.log("Saving report to Firestore...");
+
         batch.set(reportRef, {
             userId,
             buildId,

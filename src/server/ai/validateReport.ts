@@ -14,10 +14,19 @@ export function validateReportOutput(aiOutput: any, inputPayload: any) {
 
     for (const phrase of forbiddenPhrases) {
         if (stringified.includes(phrase)) {
-            throw new Error("AI output contains forbidden filler phrase.");
+            throw new Error(`AI output contains forbidden filler phrase: "${phrase}"`);
         }
     }
 
-    validateStructure(aiOutput, inputPayload);
+    validateStructure(aiOutput, {
+        cpu: inputPayload.cpu,
+        gpu: inputPayload.gpu,
+        motherboard: inputPayload.motherboard,
+        ram: inputPayload.ram,
+        storage: inputPayload.storage,
+        psu: inputPayload.psu,
+    });
+
     validateNumbers(aiOutput, inputPayload);
 }
+
