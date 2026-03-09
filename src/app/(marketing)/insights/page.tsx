@@ -16,8 +16,9 @@ export const metadata: Metadata = {
 
 export default function InsightsHubPage() {
     return (
-        <div className="min-h-screen bg-background text-foreground pt-20 pb-24 selection:bg-primary/30 overflow-x-hidden">
-            <SectionContainer className="py-16 md:py-24 space-y-12">
+        <div className="bg-background text-foreground selection:bg-primary/30 overflow-x-hidden">
+            <SectionContainer className="pt-12 pb-12 space-y-12">
+
                 <div className="text-center space-y-4 mb-12">
                     <div className="inline-flex items-center justify-center p-3 mb-4 bg-primary/10 rounded-2xl ring-1 ring-primary/20 shadow-[0_0_40px_-10px_rgba(168,85,247,0.4)]">
                         <BarChart3 className="w-8 h-8 text-primary" />

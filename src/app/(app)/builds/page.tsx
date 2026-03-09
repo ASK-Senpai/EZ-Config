@@ -239,7 +239,7 @@ export default function DashboardPage() {
 
     const handleGenerateReport = async (buildId: string, hasExistingReport: boolean) => {
         if (hasExistingReport) {
-            router.push(`/build-report/${buildId}`);
+            router.push(`/reports/${buildId}`);
             return;
         }
         setReportingId(buildId);
@@ -257,7 +257,7 @@ export default function DashboardPage() {
             }
 
             setBuilds((prev) => prev.map((b) => b.id === buildId ? { ...b, technicalReportHash: data.engineSnapshotHash || "present" } : b));
-            router.push(`/build-report/${data.reportId}`);
+            router.push(`/reports/${data.reportId}`);
         } catch (err: any) {
             console.error("Report generation failed:", err);
             alert("Failed to generate report");
@@ -265,6 +265,7 @@ export default function DashboardPage() {
             setReportingId(null);
         }
     };
+
 
     // Handle Optimized Build Generation (Premium)
     const handleGenerateOptimized = async (buildId: string) => {

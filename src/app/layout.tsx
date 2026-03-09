@@ -37,11 +37,10 @@ export default async function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
       >
         <AuthProvider>
-          <Navbar isLoggedIn={isLoggedIn} />
-          <main className="flex-grow">{children}</main>
-          <Footer />
+          {children}
         </AuthProvider>
       </body>
     </html>
   );
 }
+

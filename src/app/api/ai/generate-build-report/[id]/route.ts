@@ -1,54 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getFirestore, FieldValue } from "firebase-admin/firestore";
-import { createHash } from "crypto";
 import { requireAuth } from "@/server/auth/requireAuth";
+import { buildService } from "@/lib/services/buildService";
+import { aiService } from "@/lib/services/aiService";
+import { billingService } from "@/lib/services/billingService";
 import { analyzeBuild } from "@/lib/engine/analyzeBuild";
-import type { BuildInput } from "@/lib/engine/compatibility";
-import { generateTechnicalReport } from "@/server/ai/generateTechnicalReport";
+import { createHash } from "crypto";
 
 export const runtime = "nodejs";
 
-const FREE_MONTHLY_REPORT_LIMIT = 5;
-
-function currentMonthKey(date = new Date()) {
-    return `${date.getUTCFullYear()}-${String(date.getUTCMonth() + 1).padStart(2, "0")}`;
-}
-
-async function hydrateBuildFromSavedIds(db: FirebaseFirestore.Firestore, componentIds: any): Promise<BuildInput> {
-    const typeMap: Record<string, keyof BuildInput> = {
-        cpuId: "cpu",
-        gpuId: "gpu",
-        motherboardId: "motherboard",
-        ramId: "ram",
-        storageId: "storage",
-        psuId: "psu",
-    };
-
-    const buildInput: BuildInput = {};
-    for (const [idKey, componentType] of Object.entries(typeMap)) {
-        const componentId = componentIds?.[idKey];
-        if (!componentId) continue;
-
-        const componentDoc = await db
-            .collection("components")
-            .doc(componentType)
-            .collection("items")
-            .doc(componentId)
-            .get();
-
-        if (componentDoc.exists) {
-            (buildInput as any)[componentType] = { id: componentDoc.id, ...componentDoc.data()! };
-        }
-    }
-
-    if (buildInput.gpu && !buildInput.activeGpu) {
-        buildInput.activeGpu = buildInput.gpu;
-    }
-
-    return buildInput;
-}
-
-function computeEngineSnapshotHash(buildInput: BuildInput, analysis: any): string {
+function computeEngineSnapshotHash(buildInput: any, analysis: any): string {
     const hashPayload = JSON.stringify({
         cpuId: buildInput.cpu?.id || null,
         gpuId: (buildInput.activeGpu ?? buildInput.gpu)?.id || null,
@@ -60,14 +20,6 @@ function computeEngineSnapshotHash(buildInput: BuildInput, analysis: any): strin
     return createHash("sha256").update(hashPayload).digest("hex");
 }
 
-async function getOwnedBuildOrNull(db: FirebaseFirestore.Firestore, buildId: string, userId: string) {
-    const buildDoc = await db.collection("builds").doc(buildId).get();
-    if (!buildDoc.exists) return null;
-    const data = buildDoc.data()!;
-    if (data.userId !== userId) return null;
-    return { ref: buildDoc.ref, data };
-}
-
 export async function GET(
     request: NextRequest,
     { params }: { params: Promise<{ id: string }> }
@@ -77,34 +29,24 @@ export async function GET(
         const userId = decodedUser.uid;
         const { id: buildId } = await params;
 
-        if (!buildId) {
-            return NextResponse.json({ error: "BAD_REQUEST", message: "Build ID is required." }, { status: 400 });
-        }
-
-        const db = getFirestore();
-        const ownedBuild = await getOwnedBuildOrNull(db, buildId, userId);
-        if (!ownedBuild) {
+        const build = await buildService.getBuildById(userId, buildId) as any;
+        if (!build) {
             return NextResponse.json({ error: "NOT_FOUND", message: "Build not found." }, { status: 404 });
         }
 
-        const buildInput = await hydrateBuildFromSavedIds(db, ownedBuild.data.components || {});
-        if (!buildInput.cpu || !buildInput.gpu || !buildInput.ram || !buildInput.storage || !buildInput.psu) {
-            return NextResponse.json({ exists: false }, { status: 200 });
-        }
+        const buildInput = await buildService.hydrateBuild(build.components || {});
 
         const analysis = analyzeBuild(buildInput, "free");
         const engineSnapshotHash = computeEngineSnapshotHash(buildInput, analysis);
-        const reportRef = db.collection("build_reports").doc(buildId);
-        const reportDoc = await reportRef.get();
 
-        const exists = reportDoc.exists && reportDoc.data()?.engineSnapshotHash === engineSnapshotHash;
-        return NextResponse.json({ exists, reportId: buildId }, { status: 200 });
+        const cached = await aiService.getCachedReport(engineSnapshotHash);
+        return NextResponse.json({ exists: !!cached, reportId: buildId }, { status: 200 });
     } catch (error: any) {
         if (error.message === "UNAUTHORIZED") {
-            return NextResponse.json({ error: "UNAUTHORIZED", message: "Missing or invalid session" }, { status: 401 });
+            return NextResponse.json({ error: "UNAUTHORIZED" }, { status: 401 });
         }
-        console.error("Failed to fetch report status:", error);
-        return NextResponse.json({ error: "INTERNAL_SERVER_ERROR", message: "Failed to fetch report status." }, { status: 500 });
+        console.error(error);
+        return NextResponse.json({ error: "INTERNAL_SERVER_ERROR" }, { status: 500 });
     }
 }
 
@@ -113,221 +55,52 @@ export async function POST(
     { params }: { params: Promise<{ id: string }> }
 ) {
     try {
-        console.log("=== GENERATE BUILD REPORT START ===");
         const decodedUser = await requireAuth();
         const userId = decodedUser.uid;
         const { id: buildId } = await params;
 
-        console.log("Report ID:", buildId);
-        console.log("User UID:", decodedUser.uid);
+        const [build, subscription] = await Promise.all([
+            buildService.getBuildById(userId, buildId),
+            billingService.getSubscriptionStatus(userId)
+        ]);
 
-        if (!buildId) {
-            return NextResponse.json({ error: "BAD_REQUEST", message: "Build ID is required." }, { status: 400 });
-        }
-
-        const db = getFirestore();
-        const userRef = db.collection("users").doc(userId);
-        const userDoc = await userRef.get();
-        if (!userDoc.exists) {
-            return NextResponse.json({ error: "NOT_FOUND", message: "User not found." }, { status: 404 });
-        }
-
-        const userData = userDoc.data()!;
-        const rawPlan = String(userData?.plan || "").toLowerCase();
-        const rawStatus = String(userData?.subscriptionStatus || "").toLowerCase();
-        const planName = (process.env.RAZORPAY_PLAN_NAME || "premium_monthly").toLowerCase();
-        const isPremiumActive =
-            rawPlan === planName && rawStatus === "active";
-        const plan = isPremiumActive ? "premium" : "free";
-        const monthKey = currentMonthKey();
-
-        console.log("Subscription object:", {
-            plan: userData?.plan || "unknown",
-            subscriptionStatus: userData?.subscriptionStatus || "unknown",
-            isPremiumActive,
-        });
-
-        const ownedBuild = await getOwnedBuildOrNull(db, buildId, userId);
-        if (!ownedBuild) {
+        if (!build) {
             return NextResponse.json({ error: "NOT_FOUND", message: "Build not found." }, { status: 404 });
         }
 
-        const buildInput = await hydrateBuildFromSavedIds(db, ownedBuild.data.components || {});
-        if (!buildInput.cpu || !buildInput.gpu || !buildInput.motherboard || !buildInput.ram || !buildInput.storage || !buildInput.psu) {
+        const plan = (subscription?.plan === "premium" && subscription?.status === "active") ? "premium" : "free";
+
+        // 1. Check Usage Limit (Simple check here, more robust logic in service)
+        const usage = await aiService.getUsageStats(userId);
+        if (usage && usage.remaining < 1) {
+            return NextResponse.json(
+                { error: "AI_USAGE_EXHAUSTED", message: "No AI usage remaining for this month." },
+                { status: 403 }
+            );
+        }
+
+        const buildInput = await buildService.hydrateBuild(build.components || {});
+        if (!buildInput.cpu || !buildInput.gpu) {
             return NextResponse.json({ error: "BAD_REQUEST", message: "Saved build is incomplete." }, { status: 400 });
         }
 
         const analysis = analyzeBuild(buildInput, plan);
-        const engineSnapshotHash = computeEngineSnapshotHash(buildInput, analysis);
 
-        const reportId = buildId;
-        const reportRef = db.collection("build_reports").doc(reportId);
-        const existingReport = await reportRef.get();
+        // 2. Delegate to Service (which handles hashing, caching, and usage tracking)
+        const result = await aiService.generateAndTrack(userId, buildId, buildInput, analysis);
 
-        if (existingReport.exists && existingReport.data()?.engineSnapshotHash === engineSnapshotHash) {
-            return NextResponse.json({ reportId, cached: true, engineSnapshotHash, reportJson: existingReport.data()?.reportJson || null }, { status: 200 });
+        return NextResponse.json({
+            reportId: buildId,
+            cached: result.cached,
+            reportJson: result.report
+        }, { status: 200 });
+
+    } catch (error: any) {
+        if (error.message === "UNAUTHORIZED") {
+            return NextResponse.json({ error: "UNAUTHORIZED" }, { status: 401 });
         }
-
-        if (plan === "free") {
-            const usageMonth = userData.reportUsageMonth || "";
-            const usageCount = usageMonth === monthKey ? Number(userData.monthlyReportUsage || 0) : 0;
-            if (usageCount >= FREE_MONTHLY_REPORT_LIMIT) {
-                return NextResponse.json(
-                    { error: "REPORT_LIMIT_REACHED", message: "Free plan allows 5 reports per month." },
-                    { status: 403 }
-                );
-            }
-        } else {
-            let aiUsageRemaining = Number(userData.aiUsageRemaining);
-            if (!Number.isFinite(aiUsageRemaining)) {
-                const usageDoc = await db.collection("aiUsage").doc(userId).get();
-                if (usageDoc.exists) {
-                    const usage = usageDoc.data()!;
-                    const lastReset = usage.lastReset?.toDate?.();
-                    const sameMonth = lastReset
-                        ? `${lastReset.getUTCFullYear()}-${String(lastReset.getUTCMonth() + 1).padStart(2, "0")}` === monthKey
-                        : false;
-                    const used = sameMonth ? Number(usage.monthlyCount || 0) : 0;
-                    aiUsageRemaining = Math.max(0, 50 - used);
-                } else {
-                    aiUsageRemaining = 50;
-                }
-            }
-            if (aiUsageRemaining < 1) {
-                return NextResponse.json(
-                    { error: "AI_USAGE_EXHAUSTED", message: "No AI usage remaining for this month." },
-                    { status: 403 }
-                );
-            }
-        }
-
-        const gpu = buildInput.activeGpu ?? buildInput.gpu;
-        const structuredBuildPayloadString = JSON.stringify({
-            cpu: {
-                name: buildInput.cpu?.name || "",
-                cores: buildInput.cpu?.cores ?? 0,
-                threads: buildInput.cpu?.threads ?? 0,
-                generation: buildInput.cpu?.generation || "",
-                architecture: buildInput.cpu?.architecture || "",
-                gamingScore: buildInput.cpu?.normalized?.gamingScore ?? 0,
-                productivityScore: buildInput.cpu?.normalized?.productivityScore ?? 0,
-            },
-            gpu: {
-                name: gpu?.name || "",
-                tier: gpu?.tier || "",
-                vramGB: gpu?.vramGB ?? 0,
-                architecture: gpu?.architecture || "",
-                gamingScore: gpu?.normalized?.gamingScore ?? 0,
-                rayTracing: Boolean(gpu?.rayTracing),
-            },
-            ram: {
-                capacityGB: buildInput.ram?.capacityGB ?? 0,
-                type: buildInput.ram?.type || "",
-                speed: buildInput.ram?.speedMHz ?? 0,
-            },
-            storage: {
-                type: (Array.isArray(buildInput.storage) ? buildInput.storage[0] : buildInput.storage)?.type || "",
-                capacityGB: (Array.isArray(buildInput.storage) ? buildInput.storage[0] : buildInput.storage)?.capacityGB ?? 0,
-            },
-            psu: {
-                wattage: buildInput.psu?.wattage ?? 0,
-                headroomPercent: analysis.power?.headroomPercent ?? 0,
-            },
-            engineScores: {
-                overall: analysis.scores?.overall ?? 0,
-                gaming: analysis.scores?.gaming ?? 0,
-                workstation: analysis.scores?.workstation ?? 0,
-                bottleneckPercent: analysis.bottleneck?.percentage ?? 0,
-            },
-            requiredOutputSchema: {
-                executiveSummary: "string",
-                gamingAnalysis: { "1080p": "string", "1440p": "string", "4k": "string" },
-                productivityBreakdown: {
-                    premiere: "string",
-                    afterEffects: "string",
-                    blender: "string",
-                    davinci: "string",
-                    unrealEngine: "string",
-                    softwareDevelopment: "string",
-                    virtualization: "string",
-                },
-                componentDeepDive: {
-                    cpu: "string",
-                    gpu: "string",
-                    motherboard: "string",
-                    ram: "string",
-                    storage: "string",
-                    psu: "string",
-                },
-                futureProofing: { year1: "string", year3: "string", year5: "string" },
-                bottleneckAnalysis: "string",
-                powerAndThermals: "string",
-                marketValueAssessment: "string",
-                finalRecommendation: "string",
-            },
-            rules: [
-                "Return strict JSON only.",
-                "Do not use markdown.",
-                "Do not use ** symbols.",
-                "Do not use filler phrases.",
-                "Do not include text outside JSON.",
-            ],
-        });
-
-        console.log("Calling technical report generator...");
-        const reportJson = await generateTechnicalReport(structuredBuildPayloadString);
-
-        if (reportJson.isFallback) {
-            console.warn("[API] AI report is using fallback data due to validation issues.");
-        }
-
-        const batch = db.batch();
-
-        console.log("Saving report to Firestore...");
-
-        batch.set(reportRef, {
-            userId,
-            buildId,
-            engineSnapshotHash,
-            reportJson,
-            createdAt: existingReport.exists ? existingReport.data()?.createdAt || FieldValue.serverTimestamp() : FieldValue.serverTimestamp(),
-            updatedAt: FieldValue.serverTimestamp(),
-            engineSnapshot: analysis,
-        }, { merge: true });
-
-        batch.set(ownedBuild.ref, {
-            technicalReportHash: engineSnapshotHash,
-            technicalReportUpdatedAt: FieldValue.serverTimestamp(),
-        }, { merge: true });
-
-        if (plan === "free") {
-            const usageMonth = userData.reportUsageMonth || "";
-            const usageCount = usageMonth === monthKey ? Number(userData.monthlyReportUsage || 0) : 0;
-            batch.set(userRef, {
-                monthlyReportUsage: usageCount + 1,
-                reportUsageMonth: monthKey,
-                updatedAt: FieldValue.serverTimestamp(),
-            }, { merge: true });
-        } else {
-            batch.set(userRef, {
-                aiUsageRemaining: FieldValue.increment(-1),
-                updatedAt: FieldValue.serverTimestamp(),
-            }, { merge: true });
-        }
-
-        await batch.commit();
-
-        return NextResponse.json({ reportId, cached: false, engineSnapshotHash, reportJson }, { status: 200 });
-    } catch (err: any) {
-        console.error("========= GENERATE BUILD REPORT ERROR =========");
-        console.error("FULL ERROR:", err);
-        console.error("ERROR JSON:", JSON.stringify(err, null, 2));
-        console.error("Stack:", err?.stack);
-        console.error("===============================================");
-
-        return NextResponse.json(
-            { error: "Failed to generate report" },
-            { status: 500 }
-        );
+        console.error("AI Report Gen Error:", error);
+        return NextResponse.json({ error: "INTERNAL_SERVER_ERROR" }, { status: 500 });
     }
 }
+

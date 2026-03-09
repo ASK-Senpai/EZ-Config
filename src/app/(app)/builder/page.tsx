@@ -10,25 +10,26 @@ import {
     HardDrive,
     Zap,
     AlertCircle,
-    ShieldCheck,
     TrendingUp,
     ChevronRight,
     Plus,
     X,
     CheckCircle2,
 } from "lucide-react";
+
 import { SectionContainer } from "@/components/ui/SectionContainer";
 import { useBuildStore } from "@/store/useBuildStore";
 import { ComponentCard } from "@/components/builder/ComponentCard";
 import { ComponentSelectModal } from "@/components/builder/ComponentSelectModal";
-import { PowerSummary } from "@/components/builder/PowerSummary";
-import { PerformanceSummary } from "@/components/builder/PerformanceSummary";
-import { BuildFooterBar } from "@/components/builder/BuildFooterBar";
 import { AnalysisResultsPanel } from "@/components/builder/AnalysisResultsPanel";
 import { runEngineV12 } from "@/lib/engine";
 import { analyzeBuild, BuildAnalysis } from "@/lib/engine/analyzeBuild";
 import { Badge } from "@/components/ui/badge";
 import { useRouter, useSearchParams } from "next/navigation";
+import { LiveIntelligencePanel } from "@/components/builder/LiveIntelligencePanel";
+import { LiveEnginePanel } from "@/components/builder/LiveEnginePanel";
+import { Card } from "@/components/ui/card";
+import { getMinPrice } from "@/lib/utils/pricingV2";
 
 const BUILDER_CATEGORIES = [
     { id: "cpu", title: "CPU", icon: Cpu, description: "Processors for gaming & work" },
@@ -54,8 +55,8 @@ function Toast({ message, type, onClose }: { message: string; type: "success" | 
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.9 }}
             className={`fixed bottom-24 left-1/2 -translate-x-1/2 z-[60] flex items-center gap-3 px-5 py-3 rounded-2xl shadow-2xl backdrop-blur-xl border ${type === "success"
-                    ? "bg-green-500/10 border-green-500/30 text-green-400"
-                    : "bg-red-500/10 border-red-500/30 text-red-400"
+                ? "bg-green-500/10 border-green-500/30 text-green-400"
+                : "bg-red-500/10 border-red-500/30 text-red-400"
                 }`}
         >
             {type === "success" ? <CheckCircle2 className="w-4 h-4" /> : <AlertCircle className="w-4 h-4" />}
@@ -124,6 +125,7 @@ export default function BuilderPage() {
     // Analysis state
     const [fullAnalysis, setFullAnalysis] = useState<BuildAnalysis | null>(null);
     const [isAnalyzing, setIsAnalyzing] = useState(false);
+    const [analysisSnapshotHash, setAnalysisSnapshotHash] = useState<string | null>(null);
 
     // Save state
     const [showSaveDialog, setShowSaveDialog] = useState(false);
@@ -136,8 +138,6 @@ export default function BuilderPage() {
     } | null>(null);
     const [subscription, setSubscription] = useState<SubscriptionState | null>(null);
     const [isOptimizingBuild, setIsOptimizingBuild] = useState(false);
-    const [isGeneratingReport, setIsGeneratingReport] = useState(false);
-    const [hasTechnicalReport, setHasTechnicalReport] = useState(false);
 
     const analysisRef = useRef<HTMLDivElement>(null);
 
@@ -167,26 +167,60 @@ export default function BuilderPage() {
         }
     };
 
-    // ── Analyze ──────────────────────────────────────────────────────────────
+    // Readiness Indicator
+    const isBuildComplete = !!(store.cpu && store.gpu && store.motherboard && store.psu && store.ram && store.storage?.length > 0);
+
+    const totalPrice = useMemo(() => {
+        return [
+            store.cpu,
+            store.gpu,
+            store.motherboard,
+            store.ram,
+            store.storage?.[0],
+            store.psu,
+        ].reduce((sum, item) => sum + (getMinPrice(item) || 0), 0);
+    }, [store]);
+
+    // ── Analyze (Intentional Only) ───────────────────────────
     const runAnalysis = useCallback(() => {
+
         setIsAnalyzing(true);
         // Small delay to show loading state, then compute
         setTimeout(() => {
             const result = analyzeBuild(currentBuild);
             setFullAnalysis(result);
             setIsAnalyzing(false);
+
+            // Compute hash for staleness detection
+            const buildHash = JSON.stringify({
+                cpuId: currentBuild.cpu?.id,
+                gpuId: currentBuild.gpu?.id,
+                moboId: currentBuild.motherboard?.id,
+                ramId: currentBuild.ram?.id,
+                psuId: currentBuild.psu?.id,
+                storageId: currentBuild.storage?.[0]?.id
+            });
+            setAnalysisSnapshotHash(buildHash);
+
             // Scroll to results
             setTimeout(() => {
                 analysisRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
             }, 100);
         }, 600);
-    }, [currentBuild]);
+    }, [currentBuild, isBuildComplete]);
 
-    useEffect(() => {
-        if (store.cpu && store.gpu) {
-            runAnalysis();
-        }
-    }, [store.cpu, store.gpu, runAnalysis]);
+    const isAnalysisStale = useMemo(() => {
+        if (!analysisSnapshotHash || !fullAnalysis) return false;
+        const currentHash = JSON.stringify({
+            cpuId: currentBuild.cpu?.id,
+            gpuId: currentBuild.gpu?.id,
+            moboId: currentBuild.motherboard?.id,
+            ramId: currentBuild.ram?.id,
+            psuId: currentBuild.psu?.id,
+            storageId: currentBuild.storage?.[0]?.id
+        });
+        return currentHash !== analysisSnapshotHash;
+    }, [currentBuild, analysisSnapshotHash, fullAnalysis]);
 
     useEffect(() => {
         if (searchParams.get("optimized") !== "1") return;
@@ -224,29 +258,6 @@ export default function BuilderPage() {
         fetchPlan();
     }, []);
 
-    useEffect(() => {
-        const buildId = searchParams.get("load");
-        if (!buildId) {
-            setHasTechnicalReport(false);
-            return;
-        }
-
-        const fetchStatus = async () => {
-            try {
-                const res = await fetch(`/api/ai/generate-build-report/${buildId}`);
-                if (!res.ok) {
-                    setHasTechnicalReport(false);
-                    return;
-                }
-                const data = await res.json();
-                setHasTechnicalReport(Boolean(data.exists));
-            } catch {
-                setHasTechnicalReport(false);
-            }
-        };
-
-        fetchStatus();
-    }, [searchParams]);
 
     // ── Save ────────────────────────────────────────────────────────────────
     const handleSave = useCallback(async (buildName: string) => {
@@ -350,72 +361,67 @@ export default function BuilderPage() {
         }
     }, [router, subscription]);
 
-    const handleGenerateReport = useCallback(async () => {
-        const buildId = searchParams.get("load");
-        if (!buildId) {
-            setToast({ message: "Load a saved build to generate a report.", type: "error" });
-            setTimeout(() => setToast(null), 4000);
-            return;
-        }
-
-        if (hasTechnicalReport) {
-            router.push(`/build-report/${buildId}`);
-            return;
-        }
-
-        setIsGeneratingReport(true);
-        try {
-            const res = await fetch(`/api/ai/generate-build-report/${buildId}`, { method: "POST" });
-            const data = await res.json();
-
-            if (!res.ok) {
-                if (res.status === 403) {
-                    setToast({ message: data.message || "Report access denied.", type: "error" });
-                } else {
-                    setToast({ message: "Failed to generate report.", type: "error" });
-                }
-                setTimeout(() => setToast(null), 4000);
-                return;
-            }
-
-            setHasTechnicalReport(true);
-            router.push(`/build-report/${data.reportId}`);
-        } catch (error) {
-            console.error("Report generation failed:", error);
-            setToast({ message: "Failed to generate report.", type: "error" });
-            setTimeout(() => setToast(null), 4000);
-        } finally {
-            setIsGeneratingReport(false);
-        }
-    }, [hasTechnicalReport, router, searchParams]);
+    const formattedPrice = new Intl.NumberFormat("en-IN", {
+        style: "currency",
+        currency: "INR",
+        maximumFractionDigits: 0,
+    }).format(totalPrice);
 
     return (
-        <div className="min-h-screen bg-neutral-950 text-neutral-100 pb-32">
-            <SectionContainer className="py-12">
-                {/* Header Section */}
-                <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-12">
-                    <div className="space-y-2">
-                        <h1 className="text-4xl md:text-5xl font-black uppercase tracking-tighter">
-                            PC Builder <span className="text-primary italic">v2.0</span>
-                        </h1>
-                        <p className="text-neutral-500 font-medium max-w-xl leading-relaxed">
-                            Design your dream rig with real-time hardware intelligence.
-                            Our engine validates every component for optimal performance and stability.
-                        </p>
-                    </div>
-                    <div className="flex items-center gap-3">
-                        <div className="flex flex-col items-end">
-                            <span className="text-[10px] font-bold text-neutral-600 uppercase tracking-widest">Engine Status</span>
-                            <div className="flex items-center gap-2 text-green-500 text-xs font-bold uppercase tracking-wider">
-                                <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
-                                Live Feedback Active
+        <div className="min-h-screen bg-neutral-950 text-neutral-100 pb-24">
+            {/* ── ZONE 1: HERO CONTROL BAR (Sticky Top) ── */}
+            <header className="sticky top-0 z-40 bg-neutral-900/80 backdrop-blur-xl border-b border-white/5 py-4 shadow-2xl">
+                <SectionContainer>
+                    <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+                        <div className="flex flex-col">
+                            <h1 className="text-2xl font-black uppercase tracking-tighter flex items-center gap-2">
+                                PC Builder <span className="text-primary italic">v2.0</span>
+                            </h1>
+                            <p className="text-[10px] font-bold text-neutral-500 uppercase tracking-widest leading-none mt-1">
+                                Design your dream rig with real-time hardware intelligence.
+                            </p>
+                        </div>
+
+                        <div className="flex items-center gap-6">
+                            <div className="flex flex-col items-end">
+                                <span className="text-[9px] font-bold text-neutral-500 uppercase tracking-widest leading-none mb-1">Total Build Estimate</span>
+                                <span className="text-2xl font-black text-white leading-tight">{formattedPrice}</span>
+                            </div>
+
+                            <div className="h-10 w-px bg-white/5" />
+
+                            <div className="flex items-center gap-3">
+                                <button
+                                    onClick={() => setShowSaveDialog(true)}
+                                    className="px-4 py-2 text-xs font-black uppercase tracking-widest text-neutral-400 hover:text-white transition-colors"
+                                >
+                                    Save
+                                </button>
+                                <button
+                                    onClick={runAnalysis}
+                                    disabled={isAnalyzing}
+                                    className="px-6 py-3 bg-neutral-800 hover:bg-neutral-700 text-white rounded-xl text-[10px] font-black uppercase tracking-widest border border-white/5 transition-all flex items-center gap-2"
+                                >
+                                    {isAnalyzing && <div className="w-3 h-3 border-2 border-white/20 border-t-white rounded-full animate-spin" />}
+                                    Analyze Build
+                                </button>
+                                <button
+                                    onClick={handleGenerateOptimizedBuild}
+                                    disabled={isOptimizingBuild}
+                                    className="px-6 py-3 bg-primary text-black rounded-xl text-[10px] font-black uppercase tracking-widest hover:brightness-110 transition-all flex items-center gap-2 shadow-[0_0_30px_rgba(var(--primary-rgb),0.3)]"
+                                >
+                                    {isOptimizingBuild && <div className="w-3 h-3 border-2 border-black/20 border-t-black rounded-full animate-spin" />}
+                                    Generate Optimized Build
+                                </button>
                             </div>
                         </div>
                     </div>
-                </div>
+                </SectionContainer>
+            </header>
 
+            <SectionContainer className="py-10 space-y-10">
                 {optimizedBanner && (
-                    <div className="mb-8 rounded-2xl border border-primary/30 bg-primary/10 px-5 py-4">
+                    <div className="rounded-2xl border border-primary/30 bg-primary/10 px-6 py-4">
                         <p className="text-sm font-semibold text-primary">
                             Optimized Build Applied
                             {" "}
@@ -428,14 +434,12 @@ export default function BuilderPage() {
                     </div>
                 )}
 
-                <div className="flex flex-col lg:flex-row gap-8">
-                    {/* Main Component Grid (70%) */}
-                    <div className="flex-1 space-y-8">
+                {/* ── ZONE 2: BUILD WORKSPACE (Desktop Grid) ── */}
+                <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-8 items-start">
+                    {/* LEFT (2fr): Component Matrix */}
+                    <div className="space-y-8">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             {BUILDER_CATEGORIES.map((cat) => {
-                                const selectedItem = (store as any)[cat.id];
-
-                                // Storage multi-select handling
                                 const storageArray = store.storage || [];
                                 if (cat.id === 'storage' && storageArray.length > 1) {
                                     return (
@@ -462,10 +466,8 @@ export default function BuilderPage() {
                                                     className="border-2 border-dashed border-neutral-800 rounded-xl flex items-center justify-center py-8 text-neutral-600 hover:border-primary/50 hover:text-primary transition-all group"
                                                 >
                                                     <div className="flex flex-col items-center gap-2">
-                                                        <div className="w-8 h-8 rounded-full bg-neutral-900 flex items-center justify-center group-hover:bg-primary/20">
-                                                            <Plus className="w-4 h-4" />
-                                                        </div>
-                                                        <span className="text-xs font-bold uppercase tracking-widest">Add Storage</span>
+                                                        <Plus className="w-5 h-5" />
+                                                        <span className="text-[10px] font-bold uppercase tracking-widest">Add Storage</span>
                                                     </div>
                                                 </button>
                                             </div>
@@ -488,92 +490,92 @@ export default function BuilderPage() {
                             })}
                         </div>
 
-                        {/* ── Full Analysis Results (appears after Analyze click) ── */}
-                        <div ref={analysisRef}>
-                            <AnimatePresence>
-                                {(isAnalyzing || fullAnalysis) && (
-                                    <AnalysisResultsPanel
-                                        analysis={fullAnalysis!}
-                                        isLoading={isAnalyzing}
-                                    />
-                                )}
-                            </AnimatePresence>
-                        </div>
-                    </div>
+                        {/* Zone 2 Bottom: Live Balance + Build Integrity side-by-side */}
+                        <LiveIntelligencePanel
+                            analysis={analysis}
+                            buildComplete={isBuildComplete}
+                        />
 
-                    {/* Right Summary Sidebar (30%) */}
-                    <div className="w-full lg:w-96 space-y-6">
-                        <div className="sticky top-24 space-y-6">
-                            {/* Performance Section */}
-                            <PerformanceSummary build={currentBuild} />
-
-                            {/* Power Section */}
-                            <PowerSummary power={analysis.power} />
-
-                            {/* Compatibility Alerts (Phase 97 Sidebar) */}
-                            {(!analysis.compatibility.isValid || (store.cpu && !store.motherboard) || (analysis.power.recommendedPSU > 1600)) && (
-                                <div className="p-6 rounded-3xl bg-red-500/5 border border-red-500/20 space-y-3">
-                                    <div className="flex items-center gap-2 text-red-500">
-                                        <AlertCircle className="w-4 h-4" />
-                                        <h3 className="font-bold uppercase tracking-widest text-[10px]">Compatibility Alerts</h3>
-                                    </div>
-                                    <div className="space-y-2">
-                                        {analysis.compatibility.issues.map((issue, idx) => (
-                                            <div key={idx} className="text-[11px] text-red-400 font-medium leading-tight flex gap-2">
-                                                <span className="shrink-0">•</span>
-                                                <span>{issue}</span>
-                                            </div>
-                                        ))}
-                                        {store.cpu && !store.motherboard && (
-                                            <div className="text-[11px] text-amber-500 font-medium leading-tight flex gap-2 italic">
-                                                <span className="shrink-0">•</span>
-                                                <span>No compatible motherboard available.</span>
-                                            </div>
-                                        )}
-                                        {analysis.power.recommendedPSU > 1600 && !store.psu && (
-                                            <div className="text-[11px] text-red-500 font-bold leading-tight flex gap-2">
-                                                <span className="shrink-0 text-red-600">!</span>
-                                                <span>No PSU available for current configuration.</span>
-                                            </div>
-                                        )}
-                                    </div>
-                                </div>
-                            )}
-
-                            {/* Suggestions Panel */}
-                            {analysis.suggestions.length > 0 && (
-                                <div className="p-6 rounded-3xl bg-neutral-900 border border-neutral-800 space-y-4">
+                        {/* Stale Badge */}
+                        <AnimatePresence>
+                            {isAnalysisStale && (
+                                <motion.div
+                                    initial={{ opacity: 0, y: 10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    exit={{ opacity: 0, scale: 0.95 }}
+                                    className="p-6 rounded-3xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-between"
+                                >
                                     <div className="flex items-center gap-3">
-                                        <TrendingUp className="w-4 h-4 text-primary" />
-                                        <h3 className="font-bold uppercase tracking-widest text-xs">Optimization Tips</h3>
+                                        <div className="w-2.5 h-2.5 rounded-full bg-amber-500 animate-pulse" />
+                                        <span className="text-xs font-bold text-amber-500 uppercase tracking-widest">Build modified — reanalyze required for current report</span>
                                     </div>
-                                    <div className="space-y-3">
-                                        {analysis.suggestions.slice(0, 3).map((tip, idx) => (
-                                            <div key={idx} className="flex items-start gap-2 group cursor-default">
-                                                <ChevronRight className="w-3 h-3 mt-0.5 text-neutral-700 group-hover:text-primary transition-colors" />
-                                                <p className="text-[11px] text-neutral-400 font-medium leading-normal">{tip}</p>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
+                                    <button
+                                        onClick={runAnalysis}
+                                        className="text-xs font-black uppercase text-amber-500 hover:text-amber-400 underline underline-offset-4"
+                                    >
+                                        Update Intelligence
+                                    </button>
+                                </motion.div>
                             )}
-                        </div>
+                        </AnimatePresence>
                     </div>
+
+                    {/* RIGHT (1fr, sticky): Live Engine Panel */}
+                    <aside>
+                        <LiveEnginePanel
+                            analysis={analysis}
+                            buildComplete={isBuildComplete}
+                        />
+
+                        {/* Compatibility Issues List */}
+                        {(!analysis.compatibility.isValid || (store.cpu && !store.motherboard)) && (
+                            <Card className="mt-8 p-6 rounded-3xl bg-red-500/5 border border-red-500/20 space-y-4">
+                                <div className="flex items-center gap-2 text-red-500">
+                                    <AlertCircle className="w-4 h-4" />
+                                    <h3 className="font-bold uppercase tracking-widest text-[10px]">Architecture Guard</h3>
+                                </div>
+                                <div className="space-y-3">
+                                    {analysis.compatibility.issues.map((issue, idx) => (
+                                        <div key={idx} className="text-[11px] text-red-400 font-medium leading-relaxed flex gap-2">
+                                            <span className="shrink-0">•</span>
+                                            <span>{issue}</span>
+                                        </div>
+                                    ))}
+                                    {store.cpu && !store.motherboard && (
+                                        <div className="text-[11px] text-amber-500 font-medium leading-relaxed flex gap-2 italic">
+                                            <span className="shrink-0">•</span>
+                                            <span>System backbone (motherboard) is missing.</span>
+                                        </div>
+                                    )}
+                                </div>
+                            </Card>
+                        )}
+                    </aside>
+                </div>
+
+                {/* ── ZONE 3: INTELLIGENCE SECTION (After Analyze) ── */}
+                <div ref={analysisRef}>
+                    <AnimatePresence>
+                        {(isAnalyzing || fullAnalysis) && (
+                            <div className="pt-12 border-t border-white/5 space-y-10">
+                                <div className="flex items-center gap-6">
+                                    <div className="h-px flex-1 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+                                    <div className="flex flex-col items-center text-center px-4">
+                                        <h2 className="text-[10px] font-black uppercase tracking-[0.4em] text-neutral-600 mb-1">Advanced Deep Learning Intelligence</h2>
+                                        <p className="text-[9px] font-bold text-neutral-700 uppercase tracking-widest leading-none italic">Comprehensive Build Analysis & Strategy Report</p>
+                                    </div>
+                                    <div className="h-px flex-1 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+                                </div>
+                                <AnalysisResultsPanel
+                                    analysis={fullAnalysis!}
+                                    isLoading={isAnalyzing}
+                                    isStale={false} // Stale badge is now in Zone 2
+                                />
+                            </div>
+                        )}
+                    </AnimatePresence>
                 </div>
             </SectionContainer>
-
-            {/* Footer sticky bar */}
-            <BuildFooterBar
-                build={currentBuild}
-                onClear={() => { store.clearBuild(); setFullAnalysis(null); }}
-                onAnalyze={runAnalysis}
-                onSave={() => setShowSaveDialog(true)}
-                onGenerateOptimized={handleGenerateOptimizedBuild}
-                isOptimizing={isOptimizingBuild}
-                onGenerateReport={handleGenerateReport}
-                isGeneratingReport={isGeneratingReport}
-                reportActionLabel={hasTechnicalReport ? "View Technical Report" : "Generate Technical Report"}
-            />
 
             {/* Modal */}
             <ComponentSelectModal
