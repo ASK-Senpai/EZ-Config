@@ -21,18 +21,32 @@ interface BuildInput {
     storage?: Array<{ id?: string; type: string }> | { id?: string; type: string };
 }
 
+export interface AIReport {
+    id: string;
+    userId: string;
+    buildId: string;
+    buildName?: string;
+    summary: string;
+    engineSnapshot?: any;
+    reportJson?: any;
+    engineSnapshotHash: string;
+    createdAt: any;
+}
+
 
 export const aiService = {
     async getCachedReport(buildHash: string) {
-        const db = getFirestore();
-        const snapshot = await db.collection("build_reports")
-            .where("engineSnapshotHash", "==", buildHash)
-            .orderBy("createdAt", "desc")
-            .limit(1)
-            .get();
+        try {
+            const db = getFirestore();
+            const snapshot = await db.collection("report_cache")
+                .doc(buildHash)
+                .get();
 
-        if (snapshot.empty) return null;
-        return snapshot.docs[0].data();
+            if (!snapshot.exists) return null;
+            return snapshot.data();
+        } catch (error: any) {
+            throw error;
+        }
     },
 
     computeHash(buildInput: BuildInput, analysis: any): string {
@@ -80,14 +94,30 @@ export const aiService = {
         await batch.commit();
     },
 
-    async generateAndTrack(userId: string, buildId: string, buildInput: BuildInput, analysis: any) {
+    async generateAndTrack(userId: string, buildId: string, buildInput: BuildInput, analysis: any, buildName?: string) {
         const engineSnapshotHash = this.computeHash(buildInput, analysis);
         const cached = await this.getCachedReport(engineSnapshotHash);
 
+        const db = getFirestore();
+        const reportRef = db.collection("reports").doc();
+        const reportId = reportRef.id;
+
+        // 1. If Cache exists, just create User Reference Pointer
         if (cached) {
-            return { report: cached.reportJson, cached: true };
+            const reportDoc: Partial<AIReport> = {
+                id: reportId,
+                userId,
+                buildId,
+                buildName: buildName || "Untitled Build",
+                summary: cached.summary || "AI Analysis Report",
+                engineSnapshotHash,
+                createdAt: FieldValue.serverTimestamp(),
+            };
+            await reportRef.set(reportDoc);
+            return { reportId, report: cached.reportJson, cached: true };
         }
 
+        // 2. Generate New Report
         const gpu = buildInput.activeGpu ?? buildInput.gpu;
         const payload = JSON.stringify({
             cpu: buildInput.cpu?.name,
@@ -99,22 +129,93 @@ export const aiService = {
         });
 
         const report = await generateTechnicalReport(payload);
+        const summary = report.executiveSummary || report.short_summary || "AI Analysis Report";
 
-        const db = getFirestore();
-        await db.collection("build_reports").doc(buildId).set({
+        // 3. Save to Global Cache
+        const cacheRef = db.collection("report_cache").doc(engineSnapshotHash);
+        await cacheRef.set({
+            engineSnapshotHash,
+            summary,
+            engineSnapshot: analysis,
+            reportJson: report,
+            createdAt: FieldValue.serverTimestamp()
+        });
+
+        // 4. Save User Reference Pointer
+        const reportDoc: Partial<AIReport> = {
+            id: reportId,
             userId,
             buildId,
+            buildName: buildName || "Untitled Build",
+            summary,
             engineSnapshotHash,
-            reportJson: report,
             createdAt: FieldValue.serverTimestamp(),
-            updatedAt: FieldValue.serverTimestamp(),
-        });
+        };
+
+        await reportRef.set(reportDoc);
 
         if (!report.isFallback) {
             await this.trackUsage(userId, buildId, "TECHNICAL_REPORT");
         }
 
-        return { report, cached: false };
+        return { reportId, report, cached: false };
+    },
+
+    async getReports(userId: string) {
+        try {
+            const db = getFirestore();
+
+            const reportsSnapshot = await db.collection("reports")
+                .where("userId", "==", userId)
+                .orderBy("createdAt", "desc")
+                .get();
+
+            return reportsSnapshot.docs.map(doc => doc.data() as AIReport);
+        } catch (error: any) {
+            if (error.code === 9) {
+                console.error("Firestore index missing", error);
+                throw new Error("Database index not ready");
+            }
+            throw error;
+        }
+    },
+
+    async getReportById(userId: string, reportId: string) {
+        const db = getFirestore();
+
+        const docRef = db.collection("reports").doc(reportId);
+        const doc = await docRef.get();
+
+        if (!doc.exists) return null;
+
+        const rawData = doc.data()!;
+        if (rawData.userId !== userId) throw new Error("UNAUTHORIZED");
+
+        const data = rawData as AIReport;
+
+        // NEW CACHE ARCHITECTURE: Fetch heavy objects securely from Global Cache
+        if (!data.engineSnapshot && !data.reportJson && !(data as any).content && data.engineSnapshotHash) {
+            const cacheHit = await this.getCachedReport(data.engineSnapshotHash);
+            if (cacheHit) {
+                data.engineSnapshot = cacheHit.engineSnapshot;
+                data.reportJson = cacheHit.reportJson;
+            }
+        }
+
+        // Handle reports created during the bugged window
+        if (!data.engineSnapshot && (data as any).content) {
+            if ((data as any).content.analysis) {
+                data.reportJson = (data as any).content.analysis;
+            } else {
+                data.reportJson = (data as any).content;
+            }
+            data.engineSnapshot = null; // UI handles missing elegantly
+        } else if (data.reportJson?.analysis) {
+            // Hotfix for newly generated reports saved under the nested tree during buggy window
+            data.reportJson = data.reportJson.analysis;
+        }
+
+        return data;
     },
 
     async getUsageStats(userId: string) {

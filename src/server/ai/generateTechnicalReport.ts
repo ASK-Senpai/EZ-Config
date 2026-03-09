@@ -24,7 +24,41 @@ Rules:
 5. You must NEVER state exact FPS unless provided.
 6. Do not repeat input text.
 7. Do not use markdown.
-8. Output strict valid JSON only.
+8. Output strict valid JSON ONLY matching the exact format below:
+{
+  "executiveSummary": "string",
+  "componentDeepDive": {
+    "cpu": "string",
+    "gpu": "string",
+    "motherboard": "string",
+    "ram": "string",
+    "storage": "string",
+    "psu": "string"
+  },
+  "gamingAnalysis": {
+    "1080p": "string",
+    "1440p": "string",
+    "4k": "string"
+  },
+  "productivityBreakdown": {
+    "premiere": "string",
+    "afterEffects": "string",
+    "blender": "string",
+    "davinci": "string",
+    "unrealEngine": "string",
+    "softwareDevelopment": "string",
+    "virtualization": "string"
+  },
+  "futureProofing": {
+    "year1": "string",
+    "year3": "string",
+    "year5": "string"
+  },
+  "marketValueAssessment": "string",
+  "powerAndThermals": "string",
+  "bottleneckAnalysis": "string",
+  "finalRecommendation": "string"
+}
 9. If you mention any hardware not in the allowed list, your response is INVALID.`;
 
 /**

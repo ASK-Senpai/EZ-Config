@@ -37,18 +37,23 @@ export default function DashboardPage() {
             if (authLoading || !user) return;
             try {
                 const token = await user.getIdToken();
-                const res = await fetch("/api/build/list", {
-                    headers: { Authorization: `Bearer ${token}` }
-                });
-                const data = await res.json();
-                if (res.ok) {
-                    const builds = data.builds || [];
+                const [buildsRes, reportsRes] = await Promise.all([
+                    fetch("/api/build/list", { headers: { Authorization: `Bearer ${token}` } }),
+                    fetch("/api/reports", { headers: { Authorization: `Bearer ${token}` } })
+                ]);
+
+                const buildsData = await buildsRes.json();
+                const reportsData = await reportsRes.json();
+
+                if (buildsRes.ok && reportsRes.ok) {
+                    const builds = buildsData.builds || [];
+                    const reports = reportsData.reports || [];
                     setStats({
                         totalBuilds: builds.length,
-                        aiReports: builds.filter((b: any) => b.technicalReportHash).length,
-                        usage: data.subscription?.aiUsage || 0,
-                        limit: data.subscription?.aiLimit || 5,
-                        plan: data.subscription?.plan || "free"
+                        aiReports: reports.length,
+                        usage: buildsData.subscription?.aiUsage || 0,
+                        limit: buildsData.subscription?.aiLimit || 5,
+                        plan: buildsData.subscription?.plan || "free"
                     });
                 }
             } catch (err) {

@@ -40,10 +40,16 @@ export async function GET(
         const engineSnapshotHash = computeEngineSnapshotHash(buildInput, analysis);
 
         const cached = await aiService.getCachedReport(engineSnapshotHash);
-        return NextResponse.json({ exists: !!cached, reportId: buildId }, { status: 200 });
+        return NextResponse.json({ exists: !!cached, reportId: cached ? cached.id : null }, { status: 200 });
     } catch (error: any) {
         if (error.message === "UNAUTHORIZED") {
             return NextResponse.json({ error: "UNAUTHORIZED" }, { status: 401 });
+        }
+        if (error.message === "Database index not ready") {
+            return NextResponse.json(
+                { error: "DATABASE_ERROR", message: "Database index not ready" },
+                { status: 503 }
+            );
         }
         console.error(error);
         return NextResponse.json({ error: "INTERNAL_SERVER_ERROR" }, { status: 500 });
@@ -85,12 +91,13 @@ export async function POST(
         }
 
         const analysis = analyzeBuild(buildInput, plan);
+        const buildName = (build as any).name || "Untitled Build";
 
         // 2. Delegate to Service (which handles hashing, caching, and usage tracking)
-        const result = await aiService.generateAndTrack(userId, buildId, buildInput, analysis);
+        const result = await aiService.generateAndTrack(userId, buildId, buildInput, analysis, buildName);
 
         return NextResponse.json({
-            reportId: buildId,
+            reportId: result.reportId,
             cached: result.cached,
             reportJson: result.report
         }, { status: 200 });
@@ -98,6 +105,12 @@ export async function POST(
     } catch (error: any) {
         if (error.message === "UNAUTHORIZED") {
             return NextResponse.json({ error: "UNAUTHORIZED" }, { status: 401 });
+        }
+        if (error.message === "Database index not ready") {
+            return NextResponse.json(
+                { error: "DATABASE_ERROR", message: "Database index not ready" },
+                { status: 503 }
+            );
         }
         console.error("AI Report Gen Error:", error);
         return NextResponse.json({ error: "INTERNAL_SERVER_ERROR" }, { status: 500 });

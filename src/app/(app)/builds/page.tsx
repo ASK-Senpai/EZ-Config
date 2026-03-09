@@ -250,18 +250,23 @@ export default function DashboardPage() {
             if (!res.ok) {
                 if (res.status === 403) {
                     alert(data.message || "Report limit reached");
+                } else if (data.error === "DATABASE_ERROR") {
+                    throw new Error("Report generation temporarily unavailable.");
                 } else {
                     throw new Error(data.message || "Failed to generate report");
                 }
                 return;
             }
 
+
             setBuilds((prev) => prev.map((b) => b.id === buildId ? { ...b, technicalReportHash: data.engineSnapshotHash || "present" } : b));
             router.push(`/reports/${data.reportId}`);
         } catch (err: any) {
             console.error("Report generation failed:", err);
-            alert("Failed to generate report");
+            // Replace generic error format with standard output mapping to our thrown friendly err.message
+            alert(err.message || "Failed to generate report");
         } finally {
+
             setReportingId(null);
         }
     };

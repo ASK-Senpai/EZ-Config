@@ -14,6 +14,7 @@ export interface BuildSaveData {
 export interface Build {
     id: string;
     userId: string;
+    name?: string;
     components: BuildSaveData;
     engineResult: any;
     createdAt: any;
@@ -23,7 +24,7 @@ export interface Build {
 }
 
 export const buildService = {
-    async createBuild(userId: string, buildIds: BuildSaveData, plan: string = "free"): Promise<{ buildId: string; engineResult: any }> {
+    async createBuild(userId: string, buildIds: BuildSaveData, plan: string = "free", name?: string): Promise<{ buildId: string; engineResult: any }> {
         const db = getFirestore();
         const userRef = db.collection("users").doc(userId);
 
@@ -69,6 +70,7 @@ export const buildService = {
         const buildsRef = db.collection("builds").doc();
         const payload = {
             userId,
+            name: name || "Untitled Build",
             createdAt: FieldValue.serverTimestamp(),
             updatedAt: FieldValue.serverTimestamp(),
             components: buildIds,

@@ -12,6 +12,7 @@ export async function POST(request: NextRequest) {
 
         const body = await request.json();
         const buildData = body.build;
+        const buildName = body.name || "Untitled Build";
 
         if (!buildData || !buildData.cpuId || !buildData.gpuId) {
             return NextResponse.json(
@@ -27,7 +28,7 @@ export async function POST(request: NextRequest) {
         }
         const plan = userDoc.data()?.plan || "free";
 
-        const result = await buildService.createBuild(userId, buildData, plan);
+        const result = await buildService.createBuild(userId, buildData, plan, buildName);
 
         return NextResponse.json(
             {

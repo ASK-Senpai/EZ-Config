@@ -77,9 +77,10 @@ export const useBuildStore = create<BuildState>()(
             setComponent: (category, item) => {
                 set((state) => {
                     if (category === 'storage') {
-                        const exists = state.storage.find((s) => s.id === item.id);
+                        const currentStorage = Array.isArray(state.storage) ? state.storage : [];
+                        const exists = currentStorage.some((s) => s.id === item.id);
                         if (exists) return state; // Don't add duplicate storage
-                        return { storage: [...state.storage, item] };
+                        return { storage: [...currentStorage, item] };
                     }
                     return { [category]: item };
                 });
@@ -88,8 +89,9 @@ export const useBuildStore = create<BuildState>()(
             removeComponent: (category, storageId) => {
                 set((state) => {
                     if (category === 'storage' && storageId) {
+                        const currentStorage = Array.isArray(state.storage) ? state.storage : [];
                         return {
-                            storage: state.storage.filter((s) => s.id !== storageId),
+                            storage: currentStorage.filter((s) => s.id !== storageId),
                         };
                     }
                     return { [category]: null };
