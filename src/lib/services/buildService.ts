@@ -98,7 +98,7 @@ export const buildService = {
         return { buildId: buildsRef.id, engineResult };
     },
 
-    async getBuildById(userId: string, buildId: string) {
+    async getBuildById(userId: string, buildId: string): Promise<Build | null> {
         const db = getFirestore();
         const buildRef = db.collection("builds").doc(buildId);
         const doc = await buildRef.get();
@@ -107,17 +107,17 @@ export const buildService = {
         const data = doc.data()!;
         if (data.userId !== userId) throw new Error("UNAUTHORIZED");
 
-        return { id: doc.id, ...data };
+        return { id: doc.id, ...data } as Build;
     },
 
-    async getBuilds(userId: string) {
+    async getBuilds(userId: string): Promise<Build[]> {
         const db = getFirestore();
         const snapshot = await db.collection("builds")
             .where("userId", "==", userId)
             .orderBy("createdAt", "desc")
             .get();
 
-        return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Build));
     },
 
     async hydrateBuild(componentIdMap: any): Promise<BuildInput> {

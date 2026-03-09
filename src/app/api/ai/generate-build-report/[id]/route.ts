@@ -29,7 +29,7 @@ export async function GET(
         const userId = decodedUser.uid;
         const { id: buildId } = await params;
 
-        const build = await buildService.getBuildById(userId, buildId) as any;
+        const build = await buildService.getBuildById(userId, buildId);
         if (!build) {
             return NextResponse.json({ error: "NOT_FOUND", message: "Build not found." }, { status: 404 });
         }
