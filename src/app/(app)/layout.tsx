@@ -39,7 +39,7 @@ export default async function AppLayout({
                 role={userData?.role}
             />
             <div className="flex-1 flex flex-col min-w-0">
-                <AppHeader isPremium={isPremium} usage={usage || undefined} />
+                <AppHeader />
                 <main className="flex-1 overflow-x-hidden">
                     <div className="h-full p-8 max-w-7xl mx-auto">
                         {children}

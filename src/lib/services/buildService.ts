@@ -1,6 +1,7 @@
 import { getFirestore, FieldValue } from "firebase-admin/firestore";
 import { runEngineV12 } from "@/lib/engine";
 import { BuildInput } from "@/lib/engine/compatibility";
+import { getMinPrice } from "@/lib/utils/pricingV2";
 
 export interface BuildSaveData {
     cpuId: string;
@@ -17,6 +18,13 @@ export interface Build {
     name?: string;
     components: BuildSaveData;
     engineResult: any;
+    // Denormalized snapshot fields for instant UI rendering
+    totalPrice?: number;
+    score?: number;
+    tier?: string;
+    bottleneck?: number;
+    bottleneckSeverity?: string;
+    psuRecommendation?: number;
     createdAt: any;
     updatedAt: any;
     isPublic: boolean;
@@ -66,6 +74,27 @@ export const buildService = {
         // 3. Server Engine Run
         const engineResult = runEngineV12(buildObject, plan);
 
+        // 3b. Denormalize key metrics for instant UI rendering (no AI needed, no re-computation on read)
+        const componentList: any[] = [
+            buildObject.cpu,
+            buildObject.gpu,
+            buildObject.motherboard,
+            buildObject.ram,
+            buildObject.psu,
+            ...(Array.isArray(buildObject.storage) ? buildObject.storage : buildObject.storage ? [buildObject.storage] : []),
+        ];
+        const totalPrice = componentList.reduce((sum, component) => {
+            if (!component) return sum;
+            const p = getMinPrice(component);
+            return sum + (isNaN(p) ? 0 : p);
+        }, 0);
+
+        const score: number = engineResult?.metrics?.performanceScore ?? 0;
+        const tier: string = engineResult?.metrics?.tier ?? "Unknown";
+        const bottleneck: number = engineResult?.bottleneck?.percentage ?? 0;
+        const bottleneckSeverity: string = engineResult?.bottleneck?.severity ?? "low";
+        const psuRecommendation: number = engineResult?.power?.recommendedPSU ?? 0;
+
         // 4. Save Build
         const buildsRef = db.collection("builds").doc();
         const payload = {
@@ -75,6 +104,12 @@ export const buildService = {
             updatedAt: FieldValue.serverTimestamp(),
             components: buildIds,
             engineResult,
+            totalPrice,
+            score,
+            tier,
+            bottleneck,
+            bottleneckSeverity,
+            psuRecommendation,
             isPublic: false,
             publicId: null
         };

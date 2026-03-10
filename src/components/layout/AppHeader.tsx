@@ -15,12 +15,7 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-interface AppHeaderProps {
-    isPremium: boolean;
-    usage?: { used: number; limit: number };
-}
-
-export function AppHeader({ isPremium, usage }: AppHeaderProps) {
+export function AppHeader() {
     const pathname = usePathname();
 
     const navLinks = [
@@ -112,23 +107,8 @@ export function AppHeader({ isPremium, usage }: AppHeaderProps) {
                 <GlobalSearch />
             </div>
 
-            {/* Right: Premium & Logout */}
+            {/* Right: Logout */}
             <div className="flex items-center gap-4 shrink-0">
-                <div className="flex items-center gap-3">
-                    {isPremium ? (
-                        <div className="flex items-center gap-2 px-3 py-1 bg-yellow-500/10 border border-yellow-500/20 rounded-full">
-                            <span className="w-1.5 h-1.5 rounded-full bg-yellow-500 animate-pulse" />
-                            <span className="text-[10px] font-extrabold text-yellow-500 uppercase tracking-[0.1em] whitespace-nowrap">
-                                PREMIUM • {usage?.used || 0}/{usage?.limit || 0}
-                            </span>
-                        </div>
-                    ) : (
-                        <div className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest px-3 py-1 bg-muted/50 rounded-full inline-block">
-                            Free Plan
-                        </div>
-                    )}
-                </div>
-                <div className="h-4 w-px bg-border hidden sm:block" />
                 <LogoutButton />
             </div>
         </header>

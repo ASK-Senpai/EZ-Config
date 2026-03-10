@@ -94,16 +94,42 @@ export const aiService = {
         await batch.commit();
     },
 
+    async getUserReportForBuild(userId: string, buildId: string): Promise<{ id: string; engineSnapshotHash: string } | null> {
+        const db = getFirestore();
+        const snapshot = await db.collection("reports")
+            .where("userId", "==", userId)
+            .where("buildId", "==", buildId)
+            .limit(1)
+            .get();
+        if (snapshot.empty) return null;
+        const data = snapshot.docs[0].data();
+        return { id: snapshot.docs[0].id, engineSnapshotHash: data.engineSnapshotHash };
+    },
+
     async generateAndTrack(userId: string, buildId: string, buildInput: BuildInput, analysis: any, buildName?: string) {
         const engineSnapshotHash = this.computeHash(buildInput, analysis);
+
+        // ── Dedup Check 1: Same user already has a report for this exact build ──
+        const existingUserReport = await this.getUserReportForBuild(userId, buildId);
+        if (existingUserReport) {
+            console.log(`[REPORT] Dedup: user ${userId} already has report ${existingUserReport.id} for build ${buildId}`);
+            const cacheData = await this.getCachedReport(existingUserReport.engineSnapshotHash);
+            return {
+                reportId: existingUserReport.id,
+                report: cacheData?.reportJson ?? null,
+                cached: true,
+            };
+        }
+
+        // ── Dedup Check 2: Global report_cache hit (same config, different user) ──
         const cached = await this.getCachedReport(engineSnapshotHash);
 
         const db = getFirestore();
         const reportRef = db.collection("reports").doc();
         const reportId = reportRef.id;
 
-        // 1. If Cache exists, just create User Reference Pointer
         if (cached) {
+            console.log(`[REPORT] Cache HIT for hash: ${engineSnapshotHash} — skipping Groq AI call`);
             const reportDoc: Partial<AIReport> = {
                 id: reportId,
                 userId,
@@ -117,7 +143,8 @@ export const aiService = {
             return { reportId, report: cached.reportJson, cached: true };
         }
 
-        // 2. Generate New Report
+        // ── Cache MISS: call Groq AI ──
+        console.log(`[REPORT] Cache MISS for hash: ${engineSnapshotHash} — calling Groq AI`);
         const gpu = buildInput.activeGpu ?? buildInput.gpu;
         const payload = JSON.stringify({
             cpu: buildInput.cpu?.name,
@@ -131,7 +158,7 @@ export const aiService = {
         const report = await generateTechnicalReport(payload);
         const summary = report.executiveSummary || report.short_summary || "AI Analysis Report";
 
-        // 3. Save to Global Cache
+        // Save to Global Cache
         const cacheRef = db.collection("report_cache").doc(engineSnapshotHash);
         await cacheRef.set({
             engineSnapshotHash,
@@ -141,7 +168,7 @@ export const aiService = {
             createdAt: FieldValue.serverTimestamp()
         });
 
-        // 4. Save User Reference Pointer
+        // Save User Reference Pointer
         const reportDoc: Partial<AIReport> = {
             id: reportId,
             userId,
@@ -151,7 +178,6 @@ export const aiService = {
             engineSnapshotHash,
             createdAt: FieldValue.serverTimestamp(),
         };
-
         await reportRef.set(reportDoc);
 
         if (!report.isFallback) {
@@ -160,6 +186,7 @@ export const aiService = {
 
         return { reportId, report, cached: false };
     },
+
 
     async getReports(userId: string) {
         try {

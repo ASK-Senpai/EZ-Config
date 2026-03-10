@@ -2,9 +2,9 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Trash2, AlertCircle, CheckCircle, XCircle, Sparkles, Lock, Zap, Share2, Link2Off, Copy } from "lucide-react";
+import { Trash2, AlertCircle, CheckCircle, XCircle, Sparkles, Lock, Zap, Share2, Link2Off, Copy, Cpu, HardDrive, MemoryStick, FileText, MonitorSmartphone } from "lucide-react";
 import { SectionContainer } from "@/components/ui/SectionContainer";
-import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { useBuildStore } from "@/store/useBuildStore";
@@ -45,6 +45,8 @@ export default function DashboardPage() {
     const [subscription, setSubscription] = useState<SubscriptionState | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    // buildId → reportId map — populated from /api/reports on load
+    const [buildIdToReportId, setBuildIdToReportId] = useState<Record<string, string>>({});
 
     // AI Modal State
     const [explainingId, setExplainingId] = useState<string | null>(null);
@@ -94,9 +96,9 @@ export default function DashboardPage() {
         }
     };
 
-    // Fetch initial list
+    // Fetch builds + reports together so we can derive buildId → reportId map
     useEffect(() => {
-        const fetchBuilds = async () => {
+        const fetchData = async () => {
             try {
                 if (authLoading) return;
                 if (!user) {
@@ -105,31 +107,44 @@ export default function DashboardPage() {
                 }
 
                 const token = await user.getIdToken();
-                const res = await fetch("/api/build/list", {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
-                if (!res.ok) {
-                    if (res.status === 401) {
-                        router.push("/login"); // Token likely expired
-                        return;
-                    }
+                const [buildsRes, reportsRes] = await Promise.all([
+                    fetch("/api/build/list", { headers: { Authorization: `Bearer ${token}` } }),
+                    fetch("/api/reports", { headers: { Authorization: `Bearer ${token}` } }),
+                ]);
+
+                if (!buildsRes.ok) {
+                    if (buildsRes.status === 401) { router.push("/login"); return; }
                     throw new Error("Failed to load builds");
                 }
-                const data = await res.json();
-                if (!data.subscription) {
+
+                const buildsData = await buildsRes.json();
+                if (!buildsData.subscription) {
                     setError("Subscription state unavailable.");
                     return;
                 }
 
-                setBuilds(Array.isArray(data.builds) ? data.builds : []);
+                setBuilds(Array.isArray(buildsData.builds) ? buildsData.builds : []);
                 setSubscription({
-                    plan: data.subscription.plan || "free",
-                    subscriptionStatus: (data.subscription.subscriptionStatus || data.subscription.status || "inactive"),
-                    aiUsage: Number(data.subscription.aiUsage || 0),
-                    aiLimit: Number(data.subscription.aiLimit || 0),
+                    plan: buildsData.subscription.plan || "free",
+                    subscriptionStatus: (buildsData.subscription.subscriptionStatus || buildsData.subscription.status || "inactive"),
+                    aiUsage: Number(buildsData.subscription.aiUsage || 0),
+                    aiLimit: Number(buildsData.subscription.aiLimit || 0),
                 });
+
+                // Build the mapping even if reports responds with an error (just silently skip)
+                if (reportsRes.ok) {
+                    const reportsData = await reportsRes.json();
+                    const map: Record<string, string> = {};
+                    for (const report of (reportsData.reports || [])) {
+                        if (report.buildId && report.id) {
+                            // Keep the most recent report if multiple exist for same build
+                            if (!map[report.buildId]) {
+                                map[report.buildId] = report.id;
+                            }
+                        }
+                    }
+                    setBuildIdToReportId(map);
+                }
             } catch (err: any) {
                 setError(err.message);
                 console.error("Dashboard error:", err);
@@ -138,7 +153,7 @@ export default function DashboardPage() {
             }
         };
 
-        fetchBuilds();
+        fetchData();
     }, [authLoading, router, user]);
 
     // Handle delete action
@@ -237,14 +252,14 @@ export default function DashboardPage() {
         }
     };
 
-    const handleGenerateReport = async (buildId: string, hasExistingReport: boolean) => {
-        if (hasExistingReport) {
-            router.push(`/reports/${buildId}`);
-            return;
-        }
+    const handleGenerateReport = async (buildId: string, _ignored?: boolean) => {
         setReportingId(buildId);
         try {
-            const res = await fetch(`/api/ai/generate-build-report/${buildId}`, { method: "POST" });
+            const token = await user!.getIdToken();
+            const res = await fetch(`/api/ai/generate-build-report/${buildId}`, {
+                method: "POST",
+                headers: { Authorization: `Bearer ${token}` },
+            });
             const data = await res.json();
 
             if (!res.ok) {
@@ -258,15 +273,13 @@ export default function DashboardPage() {
                 return;
             }
 
-
-            setBuilds((prev) => prev.map((b) => b.id === buildId ? { ...b, technicalReportHash: data.engineSnapshotHash || "present" } : b));
+            // Update the local map so the button immediately shows "View Report"
+            setBuildIdToReportId(prev => ({ ...prev, [buildId]: data.reportId }));
             router.push(`/reports/${data.reportId}`);
         } catch (err: any) {
             console.error("Report generation failed:", err);
-            // Replace generic error format with standard output mapping to our thrown friendly err.message
             alert(err.message || "Failed to generate report");
         } finally {
-
             setReportingId(null);
         }
     };
@@ -469,181 +482,253 @@ export default function DashboardPage() {
                     </motion.div>
                 )}
 
-                {/* Build Grid Matrix */}
+                {/* Build Grid Matrix — Redesigned */}
                 {builds.length > 0 && (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6">
                         {builds.map((build, index) => {
                             const { engineResult, createdAt, id } = build;
                             const d = new Date(createdAt);
-                            const parsedDate = !isNaN(d.valueOf()) ? d.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "Recently";
+                            const parsedDate = !isNaN(d.valueOf())
+                                ? d.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })
+                                : "Recently";
+
+                            // ── Prefer flat top-level denormalized fields; fallback to engineResult ──
+                            const score = build.score ?? engineResult?.metrics?.performanceScore ?? engineResult?.scores?.overall ?? "—";
+                            const tier = build.tier ?? engineResult?.metrics?.tier ?? "Unknown";
+                            const bottleneckPct = build.bottleneck ?? engineResult?.bottleneck?.percentage ?? 0;
+                            const bottleneckSev = build.bottleneckSeverity ?? engineResult?.bottleneck?.severity ?? "low";
+                            const psu = build.psuRecommendation ?? engineResult?.power?.recommendedPSU ?? 0;
+
+                            // ── Price: flat field → legacy component sum → null ──
+                            const legacyComponentPrices = [
+                                build.cpu, build.gpu, build.motherboard, build.ram, build.psu,
+                                ...(Array.isArray(build.storage) ? build.storage : build.storage ? [build.storage] : []),
+                            ].reduce((sum: number, c: any) => {
+                                if (!c) return sum;
+                                const p = Number(c.price ?? 0);
+                                return sum + (isNaN(p) ? 0 : p);
+                            }, 0);
+                            const price = build.totalPrice || (legacyComponentPrices > 0 ? legacyComponentPrices : null);
+
+                            const isValid = engineResult?.compatibility?.isValid;
+
+                            const bottleneckColor =
+                                bottleneckSev === "high" ? "text-red-400" :
+                                    bottleneckSev === "moderate" ? "text-amber-400" : "text-emerald-400";
+
+                            const validationBadge = isValid === true
+                                ? { label: "Valid", cls: "bg-emerald-500/15 text-emerald-400 border-emerald-500/30" }
+                                : isValid === false
+                                    ? { label: "Invalid", cls: "bg-red-500/15 text-red-400 border-red-500/30" }
+                                    : { label: "Unchecked", cls: "bg-zinc-700/60 text-zinc-400 border-zinc-600/40" };
+
+                            const hasCpu = !!(build.components?.cpuId || build.cpu);
+                            const hasGpu = !!(build.components?.gpuId || build.gpu);
+                            const hasRam = !!(build.components?.ramId || build.ram);
+
 
                             return (
                                 <motion.div
                                     key={id}
-                                    initial={{ opacity: 0, y: 20 }}
+                                    initial={{ opacity: 0, y: 10 }}
                                     animate={{ opacity: 1, y: 0 }}
-                                    transition={{ delay: index * 0.05 }}
-                                    className="group h-full flex flex-col"
+                                    transition={{ duration: 0.25, delay: index * 0.04 }}
                                 >
-                                    <Card className="h-full flex flex-col bg-card hover:bg-card/80 transition-all border-white/10 hover:border-primary/50 relative overflow-hidden group-hover:shadow-[0_0_30px_-10px_rgba(168,85,247,0.2)]">
-                                        <CardHeader className="pb-4 relative z-10 border-b border-white/5 bg-black/20">
-                                            <div className="flex justify-between items-start mb-2">
-                                                <Badge variant="outline" className="text-xs bg-black">{parsedDate}</Badge>
-                                                <Badge variant={engineResult?.compatibility?.isValid ? "success" : "destructive"}>
-                                                    {engineResult?.compatibility?.isValid ? (
-                                                        <span className="flex items-center gap-1"><CheckCircle className="w-3 h-3" /> Valid</span>
-                                                    ) : (
-                                                        <span className="flex items-center gap-1"><XCircle className="w-3 h-3" /> Invalid</span>
-                                                    )}
-                                                </Badge>
+                                    <div className="bg-zinc-900/60 border border-zinc-800 rounded-xl p-5 space-y-4 transition-all duration-200 hover:border-zinc-700 hover:scale-[1.02] hover:shadow-[0_0_25px_rgba(120,119,198,0.15)] h-full flex flex-col">
+
+                                        {/* ── HEADER ── */}
+                                        <div className="flex items-start justify-between gap-3">
+                                            {/* Left: Name + Date */}
+                                            <div className="min-w-0">
+                                                <h3 className="text-xl font-semibold text-zinc-100 truncate leading-tight">
+                                                    {build.name || "Untitled Build"}
+                                                </h3>
+                                                <p className="text-sm text-zinc-400 mt-0.5">{parsedDate}</p>
                                             </div>
-                                            <CardTitle className="text-2xl font-bold flex items-baseline gap-2">
-                                                {engineResult?.metrics?.performanceScore || "0"}
-                                                <span className="text-sm font-medium text-muted-foreground uppercase tracking-widest">
-                                                    Score
-                                                </span>
-                                            </CardTitle>
-                                        </CardHeader>
-
-                                        <CardContent className="pt-6 relative z-10 flex-1 space-y-4">
-
-                                            {/* Data Listing */}
-                                            <div className="flex justify-between items-center text-sm">
-                                                <span className="text-muted-foreground">Performance Tier</span>
-                                                <span className="font-medium text-foreground capitalize px-2 py-0.5 bg-white/5 rounded">
-                                                    {engineResult?.metrics?.tier || "Unknown"}
+                                            {/* Right: Price + Validation */}
+                                            <div className="text-right shrink-0">
+                                                {price ? (
+                                                    <p className="text-lg font-semibold text-emerald-400 leading-tight">
+                                                        ₹{Number(price).toLocaleString("en-IN")}
+                                                    </p>
+                                                ) : (
+                                                    <p className="text-sm text-zinc-500">Price N/A</p>
+                                                )}
+                                                <span className={`mt-1 inline-flex items-center gap-1 text-[11px] font-medium px-2 py-0.5 rounded-full border ${validationBadge.cls}`}>
+                                                    {isValid === true && <CheckCircle className="w-2.5 h-2.5" />}
+                                                    {isValid === false && <XCircle className="w-2.5 h-2.5" />}
+                                                    {validationBadge.label}
                                                 </span>
                                             </div>
+                                        </div>
 
-                                            <div className="flex justify-between items-center text-sm">
-                                                <span className="text-muted-foreground">Bottleneck Severity</span>
-                                                <span className={`font-medium capitalize px-2 py-0.5 rounded ${engineResult?.bottleneck?.severity === "high" ? "bg-red-500/20 text-red-500" :
-                                                    engineResult?.bottleneck?.severity === "moderate" ? "bg-amber-500/20 text-amber-500" :
-                                                        "bg-green-500/20 text-green-500"
-                                                    }`}>
-                                                    {engineResult?.bottleneck?.severity || "Low"} ({engineResult?.bottleneck?.percentage}%)
-                                                </span>
+                                        {/* ── COMPONENT ICONS ── */}
+                                        {(hasCpu || hasGpu || hasRam) && (
+                                            <div className="flex items-center gap-2">
+                                                {hasCpu && (
+                                                    <span className="flex items-center gap-1 text-[11px] text-zinc-500 bg-zinc-800/70 px-2 py-1 rounded-md border border-zinc-700/50">
+                                                        <Cpu className="w-3 h-3" /> CPU
+                                                    </span>
+                                                )}
+                                                {hasGpu && (
+                                                    <span className="flex items-center gap-1 text-[11px] text-zinc-500 bg-zinc-800/70 px-2 py-1 rounded-md border border-zinc-700/50">
+                                                        <MonitorSmartphone className="w-3 h-3" /> GPU
+                                                    </span>
+                                                )}
+                                                {hasRam && (
+                                                    <span className="flex items-center gap-1 text-[11px] text-zinc-500 bg-zinc-800/70 px-2 py-1 rounded-md border border-zinc-700/50">
+                                                        <MemoryStick className="w-3 h-3" /> RAM
+                                                    </span>
+                                                )}
                                             </div>
+                                        )}
 
-                                            <div className="flex justify-between items-center text-sm">
-                                                <span className="text-muted-foreground">Suggested PSU</span>
-                                                <span className="font-medium text-foreground">
-                                                    {(build.latestAnalysis?.power?.recommendedPSU ?? engineResult?.power?.recommendedPSU ?? 0)}W
-                                                </span>
+                                        {/* ── METRICS ── */}
+                                        <div className="grid grid-cols-2 gap-3">
+                                            <div className="bg-zinc-800/40 rounded-lg px-3 py-2.5 border border-zinc-700/40">
+                                                <p className="text-[10px] uppercase tracking-wide text-zinc-500 mb-1">Score</p>
+                                                <p className="text-lg font-semibold text-zinc-100 leading-none">{score}</p>
                                             </div>
+                                            <div className="bg-zinc-800/40 rounded-lg px-3 py-2.5 border border-zinc-700/40">
+                                                <p className="text-[10px] uppercase tracking-wide text-zinc-500 mb-1">Tier</p>
+                                                <p className="text-lg font-semibold text-zinc-100 capitalize leading-none truncate">{tier}</p>
+                                            </div>
+                                            <div className="bg-zinc-800/40 rounded-lg px-3 py-2.5 border border-zinc-700/40">
+                                                <p className="text-[10px] uppercase tracking-wide text-zinc-500 mb-1">Bottleneck</p>
+                                                <p className={`text-lg font-semibold leading-none ${bottleneckColor}`}>{bottleneckPct}%</p>
+                                            </div>
+                                            <div className="bg-zinc-800/40 rounded-lg px-3 py-2.5 border border-zinc-700/40">
+                                                <p className="text-[10px] uppercase tracking-wide text-zinc-500 mb-1">PSU</p>
+                                                <p className="text-lg font-semibold text-zinc-100 leading-none">{psu ? `${psu}W` : "—"}</p>
+                                            </div>
+                                        </div>
 
-                                        </CardContent>
+                                        <div className="h-px bg-zinc-800" />
 
-                                        <CardFooter className="pt-4 border-t border-white/5 flex gap-2 relative z-10 bg-black/20 flex-wrap">
-                                            <div className="flex w-full gap-2">
+                                        {/* ── ACTIONS ── */}
+                                        <div className="space-y-2 mt-auto">
+                                            {/* Row 1: Primary */}
+                                            <div className="grid grid-cols-2 gap-2">
                                                 <Button
                                                     variant="outline"
-                                                    className="flex-1 bg-transparent hover:bg-white/5 hover:text-white px-2"
+                                                    size="sm"
+                                                    className="bg-transparent border-zinc-700 hover:bg-zinc-800 hover:text-white text-zinc-300 text-[13px] w-full"
                                                     onClick={() => handleLoad(id)}
                                                 >
-                                                    Load Data
+                                                    Load Build
                                                 </Button>
-                                                <Button
-                                                    variant="destructive"
-                                                    size="icon"
-                                                    className="shrink-0 bg-red-500/10 text-red-500 hover:bg-red-500/20 hover:text-red-400 border border-red-500/20 px-2"
-                                                    onClick={() => handleDelete(id)}
-                                                    aria-label="Delete build"
-                                                >
-                                                    <Trash2 className="w-4 h-4" />
-                                                </Button>
+                                                {(() => {
+                                                    const existingReportId = buildIdToReportId[id];
+                                                    return (
+                                                        <Button
+                                                            variant="outline"
+                                                            size="sm"
+                                                            className={`bg-transparent text-[13px] w-full ${existingReportId
+                                                                ? "border-primary/40 text-primary hover:bg-primary/10"
+                                                                : "border-zinc-700 hover:bg-zinc-800 hover:text-white text-zinc-300"
+                                                                }`}
+                                                            disabled={reportingId === id}
+                                                            onClick={() => {
+                                                                if (existingReportId) {
+                                                                    router.push(`/reports/${existingReportId}`);
+                                                                } else {
+                                                                    handleGenerateReport(id, false);
+                                                                }
+                                                            }}
+                                                        >
+                                                            {reportingId === id ? (
+                                                                <div className="h-3 w-3 animate-spin rounded-full border-2 border-white/60 border-t-transparent mr-1.5" />
+                                                            ) : (
+                                                                <FileText className="w-3.5 h-3.5 mr-1.5" />
+                                                            )}
+                                                            {reportingId === id
+                                                                ? "Generating..."
+                                                                : existingReportId
+                                                                    ? "View Report"
+                                                                    : "AI Report"}
+                                                        </Button>
+                                                    );
+                                                })()}
                                             </div>
-                                            <Button
-                                                variant="premium"
-                                                className="w-full"
-                                                onClick={() => handleExplain(id, build.ai?.explanation)}
-                                                disabled={explainingId === id}
-                                            >
-                                                {explainingId === id ? (
-                                                    <div className="h-4 w-4 animate-spin rounded-full border-2 border-white/80 border-t-transparent mr-2" />
-                                                ) : (
-                                                    <Sparkles className="w-4 h-4 mr-2" />
-                                                )}
-                                                {explainingId === id ? "Analyzing..." : (build.ai?.explanation ? "View Explanation" : "Explain Build")}
-                                            </Button>
 
-                                            <Button
-                                                variant={hasOptimize ? "outline" : "secondary"}
-                                                className={`w-full ${!hasOptimize ? "opacity-90 hover:opacity-100 border-dashed border-primary/20 bg-primary/5 text-primary" : "border-white/10 hover:bg-white/5 hover:text-white"}`}
-                                                onClick={() => handleGenerateOptimized(id)}
-                                                disabled={optimizingId === id || (hasOptimize && isAiLimitReached)}
-                                            >
-                                                {optimizingId === id ? (
-                                                    <div className="h-4 w-4 animate-spin rounded-full border-2 border-white/80 border-t-transparent mr-2" />
-                                                ) : !hasOptimize ? (
-                                                    <Lock className="w-4 h-4 mr-2" />
-                                                ) : (
-                                                    <Zap className="w-4 h-4 mr-2 text-yellow-500" />
-                                                )}
-                                                {optimizingId === id
-                                                    ? "Generating..."
-                                                    : !hasOptimize
-                                                        ? "⚡ Generate Optimized Build"
-                                                        : "⚡ Generate Optimized Build"
-                                                }
-                                            </Button>
+                                            {/* Row 2: Secondary + Delete */}
+                                            <div className="grid grid-cols-2 gap-2">
+                                                <Button
+                                                    variant="ghost"
+                                                    size="sm"
+                                                    className={`text-[13px] w-full ${!hasOptimize
+                                                        ? "text-primary/80 hover:bg-primary/10 hover:text-primary border border-dashed border-primary/20"
+                                                        : "text-zinc-400 hover:bg-zinc-800 hover:text-white"
+                                                        }`}
+                                                    onClick={() => handleGenerateOptimized(id)}
+                                                    disabled={optimizingId === id || (hasOptimize && isAiLimitReached)}
+                                                >
+                                                    {optimizingId === id ? (
+                                                        <div className="h-3 w-3 animate-spin rounded-full border-2 border-primary/60 border-t-transparent mr-1.5" />
+                                                    ) : !hasOptimize ? (
+                                                        <Lock className="w-3 h-3 mr-1.5" />
+                                                    ) : (
+                                                        <Zap className="w-3 h-3 mr-1.5 text-yellow-500" />
+                                                    )}
+                                                    {optimizingId === id ? "Optimizing..." : "Optimize"}
+                                                </Button>
 
-                                            <Button
-                                                variant="outline"
-                                                className="w-full border-white/10 hover:bg-white/5 hover:text-white"
-                                                onClick={() => handleGenerateReport(id, Boolean(build.technicalReportHash))}
-                                                disabled={reportingId === id}
-                                            >
-                                                {reportingId === id ? (
-                                                    <div className="h-4 w-4 animate-spin rounded-full border-2 border-white/80 border-t-transparent mr-2" />
-                                                ) : (
-                                                    <span className="mr-2">📘</span>
-                                                )}
-                                                {reportingId === id ? "Generating..." : (build.technicalReportHash ? "View Technical Report" : "Generate Technical Report")}
-                                            </Button>
-
-                                            {/* Sharing Layer */}
-                                            {build.isPublic ? (
-                                                <div className="flex w-full gap-2">
+                                                <div className="flex gap-1.5">
+                                                    {/* Share / Copy / Unpublish */}
+                                                    {build.isPublic ? (
+                                                        <>
+                                                            <Button
+                                                                variant="ghost"
+                                                                size="sm"
+                                                                className="flex-1 text-[13px] text-emerald-500 hover:bg-emerald-500/10"
+                                                                onClick={() => handleCopyLink(build.publicId)}
+                                                            >
+                                                                <Copy className="w-3 h-3 mr-1" /> Copy
+                                                            </Button>
+                                                            <Button
+                                                                variant="ghost"
+                                                                size="icon"
+                                                                className="h-8 w-8 text-zinc-500 hover:text-red-400 hover:bg-red-500/10"
+                                                                onClick={() => handleDisableShare(id)}
+                                                                disabled={disablingShareId === id}
+                                                            >
+                                                                {disablingShareId === id ? (
+                                                                    <div className="h-3 w-3 animate-spin rounded-full border-2 border-red-400/60 border-t-transparent" />
+                                                                ) : (
+                                                                    <Link2Off className="w-3.5 h-3.5" />
+                                                                )}
+                                                            </Button>
+                                                        </>
+                                                    ) : (
+                                                        <Button
+                                                            variant="ghost"
+                                                            size="sm"
+                                                            className="flex-1 text-[13px] text-zinc-400 hover:bg-zinc-800 hover:text-white"
+                                                            onClick={() => handleShare(id)}
+                                                            disabled={sharingId === id}
+                                                        >
+                                                            {sharingId === id ? (
+                                                                <div className="h-3 w-3 animate-spin rounded-full border-2 border-white/60 border-t-transparent mr-1" />
+                                                            ) : (
+                                                                <Share2 className="w-3 h-3 mr-1" />
+                                                            )}
+                                                            {sharingId === id ? "Sharing..." : "Make Public"}
+                                                        </Button>
+                                                    )}
+                                                    {/* Delete */}
                                                     <Button
-                                                        variant="outline"
-                                                        className="flex-1 bg-green-500/10 hover:bg-green-500/20 text-green-500 border-green-500/20"
-                                                        onClick={() => handleCopyLink(build.publicId)}
+                                                        variant="ghost"
+                                                        size="icon"
+                                                        className="h-8 w-8 shrink-0 text-zinc-600 hover:text-red-400 hover:bg-red-500/10"
+                                                        onClick={() => handleDelete(id)}
+                                                        aria-label="Delete build"
                                                     >
-                                                        <Copy className="w-4 h-4 mr-2" />
-                                                        Copy Link
-                                                    </Button>
-                                                    <Button
-                                                        variant="outline"
-                                                        className="flex-1 bg-red-500/10 hover:bg-red-500/20 text-red-500 border-red-500/20"
-                                                        onClick={() => handleDisableShare(id)}
-                                                        disabled={disablingShareId === id}
-                                                    >
-                                                        {disablingShareId === id ? (
-                                                            <div className="h-4 w-4 animate-spin rounded-full border-2 border-red-500/80 border-t-transparent mr-2" />
-                                                        ) : (
-                                                            <Link2Off className="w-4 h-4 mr-2" />
-                                                        )}
-                                                        Unpublish
+                                                        <Trash2 className="w-3.5 h-3.5" />
                                                     </Button>
                                                 </div>
-                                            ) : (
-                                                <Button
-                                                    variant="outline"
-                                                    className="w-full border-white/10 hover:bg-white/5 hover:text-white"
-                                                    onClick={() => handleShare(id)}
-                                                    disabled={sharingId === id}
-                                                >
-                                                    {sharingId === id ? (
-                                                        <div className="h-4 w-4 animate-spin rounded-full border-2 border-white/80 border-t-transparent mr-2" />
-                                                    ) : (
-                                                        <Share2 className="w-4 h-4 mr-2" />
-                                                    )}
-                                                    Make Public
-                                                </Button>
-                                            )}
-                                        </CardFooter>
-                                    </Card>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </motion.div>
                             );
                         })}
