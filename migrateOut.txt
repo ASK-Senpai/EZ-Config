@@ -1,0 +1,61 @@
+[dotenv@17.3.1] injecting env (24) from .env -- tip: 🤖 agentic secret storage: https://dotenvx.com/as2
+Starting User Schema Migration...
+Found 12 total users.
+
+Analyzing user: 0mCJrufZPHOEXyPqZuFcxHS6X6g2 (asksenpai.dev@gmail.com)
+  -> Modifications planned: [ 'aiUsageRemaining', 'subscriptionId', 'reportUsageMonth' ]
+  -> [DRY RUN] Would update user 0mCJrufZPHOEXyPqZuFcxHS6X6g2
+
+Analyzing user: 2SjbSzGg6hPI6w6Ko1ulJwmugLt2 (prabhulkarraj.dev@gmail.com)
+  -> Modifications planned: [ 'aiUsageRemaining', 'subscriptionId' ]
+  -> [DRY RUN] Would update user 2SjbSzGg6hPI6w6Ko1ulJwmugLt2
+
+Analyzing user: 8iTEyOb9dNXvnL6qlHvO6tpnf0m2 (assksenpai@gmail.com)
+  -> Modifications planned: [ 'subscriptionId', 'aiLimit', 'reportUsageMonth' ]
+  -> [DRY RUN] Would update user 8iTEyOb9dNXvnL6qlHvO6tpnf0m2
+
+Analyzing user: BVbcVQb0WuNGDEkKe1pW0CVTGK13 (lordakclg@gmail.com)
+  -> Modifications planned: [ 'subscriptionId', 'reportUsageMonth' ]
+  -> [DRY RUN] Would update user BVbcVQb0WuNGDEkKe1pW0CVTGK13
+
+Analyzing user: JE3UcHx6tSafzVZWtkRNK4RJ6l63 (lordak2678@gmail.com)
+  -> Modifications planned: [ 'aiUsageRemaining', 'subscriptionId' ]
+  -> [DRY RUN] Would update user JE3UcHx6tSafzVZWtkRNK4RJ6l63
+
+Analyzing user: Jx3LiFmYoSZV12lc1nrtMeWt0SG3 (kpatankar2004@gmail.com)
+  -> Modifications planned: [ 'subscriptionId', 'reportUsageMonth' ]
+  -> [DRY RUN] Would update user Jx3LiFmYoSZV12lc1nrtMeWt0SG3
+
+Analyzing user: LMPSN8qIIXOIViXKXjr0Uq91Fuu1 (adityakadam2676@gmail.com)
+  -> Modifications planned: [ 'aiUsageRemaining', 'subscriptionId' ]
+  -> [DRY RUN] Would update user LMPSN8qIIXOIViXKXjr0Uq91Fuu1
+
+Analyzing user: m0FiNXvAlbUXABpDsW7zDDwbPun2 (undefined)
+  -> Modifications planned: [ 'aiUsage', 'razorpayCustomerId', 'reportUsageMonth' ]
+  -> [DRY RUN] Would update user m0FiNXvAlbUXABpDsW7zDDwbPun2
+
+Analyzing user: mock_test_user_id (test@ezconfig.com)
+  -> Modifications planned: [
+  'subscription',
+  'credits',
+  'aiLimit',
+  'aiUsage',
+  'razorpayCustomerId',
+  'reportUsageMonth'
+]
+  -> [DRY RUN] Would update user mock_test_user_id
+
+Analyzing user: nXXKw0ap3DYrwgD9qQ6xxZ2iZgZ2 (dronejaiswal07@gmail.com)
+  -> Modifications planned: [ 'subscriptionId' ]
+  -> [DRY RUN] Would update user nXXKw0ap3DYrwgD9qQ6xxZ2iZgZ2
+
+Analyzing user: uON3eelUXVPQsKn1CEmEYg3Cx3t2 (prabhulkarraj05@gmail.com)
+  -> Modifications planned: [ 'subscriptionId', 'reportUsageMonth' ]
+  -> [DRY RUN] Would update user uON3eelUXVPQsKn1CEmEYg3Cx3t2
+
+Analyzing user: xAKffPqAt7RNhbZvNt9XsuaPprI2 (gamehonix73@gmail.com)
+  -> Modifications planned: [ 'aiUsageRemaining', 'subscriptionId' ]
+  -> [DRY RUN] Would update user xAKffPqAt7RNhbZvNt9XsuaPprI2
+
+Migration complete. Analyzed 12 total users.
+Dry-run matched 12 users requiring changes.

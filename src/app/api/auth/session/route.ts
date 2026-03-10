@@ -35,16 +35,22 @@ export async function POST(request: NextRequest) {
 
         if (!userDoc.exists) {
             try {
+                // Calculate reset date (1st of next month)
+                const now = new Date();
+                const nextMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+
                 await userRef.set({
                     email: decodedToken.email || "",
                     name: decodedToken.name || null,
                     plan: "free",
-                    subscriptionStatus: "inactive",
-                    subscriptionId: null,
+                    subscriptionStatus: "active",
+                    razorpaySubscriptionId: null,
                     razorpayCustomerId: null,
-                    aiUsage: 0,
                     aiLimit: 5,
-                    premiumSince: null,
+                    aiUsage: 0,
+                    reportUsageMonth: `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`,
+                    nextBillingDate: null,
+                    role: "user",
                     buildCount: 0,
                     createdAt: FieldValue.serverTimestamp(),
                     updatedAt: FieldValue.serverTimestamp()

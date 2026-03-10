@@ -8,21 +8,32 @@ import { Badge } from "@/components/ui/badge";
 
 export default function BillingPage() {
     const [subscription, setSubscription] = useState<any>(null);
+
+    const [payments, setPayments] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const fetchBilling = async () => {
+        const fetchBillingData = async () => {
             try {
-                const res = await fetch("/api/build/list"); // Reuse build list to get sub status
-                const data = await res.json();
-                if (res.ok) setSubscription(data.subscription);
+                const subRes = await fetch("/api/user/subscription");
+                if (subRes.ok) {
+                    const subData = await subRes.json();
+                    setSubscription(subData);
+                }
+
+                // Fetch payment history
+                const payRes = await fetch("/api/user/payments");
+                if (payRes.ok) {
+                    const payData = await payRes.json();
+                    setPayments(payData.payments || []);
+                }
             } catch (err) {
-                console.error(err);
+                console.error("Failed to fetch billing data", err);
             } finally {
                 setLoading(false);
             }
         };
-        fetchBilling();
+        fetchBillingData();
     }, []);
 
     const isPremium = subscription?.plan !== "free" && subscription?.subscriptionStatus === "active";
@@ -53,11 +64,15 @@ export default function BillingPage() {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div className="p-4 bg-background rounded-lg border border-border/50">
                                 <p className="text-xs text-muted-foreground mb-1 uppercase tracking-wider font-semibold">AI Credits</p>
-                                <p className="text-xl font-bold">{subscription?.aiLimit - subscription?.aiUsage} / {subscription?.aiLimit} remaining</p>
+                                <p className="text-xl font-bold">{subscription?.remaining || 0} / {subscription?.aiLimit || 5} remaining</p>
                             </div>
                             <div className="p-4 bg-background rounded-lg border border-border/50">
                                 <p className="text-xs text-muted-foreground mb-1 uppercase tracking-wider font-semibold">Next Billing Date</p>
-                                <p className="text-xl font-bold">N/A</p>
+                                <p className="text-xl font-bold">
+                                    {subscription?.nextBillingDate ? new Date(subscription.nextBillingDate).toLocaleDateString(undefined, {
+                                        year: 'numeric', month: 'long', day: 'numeric'
+                                    }) : "N/A"}
+                                </p>
                             </div>
                         </div>
                     </CardContent>
@@ -91,10 +106,32 @@ export default function BillingPage() {
                         <CardHeader>
                             <CardTitle className="text-lg">Payment History</CardTitle>
                         </CardHeader>
-                        <CardContent className="flex flex-col items-center justify-center py-8 text-center bg-muted/20 rounded-lg">
-                            <CreditCard className="h-8 w-8 text-muted-foreground mb-3" />
-                            <p className="text-sm text-muted-foreground">No recent transactions found.</p>
-                            <Button variant="link" size="sm" className="mt-2">View full history <ExternalLink className="ml-1 h-3 w-3" /></Button>
+                        <CardContent className="p-0">
+                            {payments.length === 0 ? (
+                                <div className="flex flex-col items-center justify-center py-8 text-center bg-muted/20 rounded-b-lg">
+                                    <CreditCard className="h-8 w-8 text-muted-foreground mb-3" />
+                                    <p className="text-sm text-muted-foreground">No recent transactions found.</p>
+                                </div>
+                            ) : (
+                                <div className="divide-y divide-border/50">
+                                    {payments.slice(0, 5).map((payment) => (
+                                        <div key={payment.id} className="flex justify-between items-center p-4 text-sm hover:bg-muted/10 transition-colors">
+                                            <div>
+                                                <p className="font-medium text-foreground">
+                                                    {new Date(payment.createdAt).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })}
+                                                </p>
+                                                <p className="text-xs text-muted-foreground tracking-tight">{payment.id}</p>
+                                            </div>
+                                            <div className="text-right">
+                                                <p className="font-bold">₹{payment.amount}</p>
+                                                <Badge variant={payment.status === "captured" ? "outline" : "destructive"} className="text-[10px] mt-1 uppercase">
+                                                    {payment.status === "captured" ? "Paid" : payment.status}
+                                                </Badge>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
                         </CardContent>
                     </Card>
                 </div>

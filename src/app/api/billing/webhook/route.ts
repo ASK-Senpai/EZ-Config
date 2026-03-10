@@ -103,9 +103,14 @@ async function handleSubscriptionActivated(payload: any) {
         plan: planName,
         subscriptionStatus: "active",
         razorpaySubscriptionId: subscriptionId,
-        premiumSince: userData?.premiumSince ?? new Date().toISOString(),
         aiLimit: 50,
+        aiUsage: 0,
+        // Carry over nextBillingDate or reportUsageMonth if already existing, otherwise let fallback or session init handle it.
+        premiumSince: userData?.premiumSince ?? new Date().toISOString(),
         updatedAt: FieldValue.serverTimestamp(),
+        // Cleanup old fields
+        subscription: FieldValue.delete(),
+        credits: FieldValue.delete(),
     }, { merge: true });
 
     console.info("[WEBHOOK] Subscription activated for user:", userRef.id);
@@ -135,6 +140,14 @@ async function handleSubscriptionCharged(payload: any) {
         currentPeriodEnd: currentEnd,
     });
 
+    const userRef = await resolveUserRefBySubscription(subscriptionId);
+    if (userRef) {
+        await userRef.set({
+            nextBillingDate: currentEnd?.toISOString() || null,
+            updatedAt: FieldValue.serverTimestamp()
+        }, { merge: true });
+    }
+
     // CRITICAL: Upgrade user on charge
     await handleSubscriptionActivated(payload);
 }
@@ -150,6 +163,7 @@ async function handleSubscriptionCancelled(payload: any) {
             subscriptionStatus: "cancelled",
             plan: "free",
             aiLimit: 5,
+            // (We leave aiUsage alone so they don't get free credits by cancelling)
             updatedAt: FieldValue.serverTimestamp(),
         }, { merge: true });
     }
@@ -167,9 +181,13 @@ async function handleSubscriptionCompleted(payload: any) {
     const userRef = await resolveUserRefBySubscription(subscriptionId);
     if (userRef) {
         await userRef.set({
-            subscriptionStatus: "expired",
-            plan: "free",
-            aiLimit: 5,
+            subscription: {
+                status: "expired",
+                plan: "free"
+            },
+            credits: {
+                monthlyLimit: 5,
+            },
             updatedAt: FieldValue.serverTimestamp(),
         }, { merge: true });
     }
@@ -187,7 +205,9 @@ async function handlePaymentFailed(payload: any) {
     const userRef = await resolveUserRefBySubscription(subscriptionId);
     if (userRef) {
         await userRef.set({
-            subscriptionStatus: "past_due",
+            subscription: {
+                status: "past_due"
+            },
             updatedAt: FieldValue.serverTimestamp(),
         }, { merge: true });
     }
@@ -195,6 +215,32 @@ async function handlePaymentFailed(payload: any) {
     await upsertSubscription(subscriptionId, {
         status: "past_due",
     });
+}
+
+async function handlePaymentCaptured(payload: any) {
+    const paymentEntity = payload?.payload?.payment?.entity || {};
+    const subscriptionId = String(paymentEntity?.subscription_id || "");
+    if (!subscriptionId) return;
+
+    const userRef = await resolveUserRefBySubscription(subscriptionId);
+    if (!userRef) return;
+
+    const paymentId = String(paymentEntity?.id || "");
+    const amount = Number(paymentEntity?.amount || 0) / 100; // Convert paise to INR
+    const currency = String(paymentEntity?.currency || "INR");
+    const status = String(paymentEntity?.status || "captured");
+
+    // Log the payment history
+    await adminDb.collection("payments").doc(paymentId).set({
+        userId: userRef.id,
+        razorpayPaymentId: paymentId,
+        razorpaySubscriptionId: subscriptionId,
+        amount,
+        currency,
+        status,
+        createdAt: FieldValue.serverTimestamp()
+    });
+    console.info(`[WEBHOOK] Payment ${paymentId} captured for user ${userRef.id}`);
 }
 
 export async function POST(request: NextRequest) {
@@ -225,20 +271,28 @@ export async function POST(request: NextRequest) {
         const event = String(tempPayload?.event || "unknown");
         const bodyId = String(tempPayload?.id || "unknown");
 
-        // 1. Return 200 immediately for non-subscription events to avoid processing noise
-        if (!event.startsWith("subscription.")) {
-            console.log(`[WEBHOOK] IGNORING NON-SUBSCRIPTION EVENT: ${event}`);
+        // 1. Return 200 immediately for unhandled events to avoid processing noise
+        const handledEvents = [
+            "subscription.activated",
+            "subscription.charged",
+            "subscription.cancelled",
+            "subscription.completed",
+            "payment.captured",
+            "payment.failed"
+        ];
+        if (!handledEvents.includes(event)) {
+            console.log(`[WEBHOOK] IGNORING UNHANDLED EVENT: ${event}`);
             return NextResponse.json({ success: true, ignored: true }, { status: 200 });
         }
 
-        const subscriptionId = tempPayload?.payload?.subscription?.entity?.id;
+        const subscriptionId = tempPayload?.payload?.subscription?.entity?.id || tempPayload?.payload?.payment?.entity?.subscription_id;
         if (!subscriptionId) {
             console.warn("[WEBHOOK] IGNORED: MISSING SUBSCRIPTION ID IN " + event);
             return NextResponse.json({ success: true, warning: "missing_sub_id" }, { status: 200 });
         }
 
-        // v4: Use event + subscriptionId for deterministic idempotency
-        const eventId = `v4_${event}_${subscriptionId}`;
+        // v5: Use event + body id (if available) + sub id for deterministic idempotency
+        const eventId = `v5_${event}_${bodyId}_${subscriptionId}`;
 
         const signature = request.headers.get("x-razorpay-signature");
 
@@ -278,6 +332,10 @@ export async function POST(request: NextRequest) {
             await handleSubscriptionCancelled(payload);
         } else if (event === "subscription.completed") {
             await handleSubscriptionCompleted(payload);
+        } else if (event === "payment.captured") {
+            await handlePaymentCaptured(payload);
+        } else if (event === "payment.failed") {
+            await handlePaymentFailed(payload);
         }
 
         return NextResponse.json({ success: true }, { status: 200 });

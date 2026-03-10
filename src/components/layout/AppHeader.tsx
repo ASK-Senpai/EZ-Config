@@ -55,34 +55,28 @@ export function AppHeader() {
                         <DropdownMenuTrigger className="flex items-center gap-1 text-xs font-medium transition-colors hover:text-primary text-muted-foreground outline-none data-[state=open]:text-primary group">
                             Products <ChevronDown className="w-3 h-3 opacity-70 group-data-[state=open]:rotate-180 transition-transform" />
                         </DropdownMenuTrigger>
-                        <DropdownMenuContent align="start" className="w-48 bg-background/95 backdrop-blur-xl border-white/10" asChild>
-                            <motion.div
-                                initial={{ opacity: 0, y: -5 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.2 }}
-                            >
-                                <DropdownMenuItem asChild>
-                                    <Link href="/products/gpu" className="cursor-pointer text-xs">Graphics Cards (GPU)</Link>
-                                </DropdownMenuItem>
-                                <DropdownMenuItem asChild>
-                                    <Link href="/products/cpu" className="cursor-pointer text-xs">Processors (CPU)</Link>
-                                </DropdownMenuItem>
-                                <DropdownMenuItem asChild>
-                                    <Link href="/products/vgpu" className="cursor-pointer text-xs text-teal-400/80">Integrated GPU (iGPU)</Link>
-                                </DropdownMenuItem>
-                                <DropdownMenuItem asChild>
-                                    <Link href="/products/ram" className="cursor-pointer text-xs">Memory (RAM)</Link>
-                                </DropdownMenuItem>
-                                <DropdownMenuItem asChild>
-                                    <Link href="/products/motherboard" className="cursor-pointer text-xs">Motherboards</Link>
-                                </DropdownMenuItem>
-                                <DropdownMenuItem asChild>
-                                    <Link href="/products/storage" className="cursor-pointer text-xs">Storage (SSD/HDD)</Link>
-                                </DropdownMenuItem>
-                                <DropdownMenuItem asChild>
-                                    <Link href="/products/psu" className="cursor-pointer text-xs">Power Supplies</Link>
-                                </DropdownMenuItem>
-                            </motion.div>
+                        <DropdownMenuContent align="start" className="w-48 bg-background/95 backdrop-blur-xl border-white/10 p-1 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2">
+                            <DropdownMenuItem asChild>
+                                <Link href="/products/gpu" className="cursor-pointer text-xs">Graphics Cards (GPU)</Link>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem asChild>
+                                <Link href="/products/cpu" className="cursor-pointer text-xs">Processors (CPU)</Link>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem asChild>
+                                <Link href="/products/vgpu" className="cursor-pointer text-xs text-teal-400/80">Integrated GPU (iGPU)</Link>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem asChild>
+                                <Link href="/products/ram" className="cursor-pointer text-xs">Memory (RAM)</Link>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem asChild>
+                                <Link href="/products/motherboard" className="cursor-pointer text-xs">Motherboards</Link>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem asChild>
+                                <Link href="/products/storage" className="cursor-pointer text-xs">Storage (SSD/HDD)</Link>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem asChild>
+                                <Link href="/products/psu" className="cursor-pointer text-xs">Power Supplies</Link>
+                            </DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
 

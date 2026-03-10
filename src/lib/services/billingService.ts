@@ -7,6 +7,7 @@ export const billingService = {
         if (!userDoc.exists) return null;
 
         const data = userDoc.data()!;
+
         return {
             plan: data.plan || "free",
             status: data.subscriptionStatus || "inactive",
@@ -33,5 +34,26 @@ export const billingService = {
             updatedAt: FieldValue.serverTimestamp()
         });
         return { success: true };
+    },
+
+    async getPaymentHistory(userId: string) {
+        const db = getFirestore();
+        const paymentsSnapshot = await db.collection("payments")
+            .where("userId", "==", userId)
+            .orderBy("createdAt", "desc")
+            .get();
+
+        if (paymentsSnapshot.empty) return [];
+
+        return paymentsSnapshot.docs.map(doc => {
+            const data = doc.data();
+            return {
+                id: data.razorpayPaymentId || doc.id,
+                amount: data.amount,
+                currency: data.currency,
+                status: data.status,
+                createdAt: data.createdAt?.toDate()?.toISOString() || null
+            };
+        });
     }
 };

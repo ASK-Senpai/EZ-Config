@@ -70,28 +70,55 @@ export const aiService = {
 
         const db = getFirestore();
         const userRef = db.collection("users").doc(userId);
-        const monthKey = currentMonthKey();
 
-        const batch = db.batch();
-        batch.set(userRef, {
-            aiUsageRemaining: FieldValue.increment(-1),
-            aiUsage: FieldValue.increment(1), // Total usage
-            lastAiUsage: FieldValue.serverTimestamp(),
-            reportUsageMonth: monthKey,
-            updatedAt: FieldValue.serverTimestamp(),
-        }, { merge: true });
+        await db.runTransaction(async (tx) => {
+            const userDoc = await tx.get(userRef);
+            if (!userDoc.exists) throw new Error("User not found");
+            const data = userDoc.data()!;
 
-        // Activity Log
-        const logRef = db.collection("usage_logs").doc();
-        batch.set(logRef, {
-            userId,
-            buildId,
-            type: "technical_report",
-            timestamp: FieldValue.serverTimestamp(),
-            status: "success"
+            let aiLimit = data.aiLimit ?? 5;
+            let aiUsage = data.aiUsage ?? 0;
+            const now = new Date();
+            const currentMonthKey = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+            let reportUsageMonth = data.reportUsageMonth || currentMonthKey;
+
+            // 1. Check for Reset Cycle (Month Rollover)
+            // If the user's stored usage month doesn't match the current calendar month,
+            // we confidently reset their usage.
+            if (reportUsageMonth !== currentMonthKey) {
+                aiUsage = 0;
+                reportUsageMonth = currentMonthKey;
+                console.info(`[AI SERVICE] Automatically reset usage for user ${userId} for new month ${currentMonthKey}`);
+            }
+
+            // 2. Exact Validation (Dynamically Compute Remaining)
+            const remaining = aiLimit - aiUsage;
+            if (remaining <= 0 || aiUsage >= aiLimit) {
+                throw new Error("INSUFFICIENT_CREDITS");
+            }
+
+            // 3. Increment Usage explicitly
+            aiUsage += 1;
+
+            tx.set(userRef, {
+                aiUsage,
+                reportUsageMonth,
+                updatedAt: FieldValue.serverTimestamp(),
+                // Cleanup old nested fields if they exist
+                subscription: FieldValue.delete(),
+                credits: FieldValue.delete(),
+                aiUsageRemaining: FieldValue.delete()
+            }, { merge: true });
+
+            // Enforce Exact Request 9 Layout for Logs
+            const logRef = db.collection("usageLogs").doc();
+            tx.set(logRef, {
+                userId,
+                action: "ai_report",
+                timestamp: FieldValue.serverTimestamp(),
+                buildId
+            });
         });
-
-        await batch.commit();
     },
 
     async getUserReportForBuild(userId: string, buildId: string): Promise<{ id: string; engineSnapshotHash: string } | null> {
@@ -107,6 +134,29 @@ export const aiService = {
     },
 
     async generateAndTrack(userId: string, buildId: string, buildInput: BuildInput, analysis: any, buildName?: string) {
+        // Pre-flight check: Does the user have credits available?
+        // (We do this outside the transaction first to fail fast before doing Groq calls)
+        const db = getFirestore();
+        const userDocRef = await db.collection("users").doc(userId).get();
+        if (userDocRef.exists) {
+            const data = userDocRef.data()!;
+            const aiLimit = data.aiLimit ?? 5;
+            const aiUsage = data.aiUsage ?? 0;
+            const reportUsageMonth = data.reportUsageMonth;
+
+            const now = new Date();
+            const currentMonthKey = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+
+            // If the month rolled over, they technically have full credits returning.
+            // Let the transaction process the reset.
+            const needsReset = (reportUsageMonth !== currentMonthKey);
+            const remaining = aiLimit - aiUsage;
+
+            if (!needsReset && remaining <= 0) {
+                throw new Error("INSUFFICIENT_CREDITS");
+            }
+        }
+
         const engineSnapshotHash = this.computeHash(buildInput, analysis);
 
         // ── Dedup Check 1: Same user already has a report for this exact build ──
@@ -124,7 +174,7 @@ export const aiService = {
         // ── Dedup Check 2: Global report_cache hit (same config, different user) ──
         const cached = await this.getCachedReport(engineSnapshotHash);
 
-        const db = getFirestore();
+
         const reportRef = db.collection("reports").doc();
         const reportId = reportRef.id;
 
@@ -251,12 +301,13 @@ export const aiService = {
         if (!userDoc.exists) return null;
 
         const data = userDoc.data()!;
-        const limit = data.aiLimit || 5;
-        const remaining = data.aiUsageRemaining || limit;
+        const aiLimit = data.aiLimit ?? 5;
+        const aiUsage = data.aiUsage ?? 0;
+        const remaining = aiLimit - aiUsage;
 
         return {
-            used: limit - remaining,
-            limit: limit,
+            used: aiUsage,
+            limit: aiLimit,
             remaining: remaining
         };
     }

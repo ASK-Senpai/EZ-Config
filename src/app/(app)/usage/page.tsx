@@ -14,23 +14,24 @@ const Progress = ({ value, className }: { value: number, className?: string }) =
 
 export default function UsagePage() {
 
-    const [usage, setUsage] = useState({ used: 0, limit: 5, logs: [] });
+    const [usage, setUsage] = useState({ used: 0, limit: 5, resetDate: null as string | null, logs: [] });
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchUsage = async () => {
             try {
-                const res = await fetch("/api/build/list"); // Initial placeholder, will create dedicated usage API if needed
+                const res = await fetch("/api/user/subscription");
                 const data = await res.json();
-                if (res.ok) {
+                if (res.ok && data) {
                     setUsage({
-                        used: data.subscription?.aiUsage || 0,
-                        limit: data.subscription?.aiLimit || 5,
+                        used: data.aiUsage || 0,
+                        limit: data.aiLimit || 5,
+                        resetDate: data.nextBillingDate || null,
                         logs: []
                     });
                 }
             } catch (err) {
-                console.error(err);
+                console.error("Failed to fetch usage state", err);
             } finally {
                 setLoading(false);
             }
@@ -38,7 +39,7 @@ export default function UsagePage() {
         fetchUsage();
     }, []);
 
-    const percent = Math.min(100, (usage.used / usage.limit) * 100);
+    const percent = usage.limit > 0 ? Math.min(100, (usage.used / usage.limit) * 100) : 100;
 
     return (
         <div className="max-w-4xl mx-auto space-y-8">
@@ -71,7 +72,11 @@ export default function UsagePage() {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div className="p-4 rounded-lg bg-muted/30 border border-border/50">
                                 <p className="text-xs text-muted-foreground uppercase tracking-wider font-semibold mb-1">Estimated Reset</p>
-                                <p className="text-lg font-bold">1st of next month</p>
+                                <p className="text-lg font-bold">
+                                    {usage.resetDate ? new Date(usage.resetDate).toLocaleDateString(undefined, {
+                                        month: 'long', day: 'numeric'
+                                    }) : "1st of next month"}
+                                </p>
                             </div>
                             <div className="p-4 rounded-lg bg-primary/5 border border-primary/10">
                                 <p className="text-xs text-primary uppercase tracking-wider font-semibold mb-1">Plan Limit</p>
