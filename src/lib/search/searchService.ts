@@ -37,9 +37,16 @@ const REPLICA_MAP: Record<string, string> = {
 // ── Types ─────────────────────────────────────────────────────────────────────
 export interface SearchOptions {
     query: string;
-    category?: string;       // "gpu" | "cpu" | "ram" | "psu" — filters Algolia facet
+    category?: string;
     brand?: string;
-    hasIntegratedGraphics?: boolean;
+    // Algolia facet filters (previously applied client-side)
+    socket?: string;          // CPU/Motherboard socket, e.g. "AM5"
+    ramType?: string;         // "DDR4" | "DDR5"
+    storageType?: string;     // "NVMe" | "SATA" | "HDD"
+    chipset?: string;         // Motherboard chipset, e.g. "B650"
+    efficiency?: string;      // PSU efficiency, e.g. "80+ Gold"
+    minWattageGte?: number;   // PSU minimum wattage (numeric filter)
+    apu?: boolean;            // CPU has integrated graphics
     sortBy?: "gamingScore" | "productivityScore" | "price" | "valueScore" | "launchYear";
     sortDir?: "asc" | "desc";
     page?: number;
@@ -96,7 +103,13 @@ export async function searchProducts(options: SearchOptions): Promise<SearchResu
         query,
         category,
         brand,
-        hasIntegratedGraphics,
+        socket,
+        ramType,
+        storageType,
+        chipset,
+        efficiency,
+        minWattageGte,
+        apu,
         sortBy = "gamingScore",
         sortDir = "desc",
         page = 0,
@@ -110,11 +123,17 @@ export async function searchProducts(options: SearchOptions): Promise<SearchResu
     const cached = getCached(cacheKey);
     if (cached) return cached;
 
-    // Build Algolia filter string
+    // Build Algolia filter string from all active filters
     const filters: string[] = ["legacy:false"];
     if (category) filters.push(`category:${category}`);
     if (brand) filters.push(`brand:"${brand}"`);
-    if (hasIntegratedGraphics !== undefined) filters.push(`hasIntegratedGraphics:${hasIntegratedGraphics}`);
+    if (socket) filters.push(`socket:"${socket}"`);
+    if (ramType) filters.push(`type:"${ramType}"`);
+    if (storageType) filters.push(`type:"${storageType}"`);
+    if (chipset) filters.push(`chipset:"${chipset}"`);
+    if (efficiency) filters.push(`efficiency:"${efficiency}"`);
+    if (minWattageGte) filters.push(`wattage >= ${minWattageGte}`);
+    if (apu !== undefined) filters.push(`hasIntegratedGraphics:${apu}`);
     const filterStr = filters.join(" AND ");
 
     // Select replica index for sort (fall back to base index when query is non-empty)

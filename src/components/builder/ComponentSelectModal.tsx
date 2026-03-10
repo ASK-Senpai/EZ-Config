@@ -11,6 +11,27 @@ import { validateCompatibility } from "@/lib/engine/compatibility";
 import { estimateSystemPower } from "@/lib/engine/powerEstimator";
 import { BaseProduct } from "@/lib/products/types";
 
+// ── Static per-category filter data ────────────────────────────────────────────
+// Using static lists instead of deriving from results so all options are always
+// available regardless of what's in the current result page.
+const FILTER_DATA: Record<string, {
+    brands: string[];
+    sockets?: string[];
+    chipsets?: string[];
+}> = {
+    cpu: { brands: ["AMD", "Intel"], sockets: ["AM4", "AM5", "LGA1700", "LGA1851", "LGA1200"] },
+    gpu: { brands: ["NVIDIA", "AMD", "Intel"] },
+    ram: { brands: ["Corsair", "G.Skill", "Kingston", "Crucial", "TeamGroup", "Adata"] },
+    storage: { brands: ["Samsung", "WD", "Seagate", "Crucial", "Kingston", "Sabrent"] },
+    motherboard: {
+        brands: ["ASUS", "MSI", "Gigabyte", "ASRock"],
+        sockets: ["AM4", "AM5", "LGA1700", "LGA1851"],
+        chipsets: ["X870E", "X870", "B850", "B650E", "B650", "X670E", "X670",
+            "Z890", "Z790", "B760", "H770", "H610"],
+    },
+    psu: { brands: ["Corsair", "Seasonic", "EVGA", "be quiet!", "Cooler Master", "Thermaltake"] },
+};
+
 interface ComponentSelectModalProps {
     isOpen: boolean;
     onClose: () => void;
@@ -52,7 +73,7 @@ export function ComponentSelectModal({
         setQuery("");
     }, [category, isOpen]);
 
-    // Fetch data
+    // Fetch data — all user-preference filters sent to Algolia, no client-side filtering
     useEffect(() => {
         if (!isOpen) return;
 
@@ -64,9 +85,22 @@ export function ComponentSelectModal({
                     query,
                     category,
                     brand: filters.brand || undefined,
-                    sortBy: filters.sortBy,
-                    sortDir: filters.sortDir,
-                    limit: 100
+                    socket: filters.socket || undefined,
+                    ramType: filters.ramType || undefined,
+                    storageType: filters.storageType || undefined,
+                    chipset: filters.chipset || undefined,
+                    efficiency: filters.efficiency || undefined,
+                    apu: filters.apu || undefined,
+                    // PSU: merge user preference with build-required minimum
+                    minWattageGte: category === "psu"
+                        ? Math.max(
+                            estimateSystemPower(currentBuild).recommendedMinimum,
+                            filters.minWattage || 0
+                        ) || undefined
+                        : undefined,
+                    sortBy: filters.sortBy as any,
+                    sortDir: (filters.sortDir || "asc") as any,
+                    limit: 100,
                 });
                 setResults(res.hits);
             } catch (err) {
@@ -81,13 +115,15 @@ export function ComponentSelectModal({
             clearTimeout(timeoutId);
             controller.abort();
         };
-    }, [isOpen, query, category, filters.brand, filters.sortBy]);
+    }, [isOpen, query, category, filters.brand, filters.socket, filters.ramType,
+        filters.storageType, filters.chipset, filters.efficiency, filters.apu,
+        filters.minWattage, filters.sortBy, filters.sortDir]);
 
-    // Client-side hard filtering (Phase 97)
+    // Hard-compatibility post-filter (depends on build state, NOT user preference — stays client-side)
     const processedResults = useMemo(() => {
         let items = [...results];
 
-        // 1. CPU <-> Motherboard Socket Hard Filter
+        // CPU ↔ Motherboard socket lock (cross-constraint from current build)
         if (category === "motherboard" && currentBuild.cpu?.socket) {
             items = items.filter(m => m.socket === currentBuild.cpu.socket);
         }
@@ -95,31 +131,18 @@ export function ComponentSelectModal({
             items = items.filter(c => c.socket === currentBuild.motherboard.socket);
         }
 
-        // 2. PSU Wattage Hard Filter
-        if (category === "psu") {
-            const { recommendedMinimum } = estimateSystemPower(currentBuild);
-            items = items.filter(p => (p.wattage || 0) >= recommendedMinimum);
-        }
+        return items;
+    }, [results, currentBuild, category]);
 
-        // 3. Manual user filters (Sidebar)
-        return items.filter(item => {
-            if (category === 'motherboard' && filters.socket && item.socket !== filters.socket) return false;
-            if (category === 'cpu' && filters.socket && item.socket !== filters.socket) return false;
-            if (category === 'ram' && filters.ramType && item.type !== filters.ramType) return false;
-            if (category === 'storage' && filters.storageType && item.type !== filters.storageType) return false;
-            if (category === 'psu' && filters.minWattage && (item.wattage || 0) < filters.minWattage) return false;
-            return true;
-        });
-    }, [results, currentBuild, category, filters]);
-
-    // Derived unique values for Filters
+    // Static filter options — always show the full list regardless of current results
     const uniqueValues = useMemo(() => {
-        const brands = Array.from(new Set(results.map(r => r.brand))).sort();
-        const sockets = category === 'cpu' || category === 'motherboard'
-            ? Array.from(new Set(results.map(r => r.socket))).filter(Boolean).sort()
-            : [];
-        return { brands, sockets };
-    }, [results, category]);
+        const data = FILTER_DATA[category] ?? { brands: [] };
+        return {
+            brands: data.brands ?? [],
+            sockets: data.sockets ?? [],
+            chipsets: data.chipsets ?? [],
+        };
+    }, [category]);
 
     const emptyMessage = useMemo(() => {
         if (category === "motherboard" && currentBuild.cpu) {
@@ -136,7 +159,7 @@ export function ComponentSelectModal({
 
     return (
         <AnimatePresence>
-            <div className="fixed inset-0 z-[100] bg-black/90 backdrop-blur-md flex items-center justify-center p-4">
+            <div className="fixed inset-0 z-[200] bg-black/90 backdrop-blur-md flex items-center justify-center p-4">
                 <motion.div
                     initial={{ opacity: 0, scale: 0.95, y: 20 }}
                     animate={{ opacity: 1, scale: 1, y: 0 }}
