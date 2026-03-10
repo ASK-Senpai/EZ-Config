@@ -6,7 +6,8 @@ import { aiService } from "@/lib/services/aiService";
 import { billingService } from "@/lib/services/billingService";
 
 import { redirect } from "next/navigation";
-
+import { cookies } from "next/headers";
+import { SESSION_COOKIE_NAME } from "@/lib/session";
 import { AppHeader } from "@/components/layout/AppHeader";
 
 export default async function AppLayout({
@@ -18,6 +19,9 @@ export default async function AppLayout({
     try {
         user = await requireAuth();
     } catch (err) {
+        // Clear the stale cookie so middleware doesn't bounce us back to /dashboard
+        const cookieStore = await cookies();
+        cookieStore.delete(SESSION_COOKIE_NAME);
         redirect("/login");
     }
     const userId = user.uid;

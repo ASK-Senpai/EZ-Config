@@ -22,27 +22,44 @@ export async function POST(request: NextRequest) {
         const uid = decodedToken.uid;
         const db = getFirestore();
         const userRef = db.collection("users").doc(uid);
-        const userDoc = await userRef.get();
+        let userDoc;
+        try {
+            userDoc = await userRef.get();
+        } catch (error: any) {
+            console.error("Session creation failed during Firestore access:", error);
+            return NextResponse.json(
+                { error: "AUTH_SESSION_ERROR", message: "Failed to access user data: " + error.message },
+                { status: 401 }
+            );
+        }
 
         if (!userDoc.exists) {
-            await userRef.set({
-                email: decodedToken.email || "",
-                name: decodedToken.name || null,
-                plan: "free",
-                subscriptionStatus: "inactive",
-                subscriptionId: null,
-                razorpayCustomerId: null,
-                aiUsage: 0,
-                aiLimit: 5,
-                premiumSince: null,
-                buildCount: 0,
-                createdAt: FieldValue.serverTimestamp(),
-                updatedAt: FieldValue.serverTimestamp()
-            });
+            try {
+                await userRef.set({
+                    email: decodedToken.email || "",
+                    name: decodedToken.name || null,
+                    plan: "free",
+                    subscriptionStatus: "inactive",
+                    subscriptionId: null,
+                    razorpayCustomerId: null,
+                    aiUsage: 0,
+                    aiLimit: 5,
+                    premiumSince: null,
+                    buildCount: 0,
+                    createdAt: FieldValue.serverTimestamp(),
+                    updatedAt: FieldValue.serverTimestamp()
+                });
 
-            // Analytics: increment global totalUsers
-            const globalRef = db.collection("analytics").doc("global");
-            await globalRef.set({ totalUsers: FieldValue.increment(1) }, { merge: true });
+                // Analytics: increment global totalUsers
+                const globalRef = db.collection("analytics").doc("global");
+                await globalRef.set({ totalUsers: FieldValue.increment(1) }, { merge: true });
+            } catch (error: any) {
+                console.error("Session creation failed during Firestore user creation:", error);
+                return NextResponse.json(
+                    { error: "AUTH_SESSION_ERROR", message: "Failed to create user data: " + error.message },
+                    { status: 401 }
+                );
+            }
         }
 
         // Generate session cookie
