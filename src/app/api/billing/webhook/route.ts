@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import crypto from "crypto";
 import { FieldValue } from "firebase-admin/firestore";
 import { adminDb } from "@/lib/firebaseAdmin";
+import Razorpay from "razorpay";
 
 export const runtime = "nodejs";
 
@@ -80,6 +81,24 @@ async function handleSubscriptionActivated(payload: any) {
         return;
     }
 
+    let currentStart = toDateOrNull(subEntity?.current_start);
+    let currentEnd = toDateOrNull(subEntity?.current_end);
+
+    if ((!currentStart || !currentEnd) && subscriptionId) {
+        try {
+            const rzp = new Razorpay({
+                key_id: process.env.RAZORPAY_KEY_ID || "",
+                key_secret: process.env.RAZORPAY_KEY_SECRET || process.env.RAZORPAY_SECRET || "",
+            });
+            const fetchedSub = await rzp.subscriptions.fetch(subscriptionId);
+            currentStart = currentStart || toDateOrNull(fetchedSub.current_start);
+            currentEnd = currentEnd || toDateOrNull(fetchedSub.current_end);
+            console.info(`[WEBHOOK] Fetched missing dates for sub ${subscriptionId}`);
+        } catch (err: any) {
+            console.warn(`[WEBHOOK] Failed to fetch subscription ${subscriptionId} for dates:`, err.message);
+        }
+    }
+
     const planName = process.env.RAZORPAY_PLAN_NAME || "premium_monthly";
 
     const userRef = await resolveUserRefBySubscription(subscriptionId, email);
@@ -106,7 +125,8 @@ async function handleSubscriptionActivated(payload: any) {
         aiLimit: 50,
         aiUsage: 0,
         // Carry over nextBillingDate or reportUsageMonth if already existing, otherwise let fallback or session init handle it.
-        premiumSince: userData?.premiumSince ?? new Date().toISOString(),
+        premiumSince: currentStart ? currentStart.toISOString() : (userData?.premiumSince ?? new Date().toISOString()),
+        nextBillingDate: currentEnd ? currentEnd.toISOString() : (userData?.nextBillingDate ?? null),
         updatedAt: FieldValue.serverTimestamp(),
         // Cleanup old fields
         subscription: FieldValue.delete(),
@@ -219,8 +239,27 @@ async function handlePaymentFailed(payload: any) {
 
 async function handlePaymentCaptured(payload: any) {
     const paymentEntity = payload?.payload?.payment?.entity || {};
-    const subscriptionId = String(paymentEntity?.subscription_id || "");
-    if (!subscriptionId) return;
+    let subscriptionId = String(paymentEntity?.subscription_id || "");
+    const invoiceId = String(paymentEntity?.invoice_id || "");
+
+    if (!subscriptionId && invoiceId) {
+        try {
+            const rzp = new Razorpay({
+                key_id: process.env.RAZORPAY_KEY_ID || "",
+                key_secret: process.env.RAZORPAY_KEY_SECRET || process.env.RAZORPAY_SECRET || "",
+            });
+            const invoice = await rzp.invoices.fetch(invoiceId);
+            subscriptionId = String((invoice as any)?.subscription_id || "");
+            console.info(`[WEBHOOK] Extracted subscription_id ${subscriptionId} from invoice ${invoiceId}`);
+        } catch (err: any) {
+            console.warn(`[WEBHOOK] Failed to fetch invoice ${invoiceId} for subscriptionId:`, err.message);
+        }
+    }
+
+    if (!subscriptionId) {
+        console.warn("[WEBHOOK] IGNORED: MISSING SUBSCRIPTION ID IN payment.captured");
+        return;
+    }
 
     const userRef = await resolveUserRefBySubscription(subscriptionId);
     if (!userRef) return;
@@ -285,14 +324,20 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ success: true, ignored: true }, { status: 200 });
         }
 
-        const subscriptionId = tempPayload?.payload?.subscription?.entity?.id || tempPayload?.payload?.payment?.entity?.subscription_id;
-        if (!subscriptionId) {
+        let subscriptionIdStr = String(tempPayload?.payload?.subscription?.entity?.id || tempPayload?.payload?.payment?.entity?.subscription_id || "");
+        const invoiceIdStr = String(tempPayload?.payload?.payment?.entity?.invoice_id || "");
+
+        if (!subscriptionIdStr && event === "payment.captured" && invoiceIdStr) {
+            subscriptionIdStr = `inv_${invoiceIdStr}`;
+        }
+
+        if (!subscriptionIdStr) {
             console.warn("[WEBHOOK] IGNORED: MISSING SUBSCRIPTION ID IN " + event);
             return NextResponse.json({ success: true, warning: "missing_sub_id" }, { status: 200 });
         }
 
         // v5: Use event + body id (if available) + sub id for deterministic idempotency
-        const eventId = `v5_${event}_${bodyId}_${subscriptionId}`;
+        const eventId = `v5_${event}_${bodyId}_${subscriptionIdStr}`;
 
         const signature = request.headers.get("x-razorpay-signature");
 
