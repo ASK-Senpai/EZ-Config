@@ -6,6 +6,8 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter }
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
+const ENABLE_PAYMENT_HISTORY = false;
+
 export default function BillingPage() {
     const [subscription, setSubscription] = useState<any>(null);
 
@@ -102,38 +104,41 @@ export default function BillingPage() {
                             </ul>
                         </CardContent>
                     </Card>
-                    <Card>
-                        <CardHeader>
-                            <CardTitle className="text-lg">Payment History</CardTitle>
-                        </CardHeader>
-                        <CardContent className="p-0">
-                            {payments.length === 0 ? (
-                                <div className="flex flex-col items-center justify-center py-8 text-center bg-muted/20 rounded-b-lg">
-                                    <CreditCard className="h-8 w-8 text-muted-foreground mb-3" />
-                                    <p className="text-sm text-muted-foreground">No recent transactions found.</p>
-                                </div>
-                            ) : (
-                                <div className="divide-y divide-border/50">
-                                    {payments.slice(0, 5).map((payment) => (
-                                        <div key={payment.id} className="flex justify-between items-center p-4 text-sm hover:bg-muted/10 transition-colors">
-                                            <div>
-                                                <p className="font-medium text-foreground">
-                                                    {new Date(payment.createdAt).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })}
-                                                </p>
-                                                <p className="text-xs text-muted-foreground tracking-tight">{payment.id}</p>
+                    {ENABLE_PAYMENT_HISTORY && (
+                        <Card>
+                            <CardHeader>
+                                <CardTitle className="text-lg">Payment History</CardTitle>
+                                <CardDescription>View your previous subscription transactions.</CardDescription>
+                            </CardHeader>
+                            <CardContent className="p-0">
+                                {payments.length === 0 ? (
+                                    <div className="flex flex-col items-center justify-center py-8 text-center bg-muted/20 rounded-b-lg">
+                                        <CreditCard className="h-8 w-8 text-muted-foreground mb-3" />
+                                        <p className="text-sm text-muted-foreground">No recent transactions found.</p>
+                                    </div>
+                                ) : (
+                                    <div className="divide-y divide-border/50">
+                                        {payments.slice(0, 5).map((payment) => (
+                                            <div key={payment.id} className="flex justify-between items-center p-4 text-sm hover:bg-muted/10 transition-colors">
+                                                <div>
+                                                    <p className="font-medium text-foreground">
+                                                        {new Date(payment.createdAt).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })}
+                                                    </p>
+                                                    <p className="text-xs text-muted-foreground tracking-tight">{payment.id}</p>
+                                                </div>
+                                                <div className="text-right">
+                                                    <p className="font-bold">₹{payment.amount}</p>
+                                                    <Badge variant={payment.status === "captured" ? "outline" : "destructive"} className="text-[10px] mt-1 uppercase">
+                                                        {payment.status === "captured" ? "Paid" : payment.status}
+                                                    </Badge>
+                                                </div>
                                             </div>
-                                            <div className="text-right">
-                                                <p className="font-bold">₹{payment.amount}</p>
-                                                <Badge variant={payment.status === "captured" ? "outline" : "destructive"} className="text-[10px] mt-1 uppercase">
-                                                    {payment.status === "captured" ? "Paid" : payment.status}
-                                                </Badge>
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            )}
-                        </CardContent>
-                    </Card>
+                                        ))}
+                                    </div>
+                                )}
+                            </CardContent>
+                        </Card>
+                    )}
                 </div>
             </div>
         </div>

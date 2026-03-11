@@ -6,6 +6,8 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
+const ENABLE_ACTIVITY_LOG = false;
+
 const Progress = ({ value, className }: { value: number, className?: string }) => (
     <div className={`w-full bg-border rounded-full h-2 overflow-hidden ${className}`}>
         <div className="bg-primary h-full transition-all duration-500" style={{ width: `${value}%` }} />
@@ -86,25 +88,27 @@ export default function UsagePage() {
                     </CardContent>
                 </Card>
 
-                <Card>
-                    <CardHeader className="flex flex-row items-center justify-between">
-                        <div className="space-y-1">
-                            <CardTitle>Activity Log</CardTitle>
-                            <CardDescription>Recent AI generation events and system actions.</CardDescription>
-                        </div>
-                        <Button variant="outline" size="sm">
-                            <Filter className="h-4 w-4 mr-2" />
-                            Filter
-                        </Button>
-                    </CardHeader>
-                    <CardContent>
-                        <div className="flex flex-col items-center justify-center py-12 text-center text-muted-foreground bg-muted/10 rounded-xl border border-dashed border-border">
-                            <History className="h-10 w-10 mb-4 opacity-20" />
-                            <p className="text-sm">No activity records found for this period.</p>
-                            <p className="text-xs mt-1">Activities will appear here as you generate reports.</p>
-                        </div>
-                    </CardContent>
-                </Card>
+                {ENABLE_ACTIVITY_LOG && (
+                    <Card>
+                        <CardHeader className="flex flex-row items-center justify-between">
+                            <div className="space-y-1">
+                                <CardTitle>Activity Log</CardTitle>
+                                <CardDescription>Recent AI generation events and system actions.</CardDescription>
+                            </div>
+                            <Button variant="outline" size="sm">
+                                <Filter className="h-4 w-4 mr-2" />
+                                Filter
+                            </Button>
+                        </CardHeader>
+                        <CardContent>
+                            <div className="flex flex-col items-center justify-center py-12 text-center text-muted-foreground bg-muted/10 rounded-xl border border-dashed border-border">
+                                <History className="h-10 w-10 mb-4 opacity-20" />
+                                <p className="text-sm">No activity records found for this period.</p>
+                                <p className="text-xs mt-1">Activities will appear here as you generate reports.</p>
+                            </div>
+                        </CardContent>
+                    </Card>
+                )}
             </div>
         </div>
     );
