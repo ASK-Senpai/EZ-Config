@@ -19,9 +19,6 @@ export default async function AppLayout({
     try {
         user = await requireAuth();
     } catch (err) {
-        // Clear the stale cookie so middleware doesn't bounce us back to /dashboard
-        const cookieStore = await cookies();
-        cookieStore.delete(SESSION_COOKIE_NAME);
         redirect("/login");
     }
     const userId = user.uid;

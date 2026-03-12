@@ -8,27 +8,84 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
+import { useRouter } from "next/navigation";
+import { auth } from "@/lib/firebase/client";
+import { signOut } from "firebase/auth";
 
 export default function AccountPage() {
 
     const { user } = useAuth();
+    const router = useRouter();
     const [displayName, setDisplayName] = useState(user?.displayName || "");
     const [saving, setSaving] = useState(false);
 
-    const handleUpdateProfile = async () => {
+    const toast = {
+        success: (message: string) => alert(message),
+        error: (message: string) => alert(message),
+    };
+
+    const handleSave = async () => {
         setSaving(true);
         try {
-            const res = await fetch("/api/user/profile", {
-                method: "PATCH",
-                body: JSON.stringify({ displayName }),
-                headers: { "Content-Type": "application/json" }
+            if (!user) {
+                toast.error("You must be signed in to update your profile.");
+                return;
+            }
+
+            const res = await fetch("/api/account/update-profile", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    uid: user.uid,
+                    displayName,
+                }),
             });
-            if (res.ok) alert("Profile updated!");
-            else alert("Failed to update profile.");
+            const data = await res.json();
+
+            if (data.success) {
+                await user.reload();
+                setDisplayName(user.displayName || displayName);
+                toast.success("Profile updated");
+            } else {
+                toast.error(data.error || "Failed to update profile");
+            }
         } catch (err) {
             console.error(err);
+            toast.error("Failed to update profile");
         } finally {
             setSaving(false);
+        }
+    };
+
+    const handleDeleteAccount = async () => {
+        if (!user) return;
+        if (!confirm("This action is permanent. Continue?")) return;
+
+        try {
+            const res = await fetch("/api/account/delete", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    uid: user.uid,
+                }),
+            });
+
+            const data = await res.json();
+
+            if (data.success) {
+                await fetch("/api/auth/logout", { method: "POST" });
+                await signOut(auth);
+                router.push("/login");
+            } else {
+                alert(data.error || "Failed to delete account");
+            }
+        } catch (error) {
+            console.error(error);
+            alert("Failed to delete account");
         }
     };
 
@@ -64,7 +121,7 @@ export default function AccountPage() {
                         </div>
                     </CardContent>
                     <CardFooter className="border-t px-6 py-4">
-                        <Button onClick={handleUpdateProfile} disabled={saving}>
+                        <Button onClick={handleSave} disabled={saving}>
                             {saving ? "Saving..." : "Save Changes"}
                         </Button>
                     </CardFooter>
@@ -85,7 +142,7 @@ export default function AccountPage() {
                         </div>
                     </CardContent>
                     <CardFooter className="border-t px-6 py-4">
-                        <Button variant="destructive">
+                        <Button variant="destructive" onClick={handleDeleteAccount}>
                             <Trash2 className="h-4 w-4 mr-2" />
                             Delete Account
                         </Button>
