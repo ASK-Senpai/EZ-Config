@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -10,6 +11,49 @@ import { Instagram } from "lucide-react";
 import { SectionContainer } from "@/components/ui/SectionContainer";
 
 export default function Contact() {
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [message, setMessage] = useState("");
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        if (isSubmitting) return;
+        setIsSubmitting(true);
+
+        try {
+            const res = await fetch("/api/contact", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    name,
+                    email,
+                    message,
+                }),
+            });
+
+            const data = await res.json();
+
+            if (res.status === 429) {
+                alert("Too many messages sent. Please wait before trying again.");
+            } else if (data.success) {
+                alert("Message sent successfully!");
+                setName("");
+                setEmail("");
+                setMessage("");
+            } else {
+                alert("Failed to send message.");
+            }
+        } catch (error) {
+            console.error("Contact form error:", error);
+            alert("Failed to send message.");
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
+
     return (
         <section className="bg-background min-h-screen">
             <SectionContainer padded>
@@ -22,20 +66,39 @@ export default function Contact() {
                         transition={{ delay: 0.2 }}
                         className="order-1 md:order-2 rounded-2xl border border-white/10 bg-card p-6 sm:p-8 shadow-2xl w-full"
                     >
-                        <form className="space-y-6">
+                        <form className="space-y-6" onSubmit={handleSubmit}>
                             <div className="space-y-2">
                                 <Label htmlFor="name">Name</Label>
-                                <Input id="name" placeholder="John Doe" className="w-full" />
+                                <Input
+                                    id="name"
+                                    placeholder="John Doe"
+                                    className="w-full"
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
+                                />
                             </div>
                             <div className="space-y-2">
                                 <Label htmlFor="email">Email</Label>
-                                <Input id="email" type="email" placeholder="john@example.com" className="w-full" />
+                                <Input
+                                    id="email"
+                                    type="email"
+                                    placeholder="john@example.com"
+                                    className="w-full"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                />
                             </div>
                             <div className="space-y-2">
                                 <Label htmlFor="message">Message</Label>
-                                <Textarea id="message" placeholder="How can we help you?" className="min-h-[150px] w-full" />
+                                <Textarea
+                                    id="message"
+                                    placeholder="How can we help you?"
+                                    className="min-h-[150px] w-full"
+                                    value={message}
+                                    onChange={(e) => setMessage(e.target.value)}
+                                />
                             </div>
-                            <Button variant="premium" className="w-full" size="lg">
+                            <Button variant="premium" className="w-full" size="lg" disabled={isSubmitting}>
                                 Send Message
                             </Button>
                         </form>

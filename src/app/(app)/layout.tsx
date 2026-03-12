@@ -36,7 +36,7 @@ export default async function AppLayout({
     const isPremium = subscription?.plan === "premium" && subscription?.status === "active";
 
     return (
-        <div className="flex min-h-screen bg-background">
+        <div className="flex min-h-screen w-full bg-background">
             <Sidebar
                 isPremium={isPremium}
                 usage={usage || undefined}
@@ -45,7 +45,7 @@ export default async function AppLayout({
             <div className="flex-1 flex flex-col min-w-0">
                 <AppHeader />
                 <main className="flex-1 overflow-x-hidden">
-                    <div className="h-full p-8 max-w-7xl mx-auto">
+                    <div className="mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
                         {children}
                     </div>
                 </main>
