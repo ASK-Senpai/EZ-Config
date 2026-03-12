@@ -131,9 +131,9 @@ const Navbar = ({ isLoggedIn }: NavbarProps) => {
                         {isLoggedIn ? (
                             <>
                                 <Button variant="ghost" size="sm" asChild>
-                                    <Link href="/dashboard">
-                                        <LayoutDashboard className="mr-2 h-4 w-4" />
-                                        Dashboard
+                                    <Link href="/dashboard" className="flex items-center gap-2 text-sm font-medium hover:text-white transition">
+                                        <LayoutDashboard className="h-4 w-4" />
+                                        <span>Dashboard</span>
                                     </Link>
                                 </Button>
                                 <Button variant="outline" size="sm" onClick={handleLogout}>
@@ -232,8 +232,12 @@ const Navbar = ({ isLoggedIn }: NavbarProps) => {
                                 {isLoggedIn ? (
                                     <>
                                         <Button variant="outline" className="w-full justify-center" asChild>
-                                            <Link href="/dashboard" onClick={() => setIsOpen(false)}>
-                                                <LayoutDashboard className="mr-2 h-4 w-4" />
+                                            <Link
+                                                href="/dashboard"
+                                                onClick={() => setIsOpen(false)}
+                                                className="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-muted"
+                                            >
+                                                <LayoutDashboard className="h-4 w-4" />
                                                 Dashboard
                                             </Link>
                                         </Button>
