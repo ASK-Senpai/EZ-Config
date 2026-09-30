@@ -230,4 +230,3 @@ Required keys:
 
 # License
 
-No license is currently defined in this repository. Add a `LICENSE` file before public distribution.
