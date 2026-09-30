@@ -61,6 +61,13 @@ The system is split into a pure engine layer and a server layer:
 - Build technical report cache in `build_reports` keyed by build ID + `engineSnapshotHash`.
 - In-memory memo cache helpers for lightweight AI responses in `src/lib/ai/memo.ts`.
 
+## Search Engine (Algolia)
+- Ultra-fast component search and facet filtering across 7 hardware categories (`gpu`, `cpu`, `vgpu`, `motherboard`, `ram`, `storage`, `psu`).
+- Primary index: `products_index` paired with 8 replica indices for fast multi-dimensional sorting (gaming score, productivity score, price asc/desc, value, release year).
+- Central search service: `src/lib/search/searchService.ts` with a 5-minute in-memory TTL cache to eliminate redundant queries.
+- Powers the Cmd+K `GlobalSearch` command palette, PC Builder `ComponentSelectModal`, and category search.
+- Complete documentation: [docs/ALGOLIA_SETUP.md](docs/ALGOLIA_SETUP.md).
+
 ## Premium Feature System
 - Central feature flags: `src/lib/featureFlags.ts`.
 - Plan source of truth: `users/{uid}.plan`.
@@ -69,6 +76,7 @@ The system is split into a pure engine layer and a server layer:
 # Core Features
 
 - PC Builder with live component selection and persisted local state
+- Fast global search (Cmd+K) and real-time facet filtering powered by Algolia
 - Compatibility validation (socket, platform, power envelope, etc.)
 - Deterministic performance scoring (`gaming`, `workstation`, `futureProof`, `overall`)
 - FPS estimation via engine outputs
@@ -171,6 +179,7 @@ src/
 - Firebase Admin SDK (server-side auth + Firestore)
 - Zustand (persisted builder state)
 - Groq SDK
+- Algolia Search (JS Client v5 + lite client)
 - Tailwind CSS + custom UI primitives (shadcn-style patterns)
 - Radix UI primitives
 - Framer Motion
@@ -193,6 +202,18 @@ npm run build
 npm run start
 ```
 
+## Algolia Search Setup
+
+1. Configure index settings, facets, and 8 replica sorting indices:
+   ```bash
+   npx tsx scripts/configureAlgolia.ts
+   ```
+2. Sync all hardware components from Firestore to Algolia:
+   ```bash
+   npx tsx scripts/syncToAlgolia.ts
+   ```
+   *(For full manual dashboard instructions and replica ranking rules, refer to [docs/ALGOLIA_SETUP.md](docs/ALGOLIA_SETUP.md))*
+
 # Environment Variables
 
 Create `.env.local` (or `.env`) from `.env.example`.
@@ -212,6 +233,10 @@ Required keys:
   - `FIREBASE_PRIVATE_KEY`
 - AI:
   - `GROQ_API_KEY`
+- Algolia Search:
+  - `NEXT_PUBLIC_ALGOLIA_APP_ID`
+  - `NEXT_PUBLIC_ALGOLIA_SEARCH_KEY`
+  - `ALGOLIA_ADMIN_KEY`
 - Payments:
   - `RAZORPAY_KEY_ID`
   - `RAZORPAY_KEY_SECRET`

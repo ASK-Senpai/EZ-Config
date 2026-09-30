@@ -1,6 +1,4 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
-# dependencies
+# Dependencies
 /node_modules
 /.pnp
 .pnp.*
@@ -10,60 +8,85 @@
 !.yarn/releases
 !.yarn/versions
 
-# testing
-/coverage
-
-# next.js
+# Next.js Build Outputs
 /.next/
 /out/
+/dist/
+/build/
 
-# production
-/build
+# Production & Vercel
+.vercel
 
-# misc
-.DS_Store
+# TypeScript & Cache
+*.tsbuildinfo
+next-env.d.ts
+
+# Testing & Coverage
+/coverage
+*.lcov
+.nyc_output
+
+# Environment Variables & Secrets
+.env
+.env*.local
+.env.development
+.env.test
+.env.production
+.env*
+!.env.example
 *.pem
+*.key
+*.cert
+*.crt
+*service-account*.json
+*firebase-adminsdk*.json
 
-# debug
+# Debug & Error Logs
+*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
-
-# env files (can opt-in for committing if needed)
-.env*
-
-# vercel
-.vercel
-
-# typescript
-*.tsbuildinfo
-next-env.d.ts
-
-# ─── Node/Next Build Artifacts ───
-dist/
-out/
-coverage/
-node_modules/
-.next/
-.vercel/
-*.log
-
-# ─── Local Backups & Temp Debug Files ───
 compile_errors.log
 errors.log
 typescript_errors.log
-testAdmin.ts
+firebase-debug.log*
+firestore-debug.log*
 
-# ─── Firebase/Firestore Local Artifacts ───
+# Local Backups, Scratch & One-off Scripts
+old_report.ts
+migrateOut.txt
+testAdmin.ts
+scratch/
+
+# Local Firebase/Firestore Artifacts
 .firebase/
-firebase-debug.log
 firestore-export/
 emulator-data/
 
-# ─── AI Debug Artifacts ───
+# AI Debug Artifacts & Caches
 ai-cache/
 report-cache/
 local-model-output/
 test-ai-output/
 groq-debug.json
+
+# Operating System & IDE Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# Editors
+.idea/
+*.sublime-workspace
+*.sublime-project
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json

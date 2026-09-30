@@ -24,7 +24,7 @@ export function ComponentCard({
     onRemove
 }: ComponentCardProps) {
     return (
-        <Card className={`relative group transition-all duration-300 ${selectedItem
+        <Card className={`relative group transition-all duration-300 w-full min-w-0 ${selectedItem
             ? "border-primary/50 bg-primary/5 shadow-sm"
             : "border-dashed hover:border-primary/50 hover:bg-black/20"
             }`}>
@@ -35,7 +35,7 @@ export function ComponentCard({
                         <div className={`p-2 rounded-lg ${selectedItem ? "bg-primary/20 text-primary" : "bg-neutral-800 text-neutral-400 group-hover:text-primary transition-colors"}`}>
                             <Icon className="w-4 h-4" />
                         </div>
-                        <span className="font-bold text-sm tracking-tight">{title}</span>
+                        <span className="font-bold text-sm tracking-tight min-w-0 truncate">{title}</span>
                     </div>
                     {selectedItem && (
                         <button
@@ -60,7 +60,7 @@ export function ComponentCard({
                     </div>
                 ) : (
                     <div className="flex-1 space-y-2">
-                        <h4 className="text-sm font-bold text-neutral-100 leading-tight line-clamp-2">
+                        <h4 className="text-sm font-bold text-neutral-100 leading-tight line-clamp-2 break-words">
                             {selectedItem.name}
                         </h4>
                         <div className="flex flex-wrap gap-1.5">

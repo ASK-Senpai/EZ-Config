@@ -368,11 +368,11 @@ export default function BuilderPage() {
     }).format(totalPrice);
 
     return (
-        <div className="min-h-screen bg-neutral-950 text-neutral-100 pb-24">
+        <div className="min-h-screen w-full overflow-x-hidden bg-neutral-950 text-neutral-100 pb-24">
             {/* ── ZONE 1: HERO CONTROL BAR (Sticky Top) ── */}
             <header className="sticky top-0 z-40 bg-neutral-900/80 backdrop-blur-xl border-b border-white/5 py-4 shadow-2xl">
-                <SectionContainer>
-                    <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+                <SectionContainer className="px-4 sm:px-6 lg:px-8">
+                    <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
                         <div className="flex flex-col">
                             <h1 className="text-2xl font-black uppercase tracking-tighter flex items-center gap-2">
                                 PC Builder <span className="text-primary italic">v2.0</span>
@@ -382,15 +382,15 @@ export default function BuilderPage() {
                             </p>
                         </div>
 
-                        <div className="flex items-center gap-6">
-                            <div className="flex flex-col items-end">
+                        <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:gap-6">
+                            <div className="flex flex-col items-start sm:items-end">
                                 <span className="text-[9px] font-bold text-neutral-500 uppercase tracking-widest leading-none mb-1">Total Build Estimate</span>
                                 <span className="text-2xl font-black text-white leading-tight">{formattedPrice}</span>
                             </div>
 
-                            <div className="h-10 w-px bg-white/5" />
+                            <div className="hidden lg:block h-10 w-px bg-white/5" />
 
-                            <div className="flex items-center gap-3">
+                            <div className="flex flex-col gap-3 sm:flex-row">
                                 <button
                                     onClick={() => setShowSaveDialog(true)}
                                     className="px-4 py-2 text-xs font-black uppercase tracking-widest text-neutral-400 hover:text-white transition-colors"
@@ -419,7 +419,7 @@ export default function BuilderPage() {
                 </SectionContainer>
             </header>
 
-            <SectionContainer className="py-10 space-y-10">
+            <SectionContainer className="px-4 py-6 sm:px-6 lg:px-8 space-y-10">
                 {optimizedBanner && (
                     <div className="rounded-2xl border border-primary/30 bg-primary/10 px-6 py-4">
                         <p className="text-sm font-semibold text-primary">
@@ -435,35 +435,36 @@ export default function BuilderPage() {
                 )}
 
                 {/* ── ZONE 2: BUILD WORKSPACE (Desktop Grid) ── */}
-                <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-8 items-start">
+                <div className="grid grid-cols-1 gap-6 lg:grid-cols-3 items-start">
                     {/* LEFT (2fr): Component Matrix */}
-                    <div className="space-y-8">
+                    <div className="lg:col-span-2 space-y-6 min-w-0">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             {BUILDER_CATEGORIES.map((cat) => {
                                 const storageArray = store.storage || [];
                                 if (cat.id === 'storage' && storageArray.length > 1) {
                                     return (
-                                        <div key={cat.id} className="md:col-span-2 space-y-4">
+                                        <div key={cat.id} className="md:col-span-2 space-y-4 min-w-0">
                                             <div className="flex items-center gap-2">
                                                 <HardDrive className="w-4 h-4 text-primary" />
                                                 <h3 className="font-bold uppercase tracking-widest text-xs text-neutral-500">Selected Storage ({storageArray.length})</h3>
                                             </div>
                                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                                 {storageArray.map((s) => (
-                                                    <ComponentCard
-                                                        key={s.id}
-                                                        category="storage"
-                                                        title="Storage"
-                                                        icon={HardDrive}
-                                                        description="SSD / HDD"
-                                                        selectedItem={s}
-                                                        onSelect={() => handleOpenModal('storage')}
-                                                        onRemove={() => store.removeComponent('storage', s.id)}
-                                                    />
+                                                    <div key={s.id} className="w-full min-w-0">
+                                                        <ComponentCard
+                                                            category="storage"
+                                                            title="Storage"
+                                                            icon={HardDrive}
+                                                            description="SSD / HDD"
+                                                            selectedItem={s}
+                                                            onSelect={() => handleOpenModal('storage')}
+                                                            onRemove={() => store.removeComponent('storage', s.id)}
+                                                        />
+                                                    </div>
                                                 ))}
                                                 <button
                                                     onClick={() => handleOpenModal('storage')}
-                                                    className="border-2 border-dashed border-neutral-800 rounded-xl flex items-center justify-center py-8 text-neutral-600 hover:border-primary/50 hover:text-primary transition-all group"
+                                                    className="w-full min-w-0 border-2 border-dashed border-neutral-800 rounded-xl flex items-center justify-center py-8 text-neutral-600 hover:border-primary/50 hover:text-primary transition-all group"
                                                 >
                                                     <div className="flex flex-col items-center gap-2">
                                                         <Plus className="w-5 h-5" />
@@ -476,25 +477,28 @@ export default function BuilderPage() {
                                 }
 
                                 return (
-                                    <ComponentCard
-                                        key={cat.id}
-                                        category={cat.id}
-                                        title={cat.title}
-                                        icon={cat.icon}
-                                        description={cat.description}
-                                        selectedItem={cat.id === 'storage' ? (store.storage?.[0] || null) : (store as any)[cat.id]}
-                                        onSelect={() => handleOpenModal(cat.id)}
-                                        onRemove={() => store.removeComponent(cat.id)}
-                                    />
+                                    <div key={cat.id} className="w-full min-w-0">
+                                        <ComponentCard
+                                            category={cat.id}
+                                            title={cat.title}
+                                            icon={cat.icon}
+                                            description={cat.description}
+                                            selectedItem={cat.id === 'storage' ? (store.storage?.[0] || null) : (store as any)[cat.id]}
+                                            onSelect={() => handleOpenModal(cat.id)}
+                                            onRemove={() => store.removeComponent(cat.id)}
+                                        />
+                                    </div>
                                 );
                             })}
                         </div>
 
                         {/* Zone 2 Bottom: Live Balance + Build Integrity side-by-side */}
-                        <LiveIntelligencePanel
-                            analysis={analysis}
-                            buildComplete={isBuildComplete}
-                        />
+                        <div className="w-full min-w-0">
+                            <LiveIntelligencePanel
+                                analysis={analysis}
+                                buildComplete={isBuildComplete}
+                            />
+                        </div>
 
                         {/* Stale Badge */}
                         <AnimatePresence>
@@ -503,7 +507,7 @@ export default function BuilderPage() {
                                     initial={{ opacity: 0, y: 10 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     exit={{ opacity: 0, scale: 0.95 }}
-                                    className="p-6 rounded-3xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-between"
+                                    className="p-6 rounded-3xl bg-amber-500/10 border border-amber-500/20 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
                                 >
                                     <div className="flex items-center gap-3">
                                         <div className="w-2.5 h-2.5 rounded-full bg-amber-500 animate-pulse" />
@@ -521,15 +525,17 @@ export default function BuilderPage() {
                     </div>
 
                     {/* RIGHT (1fr, sticky): Live Engine Panel */}
-                    <aside>
-                        <LiveEnginePanel
-                            analysis={analysis}
-                            buildComplete={isBuildComplete}
-                        />
+                    <aside className="space-y-6 min-w-0">
+                        <div className="w-full min-w-0">
+                            <LiveEnginePanel
+                                analysis={analysis}
+                                buildComplete={isBuildComplete}
+                            />
+                        </div>
 
                         {/* Compatibility Issues List */}
                         {(!analysis.compatibility.isValid || (store.cpu && !store.motherboard)) && (
-                            <Card className="mt-8 p-6 rounded-3xl bg-red-500/5 border border-red-500/20 space-y-4">
+                            <Card className="w-full mt-2 p-6 rounded-3xl bg-red-500/5 border border-red-500/20 space-y-4">
                                 <div className="flex items-center gap-2 text-red-500">
                                     <AlertCircle className="w-4 h-4" />
                                     <h3 className="font-bold uppercase tracking-widest text-[10px]">Architecture Guard</h3>
