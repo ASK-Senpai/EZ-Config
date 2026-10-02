@@ -86,7 +86,7 @@ export default function BillingPage() {
                             {isPremium ? (
                                 <Button variant="outline" className="w-full sm:w-auto">Manage Subscription</Button>
                             ) : (
-                                <Button className="w-full sm:w-auto bg-primary" onClick={() => router.push("/upgrade")}>Upgrade Now</Button>
+                                <Button className="w-full sm:w-auto bg-primary" onClick={() => router.push("/upgrade")}>Upgrade to Premium</Button>
                             )}
                         </div>
                     </CardFooter>
