@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { CreditCard, CheckCircle2, ChevronRight, Crown, AlertCircle, ExternalLink } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -9,6 +10,7 @@ import { Badge } from "@/components/ui/badge";
 const ENABLE_PAYMENT_HISTORY = false;
 
 export default function BillingPage() {
+    const router = useRouter();
     const [subscription, setSubscription] = useState<any>(null);
 
     const [payments, setPayments] = useState<any[]>([]);
@@ -84,7 +86,7 @@ export default function BillingPage() {
                             {isPremium ? (
                                 <Button variant="outline" className="w-full sm:w-auto">Manage Subscription</Button>
                             ) : (
-                                <Button className="w-full sm:w-auto bg-primary">Upgrade to Premium</Button>
+                                <Button className="w-full sm:w-auto bg-primary" onClick={() => router.push("/upgrade")}>Upgrade Now</Button>
                             )}
                         </div>
                     </CardFooter>
